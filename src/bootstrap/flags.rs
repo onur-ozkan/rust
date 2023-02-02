@@ -86,8 +86,7 @@ pub struct Flags {
     pub free_args: Option<Vec<String>>,
 }
 
-#[derive(Debug)]
-#[cfg_attr(test, derive(Clone))]
+#[derive(Clone, Debug)]
 pub enum Subcommand {
     Build {
         paths: Vec<PathBuf>,
