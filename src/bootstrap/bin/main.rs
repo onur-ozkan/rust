@@ -11,7 +11,7 @@ use bootstrap::{t, Build, Config, Subcommand, VERSION};
 
 fn main() {
     let args = env::args().skip(1).collect::<Vec<_>>();
-    let config = Config::parse(&args);
+    let config = Config::parse(&args, None);
 
     let mut build_lock;
     let _build_lock_guard;

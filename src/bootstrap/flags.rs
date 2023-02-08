@@ -375,7 +375,7 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
                 } else {
                     "setup"
                 };
-                let config = Config::parse(&[cmd.to_string()]);
+                let config = Config::parse(&[cmd.to_string()], None);
                 let build = Build::new(config);
                 let paths = Builder::get_help(&build, subcommand);
 
