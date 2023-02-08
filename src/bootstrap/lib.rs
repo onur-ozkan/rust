@@ -88,6 +88,7 @@ mod job {
 pub use crate::builder::PathSet;
 use crate::cache::{Interned, INTERNER};
 pub use crate::config::Config;
+pub use crate::flags::Flags;
 pub use crate::flags::Subcommand;
 use termcolor::{ColorChoice, StandardStream, WriteColor};
 pub use crate::min_config::MinimalConfig;
