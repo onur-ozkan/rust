@@ -79,7 +79,6 @@ pub struct Config {
     pub jobs: Option<u32>,
     pub cmd: Subcommand,
     pub incremental: bool,
-    pub dry_run: DryRun,
     /// Arguments appearing after `--` to be forwarded to tools,
     /// e.g. `--fix-broken` or test arguments.
     pub free_args: Vec<String>,
@@ -385,7 +384,7 @@ impl Target {
 /// `Config` structure.
 #[derive(Deserialize, Default)]
 #[serde(deny_unknown_fields, rename_all = "kebab-case")]
-pub struct TomlConfig {
+struct TomlConfig {
     changelog_seen: Option<usize>,
     build: Option<Build>,
     install: Option<Install>,
@@ -734,17 +733,19 @@ impl Config {
         config
     }
 
-    pub fn parse(args: &[String], custom_toml_config: Option<TomlConfig>) -> Config {
+    pub fn parse(args: &[String], custom_toml_config: Option<&str>) -> Config {
         let flags = Flags::parse(&args);
         let mut config = Config::default_opts();
 
-        let mut toml: TomlConfig = custom_toml_config.unwrap_or_else(|| {
+        let mut toml: TomlConfig = if let Some(custom_toml_config) = custom_toml_config {
+            toml::from_str(custom_toml_config).unwrap()
+        } else {
             set_cfg_path_and_return_toml_cfg(
                 config.src.clone(),
                 flags.config.clone(),
                 &mut config.config,
             )
-        });
+        };
 
         config.minimal_config = MinimalConfig::parse(&flags, toml.build.clone());
 
