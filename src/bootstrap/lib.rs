@@ -54,8 +54,8 @@ mod format;
 mod install;
 mod llvm;
 mod metadata;
-mod render_tests;
 mod min_config;
+mod render_tests;
 mod run;
 mod sanity;
 mod setup;
@@ -90,8 +90,8 @@ use crate::cache::{Interned, INTERNER};
 pub use crate::config::Config;
 pub use crate::flags::Flags;
 pub use crate::flags::Subcommand;
-use termcolor::{ColorChoice, StandardStream, WriteColor};
 pub use crate::min_config::MinimalConfig;
+use termcolor::{ColorChoice, StandardStream, WriteColor};
 
 const LLVM_TOOLS: &[&str] = &[
     "llvm-cov",      // used to generate coverage report
