@@ -45,6 +45,7 @@ dependencies = [
  "hex",
  "ignore",
  "is-terminal",
+ "lazy_static",
  "libc",
  "object",
  "once_cell",

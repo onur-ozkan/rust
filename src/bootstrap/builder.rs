@@ -4,8 +4,9 @@ use std::collections::BTreeSet;
 use std::env;
 use std::ffi::OsStr;
 use std::fmt::{Debug, Write};
-use std::fs::{self};
+use std::fs::{self, File};
 use std::hash::Hash;
+use std::io::{BufRead, BufReader};
 use std::ops::Deref;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
@@ -484,17 +485,43 @@ impl<'a> ShouldRun<'a> {
 
     // multiple aliases for the same job
     pub fn paths(mut self, paths: &[&str]) -> Self {
+        lazy_static::lazy_static! {
+            static ref SUBMODULES_PATHS: Vec<String> = get_submodules_paths();
+        }
+
+        fn get_submodules_paths() -> Vec<String> {
+            let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+            let src = manifest_dir.ancestors().nth(2).unwrap();
+            let file = File::open(src.join(".gitmodules")).unwrap();
+
+            let mut submodules_paths = vec![];
+            for line in BufReader::new(file).lines() {
+                if let Ok(line) = line {
+                    let line = line.trim();
+
+                    if line.starts_with("path") {
+                        let actual_path = line.split(' ').last().unwrap();
+                        submodules_paths.push(actual_path.to_owned());
+                    }
+                }
+            }
+
+            submodules_paths
+        }
+
         self.paths.insert(PathSet::Set(
             paths
                 .iter()
                 .map(|p| {
-                    // FIXME(#96188): make sure this is actually a path.
-                    // This currently breaks for paths within submodules.
-                    //assert!(
-                    //    self.builder.src.join(p).exists(),
-                    //    "`should_run.paths` should correspond to real on-disk paths - use `alias` if there is no relevant path: {}",
-                    //    p
-                    //);
+                    // assert only if `p` isn't submodule
+                    if !SUBMODULES_PATHS.iter().find(|sm_p| p.contains(*sm_p)).is_some() {
+                        assert!(
+                            self.builder.src.join(p).exists(),
+                            "`should_run.paths` should correspond to real on-disk paths - use `alias` if there is no relevant path: {}",
+                            p
+                        );
+                    }
+
                     TaskPath { path: p.into(), kind: Some(self.kind) }
                 })
                 .collect(),
