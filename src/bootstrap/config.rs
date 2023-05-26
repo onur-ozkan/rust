@@ -39,6 +39,16 @@ macro_rules! check_ci_llvm {
     };
 }
 
+macro_rules! check_ci_rustc {
+    ($name:expr) => {
+        assert!(
+            $name.is_none(),
+            "setting {} is incompatible with download-ci-rust.",
+            stringify!($name)
+        );
+    };
+}
+
 #[derive(Clone, Default)]
 pub enum DryRun {
     /// This isn't a dry run.
@@ -1212,6 +1222,16 @@ impl Config {
         let mut omit_git_hash = None;
 
         if let Some(rust) = toml.rust {
+            config.download_rustc_commit = config.download_ci_rustc_commit(rust.download_rustc);
+            // This list is incomplete, please help by expanding it!
+            if config.download_rustc_commit.is_some() {
+                match rust.channel.as_deref() {
+                    None | Some("nightly" | "dev") => {}
+                    // breaks rustdoc tests
+                    _ => panic!("setting rust.channel is incompatible with download-rustc"),
+                }
+            }
+
             debug = rust.debug;
             debug_assertions = rust.debug_assertions;
             debug_assertions_std = rust.debug_assertions_std;
@@ -1223,6 +1243,7 @@ impl Config {
             debuginfo_level_std = rust.debuginfo_level_std;
             debuginfo_level_tools = rust.debuginfo_level_tools;
             debuginfo_level_tests = rust.debuginfo_level_tests;
+
             config.rust_split_debuginfo = rust
                 .split_debuginfo
                 .as_deref()
@@ -1279,8 +1300,6 @@ impl Config {
             config.rust_codegen_units_std = rust.codegen_units_std.map(threads_from_config);
             config.rust_profile_use = flags.rust_profile_use.or(rust.profile_use);
             config.rust_profile_generate = flags.rust_profile_generate.or(rust.profile_generate);
-            config.download_rustc_commit = config.download_ci_rustc_commit(rust.download_rustc);
-
             config.rust_lto = rust
                 .lto
                 .as_deref()
@@ -1375,6 +1394,10 @@ impl Config {
                 check_ci_llvm!(llvm.plugins);
             }
 
+            if config.download_rustc_commit.is_some() {
+                check_ci_rustc!(llvm.assertions);
+            }
+
             // NOTE: can never be hit when downloading from CI, since we call `check_ci_llvm!(thin_lto)` above.
             if config.llvm_thin_lto && llvm.link_shared.is_none() {
                 // If we're building with ThinLTO on, by default we want to link
@@ -1392,6 +1415,11 @@ impl Config {
                 let mut target = Target::from_triple(&triple);
 
                 if let Some(ref s) = cfg.llvm_config {
+                    if config.download_rustc_commit.is_some() && triple == &*config.build.triple {
+                        panic!(
+                            "setting llvm_config for the host is incompatible with download-rustc"
+                        );
+                    }
                     target.llvm_config = Some(config.src.join(s));
                 }
                 target.llvm_has_rust_patches = cfg.llvm_has_rust_patches;
