@@ -83,10 +83,6 @@ if [ "$DIST_SRC" = "" ]; then
   RUST_CONFIGURE_ARGS="$RUST_CONFIGURE_ARGS --disable-dist-src"
 fi
 
-if [ "$DOWNLOAD_RUSTC" = 1 ]; then
-  RUST_CONFIGURE_ARGS="$RUST_CONFIGURE_ARGS --set rust.download-rustc=if-unchanged"
-fi
-
 # Always set the release channel for bootstrap; this is normally not important (i.e., only dist
 # builds would seem to matter) but in practice bootstrap wants to know whether we're targeting
 # master, beta, or stable with a build to determine whether to run some checks (notably toolstate).
@@ -121,7 +117,10 @@ else
 
   # In general we always want to run tests with LLVM assertions enabled, but not
   # all platforms currently support that, so we have an option to disable.
-  if [ "$NO_LLVM_ASSERTIONS" = "" ]; then
+  # FIXME: the llvm in `rustc-dev` doesn't match the llvm in `rust-dev` if assertions are enabled
+  if [ "$DOWNLOAD_RUSTC" = 1 ]; then
+    RUST_CONFIGURE_ARGS="$RUST_CONFIGURE_ARGS --set rust.download-rustc=if-unchanged"
+  elif [ "$NO_LLVM_ASSERTIONS" = "" ]; then
     RUST_CONFIGURE_ARGS="$RUST_CONFIGURE_ARGS --enable-llvm-assertions"
   fi
 
