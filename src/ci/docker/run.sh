@@ -254,6 +254,7 @@ docker \
   --env DEPLOY \
   --env DEPLOY_ALT \
   --env CI \
+  --env DOWNLOAD_RUSTC \
   --env TF_BUILD \
   --env BUILD_SOURCEBRANCHNAME \
   --env GITHUB_ACTIONS \

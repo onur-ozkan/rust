@@ -296,6 +296,7 @@ jobs:
     <<: *base-ci-job
     name: PR - ${{ matrix.name }}
     env:
+      DOWNLOAD_RUSTC: 1
       <<: [*shared-ci-variables, *public-variables]
     if: github.event_name == 'pull_request'
     continue-on-error: ${{ matrix.name == 'mingw-check-tidy' }}

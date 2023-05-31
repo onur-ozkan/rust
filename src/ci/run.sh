@@ -83,6 +83,10 @@ if [ "$DIST_SRC" = "" ]; then
   RUST_CONFIGURE_ARGS="$RUST_CONFIGURE_ARGS --disable-dist-src"
 fi
 
+if [ "$DOWNLOAD_RUSTC" = 1 ]; then
+  RUST_CONFIGURE_ARGS="$RUST_CONFIGURE_ARGS --set rust.download-rustc=if-unchanged"
+fi
+
 # Always set the release channel for bootstrap; this is normally not important (i.e., only dist
 # builds would seem to matter) but in practice bootstrap wants to know whether we're targeting
 # master, beta, or stable with a build to determine whether to run some checks (notably toolstate).
