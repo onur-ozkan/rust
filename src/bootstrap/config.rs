@@ -1076,6 +1076,16 @@ impl Config {
             include_path.push(format!("config.{}.toml", include));
             let included_toml = get_toml(&include_path);
             toml.merge(included_toml, ReplaceOpt::IgnoreDuplicate);
+        } else if !matches!(config.cmd, Subcommand::Setup { .. }) {
+            eprintln!("fatal: setting a profile in config.toml is now required!");
+            eprintln!("help: if you are developing Rust interactively, run `./x.py setup`");
+            eprintln!(
+                "help: if you are building Rust from source to install it, run `./configure`"
+            );
+            eprintln!(
+                "note: if you are sure you don't want to use the preset defaults, you can set `profile = 'none'`, but this is strongly discouraged"
+            );
+            detail_exit_macro!(1);
         }
 
         let mut override_toml = TomlConfig::default();

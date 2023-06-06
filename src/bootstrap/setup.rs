@@ -182,8 +182,15 @@ pub fn setup(config: &Config, profile: Profile) {
 
 fn setup_config_toml(path: &PathBuf, profile: Profile, config: &Config) {
     if profile == Profile::None {
+        if !path.exists() {
+            eprintln!(
+                "warning: you told `x.py setup` not to create a config.toml, but you do not have an existing config.toml"
+            );
+            eprintln!("warning: this will error the next time you run x.py!");
+        }
         return;
     }
+
     if path.exists() {
         eprintln!();
         eprintln!(
