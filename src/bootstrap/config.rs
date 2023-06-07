@@ -1877,7 +1877,6 @@ impl Config {
         let top_level = output(self.git().args(&["rev-parse", "--show-toplevel"]));
         let top_level = top_level.trim_end();
         let compiler = format!("{top_level}/compiler/");
-        let library = format!("{top_level}/library/");
 
         // Look for a version to compare to based on the current commit.
         // Only commits merged by bors will have CI artifacts.
@@ -1896,26 +1895,23 @@ impl Config {
             crate::detail_exit_macro!(1);
         }
 
-        // Warn if there were changes to the compiler or standard library since the ancestor commit.
-        let has_changes = !t!(self
-            .git()
-            .args(&["diff-index", "--quiet", &commit, "--", &compiler, &library])
-            .status())
-        .success();
+        // Warn if there were changes to the compiler since the ancestor commit.
+        // NOTE: if there are changes to library/ we don't rebuild; this is not necessarily what's
+        // desired, but the vast majority of the time stage1 and stage2 behave the same. The only
+        // difference is when compiler/ uses `cfg(bootstrap)`, which is extremely rare.
+        let has_changes =
+            !t!(self.git().args(&["diff-index", "--quiet", &commit, "--", &compiler]).status())
+                .success();
         if has_changes {
             if if_unchanged {
                 if self.verbose > 0 {
                     println!(
-                        "warning: saw changes to compiler/ or library/ since {commit}; \
-                            ignoring `download-rustc`"
+                        "warning: saw changes to compiler/ since {commit}; ignoring `download-rustc`"
                     );
                 }
                 return None;
             }
-            println!(
-                "warning: `download-rustc` is enabled, but there are changes to \
-                    compiler/ or library/"
-            );
+            println!("warning: `download-rustc` is enabled, but there are changes to compiler/");
         }
 
         Some(commit.to_string())
