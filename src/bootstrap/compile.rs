@@ -627,10 +627,6 @@ impl Step for StartupObjects {
             if !up_to_date(src_file, dst_file) {
                 let mut cmd = Command::new(&builder.initial_rustc);
                 cmd.env("RUSTC_BOOTSTRAP", "1");
-                if !builder.local_rebuild {
-                    // a local_rebuild compiler already has stage1 features
-                    cmd.arg("--cfg").arg("bootstrap");
-                }
                 builder.run(
                     cmd.arg("--target")
                         .arg(target.rustc_target_arg())

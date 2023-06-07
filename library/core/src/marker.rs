@@ -1015,7 +1015,6 @@ marker_impls! {
 
 // FIXME(adt_const_params): Add to marker_impls call above once not in bootstrap
 #[unstable(feature = "adt_const_params", issue = "95174")]
-#[cfg(not(bootstrap))]
 impl ConstParamTy for () {}
 
 /// A common trait implemented by all function pointers.
