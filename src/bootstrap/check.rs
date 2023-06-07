@@ -89,6 +89,13 @@ impl Step for Std {
     }
 
     fn make_run(run: RunConfig<'_>) {
+        if run.builder.top_stage == 0 {
+            eprintln!(
+                "check --stage 0 std is no longer supported - try --stage 1 or enabling rust.download-rustc"
+            );
+            detail_exit_macro!(1);
+        }
+
         let crates = make_run_crates(&run, "library");
         run.builder.ensure(Std { target: run.target, crates });
     }

@@ -98,6 +98,12 @@ impl Step for Std {
         let target = self.target;
         let compiler = self.compiler;
 
+        if compiler.stage == 0 {
+            // Reuse the bootstrap compiler's std.
+            builder.ensure(StdLink::from_std(self, compiler));
+            return;
+        }
+
         // When using `download-rustc`, we already have artifacts for the host available. Don't
         // recompile them.
         if builder.download_rustc() && target == builder.build.build
@@ -496,6 +502,19 @@ impl Step for StdLink {
         } else {
             let libdir = builder.sysroot_libdir(target_compiler, target);
             let hostdir = builder.sysroot_libdir(target_compiler, compiler.host);
+
+            // If this is in stage0, copy the beta compiler's std instead of rebuilding our own.
+            // TODO: this breaks horribly when cross-compiling - maybe download the target from static.rlo?
+            // we'll need it to support `--host`.
+            if compiler.stage == 0 {
+                assert!(
+                    self.target == compiler.host,
+                    "cross-compiling is not supported in stage 0"
+                );
+                builder.cp_r(&builder.initial_target_libdir, &hostdir);
+                return;
+            }
+
             (libdir, hostdir)
         };
 

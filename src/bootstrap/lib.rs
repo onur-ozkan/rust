@@ -222,6 +222,7 @@ pub struct Build {
     initial_cargo: PathBuf,
     initial_lld: PathBuf,
     initial_libdir: PathBuf,
+    initial_target_libdir: PathBuf,
     initial_sysroot: PathBuf,
 
     // Runtime state filled in later on
@@ -372,18 +373,21 @@ impl Build {
         // we always try to use git for LLVM builds
         let in_tree_llvm_info = channel::GitInfo::new(false, &src.join("src/llvm-project"));
 
-        let initial_target_libdir_str = if config.dry_run() {
-            "/dummy/lib/path/to/lib/".to_string()
+        let initial_target_libdir = if config.dry_run() {
+            PathBuf::from("/dummy/lib/path/to/lib/")
         } else {
-            output(
-                Command::new(&config.initial_rustc)
-                    .arg("--target")
-                    .arg(config.build.rustc_target_arg())
-                    .arg("--print")
-                    .arg("target-libdir"),
+            PathBuf::from(
+                output(
+                    Command::new(&config.initial_rustc)
+                        .arg("--target")
+                        .arg(config.build.rustc_target_arg())
+                        .arg("--print")
+                        .arg("target-libdir"),
+                )
+                .trim_end(),
             )
         };
-        let initial_target_dir = Path::new(&initial_target_libdir_str).parent().unwrap();
+        let initial_target_dir = initial_target_libdir.parent().unwrap();
         let initial_lld = initial_target_dir.join("bin").join("rust-lld");
 
         let initial_sysroot = if config.dry_run() {
@@ -429,6 +433,7 @@ impl Build {
             initial_cargo: config.initial_cargo.clone(),
             initial_lld,
             initial_libdir,
+            initial_target_libdir,
             initial_sysroot: initial_sysroot.into(),
             local_rebuild: config.local_rebuild,
             fail_fast: config.cmd.fail_fast(),
