@@ -504,7 +504,7 @@ impl Step for StdLink {
             let hostdir = builder.sysroot_libdir(target_compiler, compiler.host);
 
             // If this is in stage0, copy the beta compiler's std instead of rebuilding our own.
-            // TODO: this breaks horribly when cross-compiling - maybe download the target from static.rlo?
+            // FIXME: this breaks horribly when cross-compiling - maybe download the target from static.rlo?
             // we'll need it to support `--host`.
             if compiler.stage == 0 {
                 assert!(
