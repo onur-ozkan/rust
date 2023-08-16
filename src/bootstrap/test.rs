@@ -2631,7 +2631,7 @@ impl Step for Distcheck {
 
         let mut cmd = Command::new("tar");
         cmd.arg("-xf")
-            .arg(builder.ensure(dist::PlainSourceTarball).tarball())
+            // .arg(builder.ensure(dist::PlainSourceTarball).tarball())
             .arg("--strip-components=1")
             .current_dir(&dir);
         builder.run(&mut cmd);
@@ -2653,7 +2653,7 @@ impl Step for Distcheck {
 
         let mut cmd = Command::new("tar");
         cmd.arg("-xf")
-            .arg(builder.ensure(dist::Src).tarball())
+            // .arg(builder.ensure(dist::Src).tarball())
             .arg("--strip-components=1")
             .current_dir(&dir);
         builder.run(&mut cmd);

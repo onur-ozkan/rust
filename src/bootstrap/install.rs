@@ -50,7 +50,7 @@ fn install_sh(
     package: &str,
     stage: u32,
     host: Option<TargetSelection>,
-    tarball: &GeneratedTarball,
+    tarball: &dist::DistOutput,
 ) {
     let _guard = builder.msg(Kind::Install, stage, package, host, host);
 
@@ -66,8 +66,12 @@ fn install_sh(
     t!(fs::create_dir_all(&empty_dir));
 
     let mut cmd = Command::new(SHELL);
+    let output = match tarball {
+        dist::DistOutput::PlainDir{ src, dest } => src,
+        dist::DistOutput::Tarball(_) => panic!("WWWWWWWWWWWWWWWWWWWWWW"),
+    };
     cmd.current_dir(&empty_dir)
-        .arg(sanitize_sh(&tarball.decompressed_output().join("install.sh")))
+        .arg(sanitize_sh(&output.join("install.sh")))
         .arg(format!("--prefix={}", prepare_dir(prefix)))
         .arg(format!("--sysconfdir={}", prepare_dir(sysconfdir)))
         .arg(format!("--datadir={}", prepare_dir(datadir)))
