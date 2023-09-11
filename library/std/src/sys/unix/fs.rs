@@ -1,35 +1,6 @@
 // miri has some special hacks here that make things unused.
 #![cfg_attr(miri, allow(unused))]
 
-use crate::os::unix::prelude::*;
-
-use crate::ffi::{CStr, OsStr, OsString};
-use crate::fmt;
-use crate::io::{self, BorrowedCursor, Error, IoSlice, IoSliceMut, SeekFrom};
-use crate::mem;
-use crate::os::unix::io::{AsFd, AsRawFd, BorrowedFd, FromRawFd, IntoRawFd};
-use crate::path::{Path, PathBuf};
-use crate::ptr;
-use crate::sync::Arc;
-use crate::sys::common::small_c_string::run_path_with_cstr;
-use crate::sys::fd::FileDesc;
-use crate::sys::time::SystemTime;
-use crate::sys::{cvt, cvt_r};
-use crate::sys_common::{AsInner, AsInnerMut, FromInner, IntoInner};
-
-#[cfg(any(
-    all(target_os = "linux", target_env = "gnu"),
-    target_os = "macos",
-    target_os = "ios",
-    target_os = "tvos",
-    target_os = "watchos",
-))]
-use crate::sys::weak::syscall;
-#[cfg(any(target_os = "android", target_os = "macos", target_os = "solaris"))]
-use crate::sys::weak::weak;
-
-use libc::{c_int, mode_t};
-
 #[cfg(any(
     target_os = "macos",
     target_os = "ios",
@@ -70,6 +41,7 @@ use libc::readdir64_r;
     target_os = "vita",
 )))]
 use libc::readdir_r as readdir64_r;
+use libc::{c_int, mode_t};
 #[cfg(target_os = "android")]
 use libc::{
     dirent as dirent64, fstat as fstat64, fstatat as fstatat64, ftruncate64, lseek64,
@@ -88,7 +60,31 @@ use libc::{
 #[cfg(any(target_os = "linux", target_os = "emscripten", target_os = "l4re"))]
 use libc::{dirent64, fstat64, ftruncate64, lseek64, lstat64, off64_t, open64, stat64};
 
+use crate::ffi::{CStr, OsStr, OsString};
+use crate::fmt;
+use crate::io::{self, BorrowedCursor, Error, IoSlice, IoSliceMut, SeekFrom};
+use crate::mem;
+use crate::os::unix::io::{AsFd, AsRawFd, BorrowedFd, FromRawFd, IntoRawFd};
+use crate::os::unix::prelude::*;
+use crate::path::{Path, PathBuf};
+use crate::ptr;
+use crate::sync::Arc;
+use crate::sys::common::small_c_string::run_path_with_cstr;
+use crate::sys::fd::FileDesc;
+use crate::sys::time::SystemTime;
+#[cfg(any(
+    all(target_os = "linux", target_env = "gnu"),
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "tvos",
+    target_os = "watchos",
+))]
+use crate::sys::weak::syscall;
+#[cfg(any(target_os = "android", target_os = "macos", target_os = "solaris"))]
+use crate::sys::weak::weak;
+use crate::sys::{cvt, cvt_r};
 pub use crate::sys_common::fs::try_exists;
+use crate::sys_common::{AsInner, AsInnerMut, FromInner, IntoInner};
 
 pub struct File(FileDesc);
 
@@ -1898,15 +1894,6 @@ mod remove_dir_impl {
     miri
 )))]
 mod remove_dir_impl {
-    use super::{lstat, Dir, DirEntry, InnerReadDir, ReadDir};
-    use crate::ffi::CStr;
-    use crate::io;
-    use crate::os::unix::io::{AsRawFd, FromRawFd, IntoRawFd};
-    use crate::os::unix::prelude::{OwnedFd, RawFd};
-    use crate::path::{Path, PathBuf};
-    use crate::sys::common::small_c_string::run_path_with_cstr;
-    use crate::sys::{cvt, cvt_r};
-
     #[cfg(not(any(
         all(target_os = "linux", target_env = "gnu"),
         all(target_os = "macos", not(target_arch = "aarch64"))
@@ -1917,10 +1904,20 @@ mod remove_dir_impl {
     #[cfg(all(target_os = "macos", not(target_arch = "aarch64")))]
     use macos_weak::{fdopendir, openat, unlinkat};
 
+    use super::{lstat, Dir, DirEntry, InnerReadDir, ReadDir};
+    use crate::ffi::CStr;
+    use crate::io;
+    use crate::os::unix::io::{AsRawFd, FromRawFd, IntoRawFd};
+    use crate::os::unix::prelude::{OwnedFd, RawFd};
+    use crate::path::{Path, PathBuf};
+    use crate::sys::common::small_c_string::run_path_with_cstr;
+    use crate::sys::{cvt, cvt_r};
+
     #[cfg(all(target_os = "macos", not(target_arch = "aarch64")))]
     mod macos_weak {
-        use crate::sys::weak::weak;
         use libc::{c_char, c_int, DIR};
+
+        use crate::sys::weak::weak;
 
         fn get_openat_fn() -> Option<unsafe extern "C" fn(c_int, *const c_char, c_int) -> c_int> {
             weak!(fn openat(c_int, *const c_char, c_int) -> c_int);

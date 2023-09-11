@@ -1,8 +1,9 @@
-use super::UnmatchedDelim;
 use rustc_ast::token::Delimiter;
 use rustc_errors::Diagnostic;
 use rustc_span::source_map::SourceMap;
 use rustc_span::Span;
+
+use super::UnmatchedDelim;
 
 #[derive(Default)]
 pub struct TokenTreeDiagInfo {

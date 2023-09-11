@@ -8,19 +8,19 @@ use std::path::{Path, PathBuf};
 use std::ptr;
 use std::str;
 
+use rustc_codegen_ssa::back::archive::{
+    get_native_object_symbols, try_extract_macho_fat_archive, ArArchiveBuilder,
+    ArchiveBuildFailure, ArchiveBuilder, ArchiveBuilderBuilder, UnknownArchiveKind,
+};
+use rustc_session::cstore::DllImport;
+use rustc_session::Session;
+
 use crate::common;
 use crate::errors::{
     DlltoolFailImportLibrary, ErrorCallingDllTool, ErrorCreatingImportLibrary, ErrorWritingDEFFile,
 };
 use crate::llvm::archive_ro::{ArchiveRO, Child};
 use crate::llvm::{self, ArchiveKind, LLVMMachineType, LLVMRustCOFFShortExport};
-use rustc_codegen_ssa::back::archive::{
-    get_native_object_symbols, try_extract_macho_fat_archive, ArArchiveBuilder,
-    ArchiveBuildFailure, ArchiveBuilder, ArchiveBuilderBuilder, UnknownArchiveKind,
-};
-
-use rustc_session::cstore::DllImport;
-use rustc_session::Session;
 
 /// Helper for adding many files to an archive.
 #[must_use = "must call build() to finish building the archive"]

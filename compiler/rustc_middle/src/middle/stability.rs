@@ -1,9 +1,8 @@
 //! A pass that annotates every item and method with its stability level,
 //! propagating default levels lexically from parent to children ast nodes.
 
-pub use self::StabilityLevel::*;
+use std::num::NonZeroU32;
 
-use crate::ty::{self, TyCtxt};
 use rustc_ast::NodeId;
 use rustc_attr::{self as attr, ConstStability, DefaultBodyStability, Deprecation, Stability};
 use rustc_data_structures::fx::FxHashMap;
@@ -19,7 +18,9 @@ use rustc_session::parse::feature_err_issue;
 use rustc_session::Session;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::Span;
-use std::num::NonZeroU32;
+
+pub use self::StabilityLevel::*;
+use crate::ty::{self, TyCtxt};
 
 #[derive(PartialEq, Clone, Copy, Debug)]
 pub enum StabilityLevel {

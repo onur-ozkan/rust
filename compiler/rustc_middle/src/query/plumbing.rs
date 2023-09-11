@@ -1,12 +1,5 @@
-use crate::dep_graph;
-use crate::dep_graph::DepKind;
-use crate::query::on_disk_cache::CacheEncoder;
-use crate::query::on_disk_cache::EncodedDepNodeIndex;
-use crate::query::on_disk_cache::OnDiskCache;
-use crate::query::{
-    DynamicQueries, ExternProviders, Providers, QueryArenas, QueryCaches, QueryEngine, QueryStates,
-};
-use crate::ty::TyCtxt;
+use std::ops::Deref;
+
 use field_offset::FieldOffset;
 use measureme::StringId;
 use rustc_data_structures::fx::FxHashMap;
@@ -20,7 +13,16 @@ pub(crate) use rustc_query_system::query::QueryJobId;
 use rustc_query_system::query::*;
 use rustc_query_system::HandleCycleError;
 use rustc_span::{ErrorGuaranteed, Span, DUMMY_SP};
-use std::ops::Deref;
+
+use crate::dep_graph;
+use crate::dep_graph::DepKind;
+use crate::query::on_disk_cache::CacheEncoder;
+use crate::query::on_disk_cache::EncodedDepNodeIndex;
+use crate::query::on_disk_cache::OnDiskCache;
+use crate::query::{
+    DynamicQueries, ExternProviders, Providers, QueryArenas, QueryCaches, QueryEngine, QueryStates,
+};
+use crate::ty::TyCtxt;
 
 pub struct QueryKeyStringCache {
     pub def_id_cache: FxHashMap<DefId, StringId>,
@@ -545,8 +547,9 @@ macro_rules! define_feedable {
 // as they will raise an fatal error on query cycles instead.
 
 mod sealed {
-    use super::{DefId, LocalDefId, OwnerId};
     use rustc_hir::def_id::{LocalModDefId, ModDefId};
+
+    use super::{DefId, LocalDefId, OwnerId};
 
     /// An analogue of the `Into` trait that's intended only for query parameters.
     ///

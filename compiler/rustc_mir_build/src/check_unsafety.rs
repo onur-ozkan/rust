@@ -1,9 +1,8 @@
-use crate::build::ExprCategory;
-use crate::errors::*;
-use rustc_middle::thir::visit::{self, Visitor};
+use std::ops::Bound;
 
 use rustc_hir as hir;
 use rustc_middle::mir::BorrowKind;
+use rustc_middle::thir::visit::{self, Visitor};
 use rustc_middle::thir::*;
 use rustc_middle::ty::print::with_no_trimmed_paths;
 use rustc_middle::ty::{self, ParamEnv, Ty, TyCtxt};
@@ -13,7 +12,8 @@ use rustc_span::def_id::{DefId, LocalDefId};
 use rustc_span::symbol::Symbol;
 use rustc_span::Span;
 
-use std::ops::Bound;
+use crate::build::ExprCategory;
+use crate::errors::*;
 
 struct UnsafetyVisitor<'a, 'tcx> {
     tcx: TyCtxt<'tcx>,

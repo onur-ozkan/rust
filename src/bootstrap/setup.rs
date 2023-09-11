@@ -1,7 +1,3 @@
-use crate::builder::{Builder, RunConfig, ShouldRun, Step};
-use crate::Config;
-use crate::{t, VERSION};
-use sha2::Digest;
 use std::env::consts::EXE_SUFFIX;
 use std::fmt::Write as _;
 use std::fs::File;
@@ -10,6 +6,12 @@ use std::path::{Path, PathBuf, MAIN_SEPARATOR};
 use std::process::Command;
 use std::str::FromStr;
 use std::{fmt, fs, io};
+
+use sha2::Digest;
+
+use crate::builder::{Builder, RunConfig, ShouldRun, Step};
+use crate::Config;
+use crate::{t, VERSION};
 
 #[cfg(test)]
 mod tests;

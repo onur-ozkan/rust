@@ -1,10 +1,10 @@
-use crate::ty::GenericArg;
-use crate::ty::{self, Ty, TyCtxt};
-
 use rustc_data_structures::fx::FxHashSet;
 use rustc_data_structures::sso::SsoHashSet;
 use rustc_hir::def_id::{CrateNum, DefId, LocalDefId};
 use rustc_hir::definitions::{DefPathData, DisambiguatedDefPathData};
+
+use crate::ty::GenericArg;
+use crate::ty::{self, Ty, TyCtxt};
 
 // `pretty` is a separate module only for organization.
 mod pretty;

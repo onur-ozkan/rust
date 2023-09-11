@@ -1,12 +1,6 @@
-use crate::base::{DummyResult, ExtCtxt, MacResult, TTMacroExpander};
-use crate::base::{SyntaxExtension, SyntaxExtensionKind};
-use crate::expand::{ensure_complete_parse, parse_ast_fragment, AstFragment, AstFragmentKind};
-use crate::mbe;
-use crate::mbe::diagnostics::{annotate_doc_comment, parse_failure_msg};
-use crate::mbe::macro_check;
-use crate::mbe::macro_parser::{Error, ErrorReported, Failure, Success, TtParser};
-use crate::mbe::macro_parser::{MatchedSeq, MatchedTokenTree, MatcherLoc};
-use crate::mbe::transcribe::transcribe;
+use std::borrow::Cow;
+use std::collections::hash_map::Entry;
+use std::{mem, slice};
 
 use rustc_ast as ast;
 use rustc_ast::token::{self, Delimiter, NonterminalKind, Token, TokenKind, TokenKind::*};
@@ -29,12 +23,17 @@ use rustc_span::hygiene::Transparency;
 use rustc_span::symbol::{kw, sym, Ident, MacroRulesNormalizedIdent};
 use rustc_span::Span;
 
-use std::borrow::Cow;
-use std::collections::hash_map::Entry;
-use std::{mem, slice};
-
 use super::diagnostics;
 use super::macro_parser::{NamedMatches, NamedParseResult};
+use crate::base::{DummyResult, ExtCtxt, MacResult, TTMacroExpander};
+use crate::base::{SyntaxExtension, SyntaxExtensionKind};
+use crate::expand::{ensure_complete_parse, parse_ast_fragment, AstFragment, AstFragmentKind};
+use crate::mbe;
+use crate::mbe::diagnostics::{annotate_doc_comment, parse_failure_msg};
+use crate::mbe::macro_check;
+use crate::mbe::macro_parser::{Error, ErrorReported, Failure, Success, TtParser};
+use crate::mbe::macro_parser::{MatchedSeq, MatchedTokenTree, MatcherLoc};
+use crate::mbe::transcribe::transcribe;
 
 pub(crate) struct ParserAnyMacro<'a> {
     parser: Parser<'a>,

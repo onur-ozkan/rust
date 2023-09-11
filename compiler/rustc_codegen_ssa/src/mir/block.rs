@@ -1,13 +1,4 @@
-use super::operand::OperandRef;
-use super::operand::OperandValue::{Immediate, Pair, Ref, ZeroSized};
-use super::place::PlaceRef;
-use super::{CachedLlbb, FunctionCx, LocalRef};
-
-use crate::base;
-use crate::common::{self, IntPredicate};
-use crate::meth;
-use crate::traits::*;
-use crate::MemFlags;
+use std::cmp;
 
 use rustc_ast as ast;
 use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
@@ -23,7 +14,15 @@ use rustc_target::abi::call::{ArgAbi, FnAbi, PassMode, Reg};
 use rustc_target::abi::{self, HasDataLayout, WrappingRange};
 use rustc_target::spec::abi::Abi;
 
-use std::cmp;
+use super::operand::OperandRef;
+use super::operand::OperandValue::{Immediate, Pair, Ref, ZeroSized};
+use super::place::PlaceRef;
+use super::{CachedLlbb, FunctionCx, LocalRef};
+use crate::base;
+use crate::common::{self, IntPredicate};
+use crate::meth;
+use crate::traits::*;
+use crate::MemFlags;
 
 // Indicates if we are in the middle of merging a BB's successor into it. This
 // can happen when BB jumps directly to its successor and the successor has no

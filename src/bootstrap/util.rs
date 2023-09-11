@@ -3,7 +3,6 @@
 //! Simple things like testing the various filesystem operations here and there,
 //! not a lot of interesting happenings here unfortunately.
 
-use build_helper::util::{fail, try_run};
 use std::env;
 use std::fs;
 use std::io;
@@ -11,6 +10,8 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::str;
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
+
+use build_helper::util::{fail, try_run};
 
 use crate::builder::Builder;
 use crate::config::{Config, TargetSelection};

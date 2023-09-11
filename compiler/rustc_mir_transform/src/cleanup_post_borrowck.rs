@@ -12,9 +12,10 @@
 //! [`Nop`]: rustc_middle::mir::StatementKind::Nop
 //! [`Shallow`]: rustc_middle::mir::BorrowKind::Shallow
 
-use crate::MirPass;
 use rustc_middle::mir::{Body, BorrowKind, Rvalue, StatementKind, TerminatorKind};
 use rustc_middle::ty::TyCtxt;
+
+use crate::MirPass;
 
 pub struct CleanupPostBorrowck;
 

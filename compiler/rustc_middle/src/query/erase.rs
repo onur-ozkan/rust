@@ -1,8 +1,9 @@
+use std::mem::{size_of, transmute_copy, MaybeUninit};
+
 use crate::mir;
 use crate::query::CyclePlaceholder;
 use crate::traits;
 use crate::ty::{self, Ty};
-use std::mem::{size_of, transmute_copy, MaybeUninit};
 
 #[derive(Copy, Clone)]
 pub struct Erased<T: Copy> {

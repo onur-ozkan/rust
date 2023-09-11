@@ -1,12 +1,6 @@
 //! Type-checking for the rust-intrinsic and platform-intrinsic
 //! intrinsics that the compiler exposes.
 
-use crate::errors::{
-    UnrecognizedAtomicOperation, UnrecognizedIntrinsicFunction,
-    WrongNumberOfGenericArgumentsToIntrinsic,
-};
-use crate::require_same_types;
-
 use hir::def_id::DefId;
 use rustc_errors::{struct_span_err, DiagnosticMessage};
 use rustc_hir as hir;
@@ -14,6 +8,12 @@ use rustc_middle::traits::{ObligationCause, ObligationCauseCode};
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_target::spec::abi::Abi;
+
+use crate::errors::{
+    UnrecognizedAtomicOperation, UnrecognizedIntrinsicFunction,
+    WrongNumberOfGenericArgumentsToIntrinsic,
+};
+use crate::require_same_types;
 
 fn equate_intrinsic_type<'tcx>(
     tcx: TyCtxt<'tcx>,

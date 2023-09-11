@@ -1,7 +1,7 @@
-use crate::Interner;
-
 use rustc_data_structures::fx::FxHashMap;
 use rustc_serialize::{Decoder, Encoder};
+
+use crate::Interner;
 
 /// The shorthand encoding uses an enum's variant index `usize`
 /// and is offset by this value so it never matches a real variant.

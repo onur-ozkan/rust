@@ -71,8 +71,9 @@ pub mod intrinsicck;
 mod region;
 pub mod wfcheck;
 
-pub use check::check_abi;
+use std::num::NonZeroU32;
 
+pub use check::check_abi;
 use check::check_mod_item_types;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_errors::{pluralize, struct_span_err, Diagnostic, DiagnosticBuilder};
@@ -89,14 +90,12 @@ use rustc_span::{self, BytePos, Span, Symbol};
 use rustc_target::abi::VariantIdx;
 use rustc_target::spec::abi::Abi;
 use rustc_trait_selection::traits::error_reporting::suggestions::ReturnsVisitor;
-use std::num::NonZeroU32;
-
-use crate::errors;
-use crate::require_c_abi_if_c_variadic;
-use crate::util::common::indenter;
 
 use self::compare_impl_item::collect_return_position_impl_trait_in_trait_tys;
 use self::region::region_scope_tree;
+use crate::errors;
+use crate::require_c_abi_if_c_variadic;
+use crate::util::common::indenter;
 
 pub fn provide(providers: &mut Providers) {
     wfcheck::provide(providers);

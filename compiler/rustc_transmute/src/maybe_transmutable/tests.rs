@@ -1,12 +1,12 @@
+use itertools::Itertools;
+
 use super::query_context::test::{Def, UltraMinimal};
 use crate::maybe_transmutable::MaybeTransmutableQuery;
 use crate::{layout, Reason};
-use itertools::Itertools;
 
 mod bool {
-    use crate::Answer;
-
     use super::*;
+    use crate::Answer;
 
     #[test]
     fn should_permit_identity_transmutation_tree() {

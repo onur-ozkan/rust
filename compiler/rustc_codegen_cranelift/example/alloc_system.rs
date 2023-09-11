@@ -34,6 +34,7 @@ mod platform {
     use core::alloc::{GlobalAlloc, Layout};
     use core::ffi::c_void;
     use core::ptr;
+
     use System;
     extern "C" {
         fn posix_memalign(memptr: *mut *mut c_void, align: usize, size: usize) -> i32;
@@ -71,6 +72,7 @@ mod platform {
 #[allow(nonstandard_style)]
 mod platform {
     use core::alloc::{GlobalAlloc, Layout};
+
     use System;
     type LPVOID = *mut u8;
     type HANDLE = LPVOID;

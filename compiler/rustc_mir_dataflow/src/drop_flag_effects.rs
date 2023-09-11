@@ -1,4 +1,3 @@
-use crate::elaborate_drops::DropFlagState;
 use rustc_middle::mir::{self, Body, Location, Terminator, TerminatorKind};
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_target::abi::VariantIdx;
@@ -6,6 +5,7 @@ use rustc_target::abi::VariantIdx;
 use super::indexes::MovePathIndex;
 use super::move_paths::{InitKind, LookupResult, MoveData};
 use super::MoveDataParamEnv;
+use crate::elaborate_drops::DropFlagState;
 
 pub fn move_path_children_matching<'tcx, F>(
     move_data: &MoveData<'tcx>,

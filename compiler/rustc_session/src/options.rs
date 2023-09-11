@@ -1,28 +1,26 @@
-use crate::config::*;
+use std::collections::hash_map::DefaultHasher;
+use std::collections::BTreeMap;
+use std::hash::Hasher;
+use std::num::NonZeroUsize;
+use std::path::PathBuf;
+use std::str;
 
-use crate::search_paths::SearchPath;
-use crate::utils::NativeLib;
-use crate::{lint, EarlyErrorHandler};
 use rustc_data_structures::profiling::TimePassesFormat;
 use rustc_errors::ColorConfig;
 use rustc_errors::{LanguageIdentifier, TerminalUrl};
+use rustc_feature::UnstableFeatures;
+use rustc_span::edition::Edition;
+use rustc_span::RealFileName;
+use rustc_span::SourceFileHashAlgorithm;
 use rustc_target::spec::{CodeModel, LinkerFlavorCli, MergeFunctions, PanicStrategy, SanitizerSet};
 use rustc_target::spec::{
     RelocModel, RelroLevel, SplitDebuginfo, StackProtector, TargetTriple, TlsModel,
 };
 
-use rustc_feature::UnstableFeatures;
-use rustc_span::edition::Edition;
-use rustc_span::RealFileName;
-use rustc_span::SourceFileHashAlgorithm;
-
-use std::collections::BTreeMap;
-
-use std::collections::hash_map::DefaultHasher;
-use std::hash::Hasher;
-use std::num::NonZeroUsize;
-use std::path::PathBuf;
-use std::str;
+use crate::config::*;
+use crate::search_paths::SearchPath;
+use crate::utils::NativeLib;
+use crate::{lint, EarlyErrorHandler};
 
 macro_rules! insert {
     ($opt_name:ident, $opt_expr:expr, $sub_hashes:expr) => {
@@ -425,8 +423,9 @@ mod desc {
 }
 
 mod parse {
-    pub(crate) use super::*;
     use std::str::FromStr;
+
+    pub(crate) use super::*;
 
     /// This is for boolean options that don't take a value and start with
     /// `no-`. This style of option is deprecated.

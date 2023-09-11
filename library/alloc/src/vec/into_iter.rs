@@ -1,9 +1,3 @@
-#[cfg(not(no_global_oom_handling))]
-use super::AsVecIntoIter;
-use crate::alloc::{Allocator, Global};
-#[cfg(not(no_global_oom_handling))]
-use crate::collections::VecDeque;
-use crate::raw_vec::RawVec;
 use core::array;
 use core::fmt;
 use core::iter::{
@@ -16,6 +10,13 @@ use core::num::NonZeroUsize;
 use core::ops::Deref;
 use core::ptr::{self, NonNull};
 use core::slice::{self};
+
+#[cfg(not(no_global_oom_handling))]
+use super::AsVecIntoIter;
+use crate::alloc::{Allocator, Global};
+#[cfg(not(no_global_oom_handling))]
+use crate::collections::VecDeque;
+use crate::raw_vec::RawVec;
 
 /// An iterator that moves out of a vector.
 ///

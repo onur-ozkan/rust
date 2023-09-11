@@ -13,9 +13,8 @@ use rustc_span::Span;
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt as _;
 use rustc_trait_selection::traits::ObligationCtxt;
 
-use crate::session_diagnostics::NonGenericOpaqueTypeParam;
-
 use super::RegionInferenceContext;
+use crate::session_diagnostics::NonGenericOpaqueTypeParam;
 
 impl<'tcx> RegionInferenceContext<'tcx> {
     /// Resolve any opaque types that were encountered while borrow checking

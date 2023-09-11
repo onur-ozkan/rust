@@ -1,16 +1,14 @@
 //! Code for projecting associated types out of trait references.
 
-use super::PredicateObligation;
-
-use crate::infer::InferCtxtUndoLogs;
-
 use rustc_data_structures::{
     snapshot_map::{self, SnapshotMapRef, SnapshotMapStorage},
     undo_log::Rollback,
 };
+pub use rustc_middle::traits::{EvaluationResult, Reveal};
 use rustc_middle::ty::{self, Ty};
 
-pub use rustc_middle::traits::{EvaluationResult, Reveal};
+use super::PredicateObligation;
+use crate::infer::InferCtxtUndoLogs;
 
 pub(crate) type UndoLog<'tcx> =
     snapshot_map::UndoLog<ProjectionCacheKey<'tcx>, ProjectionCacheEntry<'tcx>>;

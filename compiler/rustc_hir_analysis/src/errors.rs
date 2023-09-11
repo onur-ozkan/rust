@@ -1,6 +1,5 @@
 //! Errors emitted by `rustc_hir_analysis`.
 
-use crate::fluent_generated as fluent;
 use rustc_errors::{
     error_code, Applicability, DiagnosticBuilder, ErrorGuaranteed, Handler, IntoDiagnostic,
     MultiSpan,
@@ -8,6 +7,8 @@ use rustc_errors::{
 use rustc_macros::{Diagnostic, LintDiagnostic, Subdiagnostic};
 use rustc_middle::ty::{self, print::TraitRefPrintOnlyTraitPath, Ty};
 use rustc_span::{symbol::Ident, Span, Symbol};
+
+use crate::fluent_generated as fluent;
 
 #[derive(Diagnostic)]
 #[diag(hir_analysis_unrecognized_atomic_operation, code = "E0092")]

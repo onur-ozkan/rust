@@ -1,8 +1,5 @@
-use crate::astconv::AstConv;
-use crate::errors::{
-    AssocTypeBindingNotAllowed, ManualImplementation, MissingTypeParams,
-    ParenthesizedFnTraitExpansion,
-};
+use std::collections::BTreeSet;
+
 use rustc_data_structures::fx::FxHashMap;
 use rustc_errors::{pluralize, struct_span_err, Applicability, Diagnostic, ErrorGuaranteed};
 use rustc_hir as hir;
@@ -15,7 +12,11 @@ use rustc_span::edit_distance::find_best_match_for_name;
 use rustc_span::symbol::{sym, Ident};
 use rustc_span::{Span, Symbol, DUMMY_SP};
 
-use std::collections::BTreeSet;
+use crate::astconv::AstConv;
+use crate::errors::{
+    AssocTypeBindingNotAllowed, ManualImplementation, MissingTypeParams,
+    ParenthesizedFnTraitExpansion,
+};
 
 impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
     /// On missing type parameters, emit an E0393 error and provide a structured suggestion using

@@ -1,6 +1,5 @@
-use crate::astconv::{GenericArgCountMismatch, GenericArgCountResult, OnlySelfBounds};
-use crate::bounds::Bounds;
-use crate::errors::TraitObjectDeclaredWithNoTraits;
+use std::collections::BTreeSet;
+
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_errors::struct_span_err;
 use rustc_hir as hir;
@@ -12,11 +11,12 @@ use rustc_middle::ty::{DynKind, ToPredicate};
 use rustc_span::Span;
 use rustc_trait_selection::traits::error_reporting::report_object_safety_error;
 use rustc_trait_selection::traits::{self, astconv_object_safety_violations};
-
 use smallvec::{smallvec, SmallVec};
-use std::collections::BTreeSet;
 
 use super::AstConv;
+use crate::astconv::{GenericArgCountMismatch, GenericArgCountResult, OnlySelfBounds};
+use crate::bounds::Bounds;
+use crate::errors::TraitObjectDeclaredWithNoTraits;
 
 impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
     pub(super) fn conv_object_ty_poly_trait_ref(

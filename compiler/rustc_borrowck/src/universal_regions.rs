@@ -12,6 +12,8 @@
 //! The code in this file doesn't *do anything* with those results; it
 //! just returns them for other code to use.
 
+use std::iter;
+
 use rustc_data_structures::fx::FxHashMap;
 use rustc_errors::Diagnostic;
 use rustc_hir as hir;
@@ -25,7 +27,6 @@ use rustc_middle::ty::{self, InlineConstArgs, InlineConstArgsParts, RegionVid, T
 use rustc_middle::ty::{GenericArgs, GenericArgsRef};
 use rustc_span::symbol::{kw, sym};
 use rustc_span::Symbol;
-use std::iter;
 
 use crate::renumber::{BoundRegionInfo, RegionCtxt};
 use crate::BorrowckInferCtxt;

@@ -21,6 +21,10 @@ extern crate tracing;
 #[macro_use]
 extern crate rustc_middle;
 
+use std::collections::BTreeSet;
+use std::io;
+use std::path::{Path, PathBuf};
+
 use rustc_ast as ast;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_data_structures::sync::Lrc;
@@ -39,9 +43,6 @@ use rustc_session::cstore::{self, CrateSource};
 use rustc_session::utils::NativeLibKind;
 use rustc_session::Session;
 use rustc_span::symbol::Symbol;
-use std::collections::BTreeSet;
-use std::io;
-use std::path::{Path, PathBuf};
 
 pub mod back;
 pub mod base;

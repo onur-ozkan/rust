@@ -1,4 +1,5 @@
-use crate::util;
+use std::path::PathBuf;
+use std::result;
 
 use rustc_ast::token;
 use rustc_ast::{self as ast, LitKind, MetaItemKind};
@@ -21,8 +22,8 @@ use rustc_session::Session;
 use rustc_session::{lint, EarlyErrorHandler};
 use rustc_span::source_map::{FileLoader, FileName};
 use rustc_span::symbol::sym;
-use std::path::PathBuf;
-use std::result;
+
+use crate::util;
 
 pub type Result<T> = result::Result<T, ErrorGuaranteed>;
 

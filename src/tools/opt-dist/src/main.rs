@@ -1,8 +1,8 @@
-use crate::bolt::{bolt_optimize, with_bolt_instrumented};
 use anyhow::Context;
 use log::LevelFilter;
 use utils::io;
 
+use crate::bolt::{bolt_optimize, with_bolt_instrumented};
 use crate::environment::{create_environment, Environment};
 use crate::exec::Bootstrap;
 use crate::tests::run_tests;

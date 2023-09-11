@@ -241,11 +241,6 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-#[cfg(not(test))]
-use crate::boxed::Box;
-#[cfg(test)]
-use std::boxed::Box;
-
 use core::any::Any;
 use core::borrow;
 use core::cell::Cell;
@@ -266,6 +261,8 @@ use core::pin::Pin;
 use core::ptr::{self, drop_in_place, NonNull};
 #[cfg(not(no_global_oom_handling))]
 use core::slice::from_raw_parts_mut;
+#[cfg(test)]
+use std::boxed::Box;
 
 #[cfg(not(no_global_oom_handling))]
 use crate::alloc::handle_alloc_error;
@@ -273,6 +270,8 @@ use crate::alloc::handle_alloc_error;
 use crate::alloc::WriteCloneIntoRaw;
 use crate::alloc::{AllocError, Allocator, Global, Layout};
 use crate::borrow::{Cow, ToOwned};
+#[cfg(not(test))]
+use crate::boxed::Box;
 #[cfg(not(no_global_oom_handling))]
 use crate::string::String;
 #[cfg(not(no_global_oom_handling))]

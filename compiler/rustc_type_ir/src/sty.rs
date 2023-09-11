@@ -3,6 +3,11 @@
 use std::cmp::Ordering;
 use std::{fmt, hash};
 
+use rustc_data_structures::stable_hasher::HashStable;
+use rustc_serialize::{Decodable, Decoder, Encodable};
+
+use self::RegionKind::*;
+use self::TyKind::*;
 use crate::FloatTy;
 use crate::HashStableContext;
 use crate::IntTy;
@@ -11,12 +16,6 @@ use crate::TyDecoder;
 use crate::TyEncoder;
 use crate::UintTy;
 use crate::{DebruijnIndex, DebugWithInfcx, InferCtxtLike, OptWithInfcx};
-
-use self::RegionKind::*;
-use self::TyKind::*;
-
-use rustc_data_structures::stable_hasher::HashStable;
-use rustc_serialize::{Decodable, Decoder, Encodable};
 
 /// Specifies how a trait object is represented.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]

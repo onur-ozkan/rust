@@ -1,11 +1,12 @@
-use super::diagnostics::report_suspicious_mismatch_block;
-use super::diagnostics::same_indentation_level;
-use super::diagnostics::TokenTreeDiagInfo;
-use super::{StringReader, UnmatchedDelim};
 use rustc_ast::token::{self, Delimiter, Token};
 use rustc_ast::tokenstream::{DelimSpan, Spacing, TokenStream, TokenTree};
 use rustc_ast_pretty::pprust::token_to_string;
 use rustc_errors::{PErr, PResult};
+
+use super::diagnostics::report_suspicious_mismatch_block;
+use super::diagnostics::same_indentation_level;
+use super::diagnostics::TokenTreeDiagInfo;
+use super::{StringReader, UnmatchedDelim};
 
 pub(super) struct TokenTreesReader<'a> {
     string_reader: StringReader<'a>,

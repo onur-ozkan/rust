@@ -1,7 +1,7 @@
 //! Code shared by trait and projection goals for candidate assembly.
 
-use super::{EvalCtxt, SolverMode};
-use crate::traits::coherence;
+use std::fmt::Debug;
+
 use rustc_hir::def_id::DefId;
 use rustc_infer::traits::query::NoSolution;
 use rustc_infer::traits::Reveal;
@@ -13,7 +13,9 @@ use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_middle::ty::{fast_reject, TypeFoldable};
 use rustc_middle::ty::{ToPredicate, TypeVisitableExt};
 use rustc_span::ErrorGuaranteed;
-use std::fmt::Debug;
+
+use super::{EvalCtxt, SolverMode};
+use crate::traits::coherence;
 
 pub(super) mod structural_traits;
 

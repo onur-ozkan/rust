@@ -11,13 +11,6 @@
 //! * Use define_* family of methods when you might be defining the Value.
 //! * When in doubt, define.
 
-use crate::abi::{FnAbi, FnAbiLlvmExt};
-use crate::attributes;
-use crate::context::CodegenCx;
-use crate::llvm;
-use crate::llvm::AttributePlace::Function;
-use crate::type_::Type;
-use crate::value::Value;
 use rustc_codegen_ssa::traits::TypeMembershipMethods;
 use rustc_middle::ty::{Instance, Ty};
 use rustc_symbol_mangling::typeid::{
@@ -25,6 +18,14 @@ use rustc_symbol_mangling::typeid::{
     TypeIdOptions,
 };
 use smallvec::SmallVec;
+
+use crate::abi::{FnAbi, FnAbiLlvmExt};
+use crate::attributes;
+use crate::context::CodegenCx;
+use crate::llvm;
+use crate::llvm::AttributePlace::Function;
+use crate::type_::Type;
+use crate::value::Value;
 
 /// Declare a function.
 ///

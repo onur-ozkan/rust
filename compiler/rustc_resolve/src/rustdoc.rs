@@ -1,3 +1,5 @@
+use std::{cmp, mem};
+
 use pulldown_cmark::{BrokenLink, CowStr, Event, LinkType, Options, Parser, Tag};
 use rustc_ast as ast;
 use rustc_ast::util::comments::beautify_doc_string;
@@ -5,7 +7,6 @@ use rustc_data_structures::fx::FxHashMap;
 use rustc_span::def_id::DefId;
 use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_span::Span;
-use std::{cmp, mem};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum DocFragmentKind {

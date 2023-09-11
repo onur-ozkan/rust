@@ -23,9 +23,10 @@ mod removed;
 #[cfg(test)]
 mod tests;
 
-use rustc_span::{edition::Edition, symbol::Symbol, Span};
 use std::fmt;
 use std::num::NonZeroU32;
+
+use rustc_span::{edition::Edition, symbol::Symbol, Span};
 
 #[derive(Clone, Copy)]
 pub enum State {

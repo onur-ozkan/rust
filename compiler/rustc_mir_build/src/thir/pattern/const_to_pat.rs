@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use rustc_hir as hir;
 use rustc_hir::def_id::DefId;
 use rustc_index::Idx;
@@ -11,8 +13,6 @@ use rustc_span::Span;
 use rustc_target::abi::{FieldIdx, VariantIdx};
 use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
 use rustc_trait_selection::traits::{self, ObligationCause};
-
-use std::cell::Cell;
 
 use super::PatCtxt;
 use crate::errors::{

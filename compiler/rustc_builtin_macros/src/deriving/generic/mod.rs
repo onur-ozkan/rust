@@ -159,10 +159,11 @@
 //!                 (<ident of C1>, <span of C1>, Named(vec![(<ident of x>, <span of x>)]))])
 //! ```
 
-pub use StaticFields::*;
-pub use SubstructureFields::*;
+use std::cell::RefCell;
+use std::iter;
+use std::ops::Not;
+use std::vec;
 
-use crate::{deriving, errors};
 use rustc_ast::ptr::P;
 use rustc_ast::{
     self as ast, BindingAnnotation, ByRef, EnumDef, Expr, GenericArg, GenericParamKind, Generics,
@@ -173,12 +174,12 @@ use rustc_expand::base::{Annotatable, ExtCtxt};
 use rustc_session::lint::builtin::BYTE_SLICE_IN_PACKED_STRUCT_WITH_DERIVE;
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{Span, DUMMY_SP};
-use std::cell::RefCell;
-use std::iter;
-use std::ops::Not;
-use std::vec;
 use thin_vec::{thin_vec, ThinVec};
 use ty::{Bounds, Path, Ref, Self_, Ty};
+pub use StaticFields::*;
+pub use SubstructureFields::*;
+
+use crate::{deriving, errors};
 
 pub mod ty;
 

@@ -1,13 +1,14 @@
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
 
-use crate::region_infer::RegionInferenceContext;
-use crate::Upvar;
 use rustc_index::IndexSlice;
 use rustc_middle::mir::{Body, Local};
 use rustc_middle::ty::{RegionVid, TyCtxt};
 use rustc_span::source_map::Span;
 use rustc_span::symbol::Symbol;
+
+use crate::region_infer::RegionInferenceContext;
+use crate::Upvar;
 
 impl<'tcx> RegionInferenceContext<'tcx> {
     pub(crate) fn get_var_name_and_span_for_region(

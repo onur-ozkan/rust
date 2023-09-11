@@ -42,14 +42,15 @@
 //!   `DefId` it was computed from. In other cases, too much information gets
 //!   lost during fingerprint computation.
 
-use super::{DepContext, DepKind, FingerprintStyle};
-use crate::ich::StableHashingContext;
+use std::fmt;
+use std::hash::Hash;
 
 use rustc_data_structures::fingerprint::{Fingerprint, PackedFingerprint};
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher, StableOrd, ToStableHashKey};
 use rustc_hir::definitions::DefPathHash;
-use std::fmt;
-use std::hash::Hash;
+
+use super::{DepContext, DepKind, FingerprintStyle};
+use crate::ich::StableHashingContext;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Encodable, Decodable)]
 pub struct DepNode<K> {

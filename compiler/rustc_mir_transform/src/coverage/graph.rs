@@ -1,12 +1,12 @@
+use std::cmp::Ordering;
+use std::ops::{Index, IndexMut};
+
 use itertools::Itertools;
 use rustc_data_structures::graph::dominators::{self, Dominators};
 use rustc_data_structures::graph::{self, GraphSuccessors, WithNumNodes, WithStartNode};
 use rustc_index::bit_set::BitSet;
 use rustc_index::{IndexSlice, IndexVec};
 use rustc_middle::mir::{self, BasicBlock, BasicBlockData, Terminator, TerminatorKind};
-
-use std::cmp::Ordering;
-use std::ops::{Index, IndexMut};
 
 const ID_SEPARATOR: &str = ",";
 

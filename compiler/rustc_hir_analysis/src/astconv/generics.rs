@@ -1,9 +1,3 @@
-use super::IsMethodCall;
-use crate::astconv::{
-    errors::prohibit_assoc_ty_binding, CreateSubstsForGenericArgsCtxt, ExplicitLateBound,
-    GenericArgCountMismatch, GenericArgCountResult, GenericArgPosition,
-};
-use crate::structured_errors::{GenericArgsInfo, StructuredDiagnostic, WrongNumberOfGenericArgs};
 use rustc_ast::ast::ParamKindOrd;
 use rustc_errors::{struct_span_err, Applicability, Diagnostic, ErrorGuaranteed, MultiSpan};
 use rustc_hir as hir;
@@ -16,6 +10,13 @@ use rustc_middle::ty::{
 use rustc_session::lint::builtin::LATE_BOUND_LIFETIME_ARGUMENTS;
 use rustc_span::{symbol::kw, Span};
 use smallvec::SmallVec;
+
+use super::IsMethodCall;
+use crate::astconv::{
+    errors::prohibit_assoc_ty_binding, CreateSubstsForGenericArgsCtxt, ExplicitLateBound,
+    GenericArgCountMismatch, GenericArgCountResult, GenericArgPosition,
+};
+use crate::structured_errors::{GenericArgsInfo, StructuredDiagnostic, WrongNumberOfGenericArgs};
 
 /// Report an error that a generic argument did not match the generic parameter that was
 /// expected.

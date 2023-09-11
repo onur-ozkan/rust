@@ -23,11 +23,11 @@ mod util;
 pub mod vtable;
 pub mod wf;
 
-use crate::infer::outlives::env::OutlivesEnvironment;
-use crate::infer::{InferCtxt, TyCtxtInferExt};
-use crate::traits::error_reporting::TypeErrCtxtExt as _;
-use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
+use std::fmt::Debug;
+use std::ops::ControlFlow;
+
 use rustc_errors::ErrorGuaranteed;
+pub use rustc_infer::traits::*;
 use rustc_middle::query::Providers;
 use rustc_middle::ty::fold::TypeFoldable;
 use rustc_middle::ty::visit::{TypeVisitable, TypeVisitableExt};
@@ -35,16 +35,6 @@ use rustc_middle::ty::{self, ToPredicate, Ty, TyCtxt, TypeFolder, TypeSuperVisit
 use rustc_middle::ty::{GenericArgs, GenericArgsRef};
 use rustc_span::def_id::DefId;
 use rustc_span::Span;
-
-use std::fmt::Debug;
-use std::ops::ControlFlow;
-
-pub(crate) use self::project::{needs_normalization, BoundVarReplacer, PlaceholderReplacer};
-
-pub use self::FulfillmentErrorCode::*;
-pub use self::ImplSource::*;
-pub use self::ObligationCauseCode::*;
-pub use self::SelectionError::*;
 
 pub use self::coherence::{add_placeholder_note, orphan_check, overlapping_impls};
 pub use self::coherence::{OrphanCheckErr, OverlapResult};
@@ -55,6 +45,7 @@ pub use self::object_safety::is_vtable_safe_method;
 pub use self::object_safety::MethodViolationCode;
 pub use self::object_safety::ObjectSafetyViolation;
 pub use self::project::NormalizeExt;
+pub(crate) use self::project::{needs_normalization, BoundVarReplacer, PlaceholderReplacer};
 pub use self::project::{normalize_inherent_projection, normalize_projection_type};
 pub use self::select::{EvaluationCache, SelectionCache, SelectionContext};
 pub use self::select::{EvaluationResult, IntercrateAmbiguityCause, OverflowError};
@@ -72,8 +63,14 @@ pub use self::util::{
 };
 pub use self::util::{expand_trait_aliases, TraitAliasExpander};
 pub use self::util::{get_vtable_index_of_object_method, impl_item_is_final, upcast_choices};
-
-pub use rustc_infer::traits::*;
+pub use self::FulfillmentErrorCode::*;
+pub use self::ImplSource::*;
+pub use self::ObligationCauseCode::*;
+pub use self::SelectionError::*;
+use crate::infer::outlives::env::OutlivesEnvironment;
+use crate::infer::{InferCtxt, TyCtxtInferExt};
+use crate::traits::error_reporting::TypeErrCtxtExt as _;
+use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
 
 /// Whether to skip the leak check, as part of a future compatibility warning step.
 ///

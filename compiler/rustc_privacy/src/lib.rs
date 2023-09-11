@@ -12,6 +12,15 @@ extern crate tracing;
 
 mod errors;
 
+use std::marker::PhantomData;
+use std::ops::ControlFlow;
+use std::{fmt, mem};
+
+use errors::{
+    FieldIsPrivate, FieldIsPrivateLabel, FromPrivateDependencyInPublicInterface, InPublicInterface,
+    ItemIsPrivate, PrivateInterfacesOrBoundsLint, ReportEffectiveVisibility, UnnameableTypesLint,
+    UnnamedItemIsPrivate,
+};
 use rustc_ast::MacroDef;
 use rustc_attr as attr;
 use rustc_data_structures::fx::FxHashSet;
@@ -35,16 +44,6 @@ use rustc_session::lint;
 use rustc_span::hygiene::Transparency;
 use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::Span;
-
-use std::marker::PhantomData;
-use std::ops::ControlFlow;
-use std::{fmt, mem};
-
-use errors::{
-    FieldIsPrivate, FieldIsPrivateLabel, FromPrivateDependencyInPublicInterface, InPublicInterface,
-    ItemIsPrivate, PrivateInterfacesOrBoundsLint, ReportEffectiveVisibility, UnnameableTypesLint,
-    UnnamedItemIsPrivate,
-};
 
 fluent_messages! { "../messages.ftl" }
 

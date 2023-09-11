@@ -1,6 +1,5 @@
-use crate::spec::{Target, TargetOptions};
-
 use super::SanitizerSet;
+use crate::spec::{Target, TargetOptions};
 
 pub fn target() -> Target {
     let mut base = super::linux_ohos_base::opts();

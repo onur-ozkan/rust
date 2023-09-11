@@ -14,9 +14,9 @@
 //! At present, however, we do run collection across all items in the
 //! crate as a kind of pass. This should eventually be factored away.
 
-use crate::astconv::AstConv;
-use crate::check::intrinsic::intrinsic_operation_unsafety;
-use crate::errors;
+use std::iter;
+use std::ops::Bound;
+
 use hir::def::DefKind;
 use rustc_data_structures::captures::Captures;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
@@ -37,8 +37,10 @@ use rustc_target::spec::abi;
 use rustc_trait_selection::infer::InferCtxtExt;
 use rustc_trait_selection::traits::error_reporting::suggestions::NextTypeParamName;
 use rustc_trait_selection::traits::ObligationCtxt;
-use std::iter;
-use std::ops::Bound;
+
+use crate::astconv::AstConv;
+use crate::check::intrinsic::intrinsic_operation_unsafety;
+use crate::errors;
 
 mod generics_of;
 mod item_bounds;

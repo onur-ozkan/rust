@@ -1,11 +1,11 @@
+use core::hash::{Hash, Hasher};
+
 use crate::cmp::Ordering;
 use crate::fmt;
 use crate::mem;
 use crate::sys::c;
 use crate::sys_common::IntoInner;
 use crate::time::Duration;
-
-use core::hash::{Hash, Hasher};
 
 const NANOS_PER_SEC: u64 = 1_000_000_000;
 const INTERVALS_PER_SEC: u64 = NANOS_PER_SEC / 100;

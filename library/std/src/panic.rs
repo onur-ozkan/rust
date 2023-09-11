@@ -35,18 +35,15 @@ pub macro panic_2015 {
 #[doc(hidden)]
 #[unstable(feature = "edition_panic", issue = "none", reason = "use panic!() instead")]
 pub use core::panic::panic_2021;
-
-#[stable(feature = "panic_hooks", since = "1.10.0")]
-pub use crate::panicking::{set_hook, take_hook};
-
-#[unstable(feature = "panic_update_hook", issue = "92649")]
-pub use crate::panicking::update_hook;
-
+#[stable(feature = "catch_unwind", since = "1.9.0")]
+pub use core::panic::{AssertUnwindSafe, RefUnwindSafe, UnwindSafe};
 #[stable(feature = "panic_hooks", since = "1.10.0")]
 pub use core::panic::{Location, PanicInfo};
 
-#[stable(feature = "catch_unwind", since = "1.9.0")]
-pub use core::panic::{AssertUnwindSafe, RefUnwindSafe, UnwindSafe};
+#[unstable(feature = "panic_update_hook", issue = "92649")]
+pub use crate::panicking::update_hook;
+#[stable(feature = "panic_hooks", since = "1.10.0")]
+pub use crate::panicking::{set_hook, take_hook};
 
 /// Panic the current thread with the given message as the panic payload.
 ///

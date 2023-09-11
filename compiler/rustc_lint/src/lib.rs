@@ -84,30 +84,22 @@ mod traits;
 mod types;
 mod unused;
 
-pub use array_into_iter::ARRAY_INTO_ITER;
-
-use rustc_ast as ast;
-use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
-use rustc_fluent_macro::fluent_messages;
-use rustc_hir as hir;
-use rustc_hir::def_id::{LocalDefId, LocalModDefId};
-use rustc_middle::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::lint::builtin::{
-    BARE_TRAIT_OBJECTS, ELIDED_LIFETIMES_IN_PATHS, EXPLICIT_OUTLIVES_REQUIREMENTS,
-};
-use rustc_span::symbol::Ident;
-use rustc_span::Span;
-
 use array_into_iter::ArrayIntoIter;
+pub use array_into_iter::ARRAY_INTO_ITER;
 use builtin::*;
+/// Useful for other parts of the compiler / Clippy.
+pub use builtin::{MissingDoc, SoftLints};
+pub use context::{CheckLintNameResult, FindLintError, LintStore};
+pub use context::{EarlyContext, LateContext, LintContext};
 use deref_into_dyn_supertrait::*;
 use drop_forget_useless::*;
+pub use early::{check_ast_node, EarlyCheckNode};
 use enum_intrinsics_non_enums::EnumIntrinsicsNonEnums;
 use for_loops_over_fallibles::*;
 use hidden_unicode_codepoints::*;
 use internal::*;
 use invalid_from_utf8::*;
+pub use late::{check_crate, late_lint_mod, unerased_lint_store};
 use let_underscore::*;
 use map_unit_fn::*;
 use methods::*;
@@ -118,23 +110,28 @@ use nonstandard_style::*;
 use noop_method_call::*;
 use opaque_hidden_inferred_bound::*;
 use pass_by_value::*;
+pub use passes::{EarlyLintPass, LateLintPass};
 use ptr_nulls::*;
 use redundant_semicolon::*;
 use reference_casting::*;
-use traits::*;
-use types::*;
-use unused::*;
-
-/// Useful for other parts of the compiler / Clippy.
-pub use builtin::{MissingDoc, SoftLints};
-pub use context::{CheckLintNameResult, FindLintError, LintStore};
-pub use context::{EarlyContext, LateContext, LintContext};
-pub use early::{check_ast_node, EarlyCheckNode};
-pub use late::{check_crate, late_lint_mod, unerased_lint_store};
-pub use passes::{EarlyLintPass, LateLintPass};
+use rustc_ast as ast;
+use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
+use rustc_fluent_macro::fluent_messages;
+use rustc_hir as hir;
+use rustc_hir::def_id::{LocalDefId, LocalModDefId};
+use rustc_middle::query::Providers;
+use rustc_middle::ty::TyCtxt;
+use rustc_session::lint::builtin::{
+    BARE_TRAIT_OBJECTS, ELIDED_LIFETIMES_IN_PATHS, EXPLICIT_OUTLIVES_REQUIREMENTS,
+};
 pub use rustc_session::lint::Level::{self, *};
 pub use rustc_session::lint::{BufferedEarlyLint, FutureIncompatibleInfo, Lint, LintId};
 pub use rustc_session::lint::{LintArray, LintPass};
+use rustc_span::symbol::Ident;
+use rustc_span::Span;
+use traits::*;
+use types::*;
+use unused::*;
 
 fluent_messages! { "../messages.ftl" }
 

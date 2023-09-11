@@ -1,9 +1,8 @@
 #![cfg_attr(test, allow(dead_code))]
 
-use self::imp::{drop_handler, make_handler};
-
 pub use self::imp::cleanup;
 pub use self::imp::init;
+use self::imp::{drop_handler, make_handler};
 
 pub struct Handler {
     data: *mut libc::c_void,
@@ -38,12 +37,6 @@ impl Drop for Handler {
     target_os = "openbsd"
 ))]
 mod imp {
-    use super::Handler;
-    use crate::io;
-    use crate::mem;
-    use crate::ptr;
-    use crate::thread;
-
     use libc::MAP_FAILED;
     #[cfg(not(all(target_os = "linux", target_env = "gnu")))]
     use libc::{mmap as mmap64, munmap};
@@ -53,9 +46,14 @@ mod imp {
     use libc::{sigaltstack, SIGSTKSZ, SS_DISABLE};
     use libc::{MAP_ANON, MAP_PRIVATE, PROT_NONE, PROT_READ, PROT_WRITE, SIGSEGV};
 
+    use super::Handler;
+    use crate::io;
+    use crate::mem;
+    use crate::ptr;
     use crate::sync::atomic::{AtomicBool, AtomicPtr, Ordering};
     use crate::sys::unix::os::page_size;
     use crate::sys_common::thread_info;
+    use crate::thread;
 
     // Signal handler for the SIGSEGV and SIGBUS handlers. We've got guard pages
     // (unmapped pages) at the end of every thread's stack, so if a thread ends

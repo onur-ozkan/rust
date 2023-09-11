@@ -136,11 +136,10 @@ use rustc_middle::ty::print::with_no_trimmed_paths;
 use rustc_serialize::{Decodable, Encodable};
 use rustc_target::abi::{AddressSpace, Endian, HasDataLayout};
 
-use crate::mir;
-use crate::ty::codec::{TyDecoder, TyEncoder};
-use crate::ty::GenericArgKind;
-use crate::ty::{self, Instance, Ty, TyCtxt};
-
+pub use self::allocation::{
+    alloc_range, AllocBytes, AllocError, AllocRange, AllocResult, Allocation, ConstAllocation,
+    InitChunk, InitChunkIter,
+};
 pub use self::error::{
     struct_error, BadBytesAccess, CheckInAllocMsg, ErrorHandled, EvalToAllocationRawResult,
     EvalToConstValueResult, EvalToValTreeResult, ExpectedKind, InterpError, InterpErrorInfo,
@@ -148,15 +147,12 @@ pub use self::error::{
     ReportedErrorInfo, ResourceExhaustionInfo, ScalarSizeMismatch, UndefinedBehaviorInfo,
     UnsupportedOpInfo, ValidationErrorInfo, ValidationErrorKind,
 };
-
-pub use self::value::{get_slice_bytes, ConstAlloc, ConstValue, Scalar};
-
-pub use self::allocation::{
-    alloc_range, AllocBytes, AllocError, AllocRange, AllocResult, Allocation, ConstAllocation,
-    InitChunk, InitChunkIter,
-};
-
 pub use self::pointer::{Pointer, PointerArithmetic, Provenance};
+pub use self::value::{get_slice_bytes, ConstAlloc, ConstValue, Scalar};
+use crate::mir;
+use crate::ty::codec::{TyDecoder, TyEncoder};
+use crate::ty::GenericArgKind;
+use crate::ty::{self, Instance, Ty, TyCtxt};
 
 /// Uniquely identifies one of the following:
 /// - A constant

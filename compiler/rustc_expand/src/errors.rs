@@ -1,10 +1,11 @@
+use std::borrow::Cow;
+
 use rustc_ast::ast;
 use rustc_macros::Diagnostic;
 use rustc_session::Limit;
 use rustc_span::edition::Edition;
 use rustc_span::symbol::{Ident, MacroRulesNormalizedIdent};
 use rustc_span::{Span, Symbol};
-use std::borrow::Cow;
 
 #[derive(Diagnostic)]
 #[diag(expand_expr_repeat_no_syntax_vars)]

@@ -72,8 +72,6 @@ pub enum Reason {
 
 #[cfg(feature = "rustc")]
 mod rustc {
-    use super::*;
-
     use rustc_hir::lang_items::LangItem;
     use rustc_infer::infer::InferCtxt;
     use rustc_macros::TypeVisitable;
@@ -83,6 +81,8 @@ mod rustc {
     use rustc_middle::ty::Ty;
     use rustc_middle::ty::TyCtxt;
     use rustc_middle::ty::ValTree;
+
+    use super::*;
 
     /// The source and destination types of a transmutation.
     #[derive(TypeVisitable, Debug, Clone, Copy)]

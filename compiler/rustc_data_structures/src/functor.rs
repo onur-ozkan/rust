@@ -1,5 +1,6 @@
-use rustc_index::{Idx, IndexVec};
 use std::{mem, rc::Rc, sync::Arc};
+
+use rustc_index::{Idx, IndexVec};
 
 pub trait IdFunctor: Sized {
     type Inner;

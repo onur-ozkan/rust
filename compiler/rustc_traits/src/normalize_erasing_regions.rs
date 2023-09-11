@@ -1,10 +1,11 @@
+use std::sync::atomic::Ordering;
+
 use rustc_infer::infer::TyCtxtInferExt;
 use rustc_middle::query::Providers;
 use rustc_middle::traits::query::NoSolution;
 use rustc_middle::ty::{self, ParamEnvAnd, TyCtxt, TypeFoldable, TypeVisitableExt};
 use rustc_trait_selection::traits::query::normalize::QueryNormalizeExt;
 use rustc_trait_selection::traits::{Normalized, ObligationCause};
-use std::sync::atomic::Ordering;
 
 pub(crate) fn provide(p: &mut Providers) {
     *p = Providers {

@@ -1,20 +1,18 @@
-use super::Error;
-
-use super::debug;
-use super::graph;
-use super::spans;
+use std::fmt::{self, Debug};
 
 use debug::{DebugCounters, NESTED_INDENT};
 use graph::{BasicCoverageBlock, BcbBranch, CoverageGraph, TraverseCoverageGraphWithLoops};
-use spans::CoverageSpan;
-
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::graph::WithNumNodes;
 use rustc_index::bit_set::BitSet;
 use rustc_index::IndexVec;
 use rustc_middle::mir::coverage::*;
+use spans::CoverageSpan;
 
-use std::fmt::{self, Debug};
+use super::debug;
+use super::graph;
+use super::spans;
+use super::Error;
 
 /// The coverage counter or counter expression associated with a particular
 /// BCB node or BCB edge.

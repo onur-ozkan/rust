@@ -1,3 +1,7 @@
+use ast::util::unicode::{contains_text_flow_control_chars, TEXT_FLOW_CONTROL_CHARS};
+use rustc_ast as ast;
+use rustc_span::{BytePos, Span, Symbol};
+
 use crate::{
     lints::{
         HiddenUnicodeCodepointsDiag, HiddenUnicodeCodepointsDiagLabels,
@@ -5,9 +9,6 @@ use crate::{
     },
     EarlyContext, EarlyLintPass, LintContext,
 };
-use ast::util::unicode::{contains_text_flow_control_chars, TEXT_FLOW_CONTROL_CHARS};
-use rustc_ast as ast;
-use rustc_span::{BytePos, Span, Symbol};
 
 declare_lint! {
     /// The `text_direction_codepoint_in_literal` lint detects Unicode codepoints that change the

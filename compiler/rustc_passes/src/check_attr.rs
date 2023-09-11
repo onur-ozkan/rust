@@ -4,7 +4,9 @@
 //! conflicts between multiple such attributes attached to the same
 //! item.
 
-use crate::{errors, fluent_generated as fluent};
+use std::cell::Cell;
+use std::collections::hash_map::Entry;
+
 use rustc_ast::{ast, AttrStyle, Attribute, LitKind, MetaItemKind, MetaItemLit, NestedMetaItem};
 use rustc_data_structures::fx::FxHashMap;
 use rustc_errors::{Applicability, IntoDiagnosticArg, MultiSpan};
@@ -33,8 +35,8 @@ use rustc_target::spec::abi::Abi;
 use rustc_trait_selection::infer::{TyCtxtInferExt, ValuePairs};
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt;
 use rustc_trait_selection::traits::ObligationCtxt;
-use std::cell::Cell;
-use std::collections::hash_map::Entry;
+
+use crate::{errors, fluent_generated as fluent};
 
 pub(crate) fn target_from_impl_item<'tcx>(
     tcx: TyCtxt<'tcx>,

@@ -81,10 +81,10 @@
 //! We generate various special nodes for various, well, special purposes.
 //! These are described in the `Liveness` struct.
 
-use crate::errors;
-
-use self::LiveNodeKind::*;
-use self::VarKind::*;
+use std::collections::VecDeque;
+use std::io;
+use std::io::prelude::*;
+use std::rc::Rc;
 
 use rustc_ast::InlineAsmOptions;
 use rustc_data_structures::fx::FxIndexMap;
@@ -101,10 +101,9 @@ use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_span::DUMMY_SP;
 use rustc_span::{BytePos, Span};
 
-use std::collections::VecDeque;
-use std::io;
-use std::io::prelude::*;
-use std::rc::Rc;
+use self::LiveNodeKind::*;
+use self::VarKind::*;
+use crate::errors;
 
 mod rwu_table;
 

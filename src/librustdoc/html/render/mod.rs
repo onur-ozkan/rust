@@ -35,9 +35,6 @@ mod span_map;
 mod type_layout;
 mod write_shared;
 
-pub(crate) use self::context::*;
-pub(crate) use self::span_map::{collect_spans_and_sources, LinkFromSrc};
-
 use std::collections::VecDeque;
 use std::fmt::{self, Write};
 use std::fs;
@@ -62,6 +59,8 @@ use rustc_span::{
 use serde::ser::{SerializeMap, SerializeSeq};
 use serde::{Serialize, Serializer};
 
+pub(crate) use self::context::*;
+pub(crate) use self::span_map::{collect_spans_and_sources, LinkFromSrc};
 use crate::clean::{self, ItemId, RenderedLink, SelfTy};
 use crate::error::Error;
 use crate::formats::cache::Cache;

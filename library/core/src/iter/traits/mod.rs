@@ -6,6 +6,11 @@ mod iterator;
 mod marker;
 mod unchecked_iterator;
 
+#[unstable(issue = "none", feature = "inplace_iteration")]
+pub use self::marker::InPlaceIterable;
+#[unstable(feature = "trusted_step", issue = "85731")]
+pub use self::marker::TrustedStep;
+pub(crate) use self::unchecked_iterator::UncheckedIterator;
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use self::{
     accum::{Product, Sum},
@@ -15,10 +20,3 @@ pub use self::{
     iterator::Iterator,
     marker::{FusedIterator, TrustedLen},
 };
-
-#[unstable(issue = "none", feature = "inplace_iteration")]
-pub use self::marker::InPlaceIterable;
-#[unstable(feature = "trusted_step", issue = "85731")]
-pub use self::marker::TrustedStep;
-
-pub(crate) use self::unchecked_iterator::UncheckedIterator;

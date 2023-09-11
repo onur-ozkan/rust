@@ -28,9 +28,6 @@
 //! expression, `e as U2` is not necessarily so (in fact it will only be valid if
 //! `U1` coerces to `U2`).
 
-use super::FnCtxt;
-
-use crate::type_error_struct;
 use hir::ExprKind;
 use rustc_errors::{
     struct_span_err, Applicability, DelayDm, Diagnostic, DiagnosticBuilder, ErrorGuaranteed,
@@ -48,6 +45,9 @@ use rustc_span::def_id::{DefId, LOCAL_CRATE};
 use rustc_span::symbol::sym;
 use rustc_span::Span;
 use rustc_trait_selection::infer::InferCtxtExt;
+
+use super::FnCtxt;
+use crate::type_error_struct;
 
 /// Reifies a cast check to be checked once we have full type information for
 /// a function context.

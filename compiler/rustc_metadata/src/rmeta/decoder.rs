@@ -1,9 +1,14 @@
 // Decoding metadata from a single crate's metadata
 
-use crate::creader::{CStore, CrateMetadataRef};
-use crate::rmeta::table::IsDefault;
-use crate::rmeta::*;
+use std::iter::TrustedLen;
+use std::num::NonZeroUsize;
+use std::path::Path;
+use std::sync::atomic::Ordering;
+use std::{io, iter, mem};
 
+pub(super) use cstore_impl::provide;
+pub use cstore_impl::provide_extern;
+use proc_macro::bridge::client::ProcMacro;
 use rustc_ast as ast;
 use rustc_data_structures::captures::Captures;
 use rustc_data_structures::fx::FxHashMap;
@@ -33,19 +38,13 @@ use rustc_session::cstore::{
 };
 use rustc_session::Session;
 use rustc_span::hygiene::ExpnIndex;
+use rustc_span::hygiene::HygieneDecodeContext;
 use rustc_span::symbol::{kw, Ident, Symbol};
 use rustc_span::{self, BytePos, ExpnId, Pos, Span, SpanData, SyntaxContext, DUMMY_SP};
 
-use proc_macro::bridge::client::ProcMacro;
-use std::iter::TrustedLen;
-use std::num::NonZeroUsize;
-use std::path::Path;
-use std::sync::atomic::Ordering;
-use std::{io, iter, mem};
-
-pub(super) use cstore_impl::provide;
-pub use cstore_impl::provide_extern;
-use rustc_span::hygiene::HygieneDecodeContext;
+use crate::creader::{CStore, CrateMetadataRef};
+use crate::rmeta::table::IsDefault;
+use crate::rmeta::*;
 
 mod cstore_impl;
 

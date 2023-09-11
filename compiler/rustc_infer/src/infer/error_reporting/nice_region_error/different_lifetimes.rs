@@ -1,6 +1,11 @@
 //! Error Reporting for Anonymous Region Lifetime Errors
 //! where both the regions are anonymous.
 
+use rustc_errors::AddToDiagnostic;
+use rustc_errors::{Diagnostic, ErrorGuaranteed};
+use rustc_hir::Ty;
+use rustc_middle::ty::Region;
+
 use crate::errors::AddLifetimeParamsSuggestion;
 use crate::errors::LifetimeMismatch;
 use crate::errors::LifetimeMismatchLabels;
@@ -10,11 +15,6 @@ use crate::infer::error_reporting::nice_region_error::NiceRegionError;
 use crate::infer::lexical_region_resolve::RegionResolutionError;
 use crate::infer::SubregionOrigin;
 use crate::infer::TyCtxt;
-
-use rustc_errors::AddToDiagnostic;
-use rustc_errors::{Diagnostic, ErrorGuaranteed};
-use rustc_hir::Ty;
-use rustc_middle::ty::Region;
 
 impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
     /// Print the error message for lifetime errors when both the concerned regions are anonymous.

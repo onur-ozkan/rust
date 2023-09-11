@@ -1,8 +1,9 @@
 //! Checks the licenses of third-party dependencies.
 
-use cargo_metadata::{DepKindInfo, Metadata, Package, PackageId};
 use std::collections::HashSet;
 use std::path::Path;
+
+use cargo_metadata::{DepKindInfo, Metadata, Package, PackageId};
 
 /// These are licenses that are allowed for all crates, including the runtime,
 /// rustc, tools, etc.
@@ -518,8 +519,9 @@ fn check_permitted_dependencies(
     let mut deps = HashSet::new();
     for to_check in restricted_dependency_crates {
         let to_check = pkg_from_name(metadata, to_check);
-        use cargo_platform::Cfg;
         use std::str::FromStr;
+
+        use cargo_platform::Cfg;
         // We don't expect the compiler to ever run on wasm32, so strip
         // out those dependencies to avoid polluting the permitted list.
         deps_of_filtered(metadata, &to_check.id, &mut deps, &|dep_kinds| {

@@ -15,6 +15,7 @@ use std::path::{Path, PathBuf};
 use std::string::ToString;
 use std::sync::mpsc::Sender;
 use std::thread::available_parallelism;
+
 use threadpool::ThreadPool;
 
 pub(crate) trait PathError {

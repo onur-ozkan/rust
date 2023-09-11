@@ -1,12 +1,5 @@
-use crate::{
-    hir::place::Place as HirPlace,
-    infer::canonical::Canonical,
-    traits::ObligationCause,
-    ty::{
-        self, tls, BindingMode, BoundVar, CanonicalPolyFnSig, ClosureSizeProfileData,
-        GenericArgKind, GenericArgs, GenericArgsRef, Ty, UserArgs,
-    },
-};
+use std::{collections::hash_map::Entry, hash::Hash, iter};
+
 use rustc_data_structures::{
     fx::FxIndexMap,
     unord::{ExtendUnord, UnordItems, UnordSet},
@@ -25,9 +18,17 @@ use rustc_middle::mir::FakeReadCause;
 use rustc_session::Session;
 use rustc_span::Span;
 use rustc_target::abi::FieldIdx;
-use std::{collections::hash_map::Entry, hash::Hash, iter};
 
 use super::RvalueScopes;
+use crate::{
+    hir::place::Place as HirPlace,
+    infer::canonical::Canonical,
+    traits::ObligationCause,
+    ty::{
+        self, tls, BindingMode, BoundVar, CanonicalPolyFnSig, ClosureSizeProfileData,
+        GenericArgKind, GenericArgs, GenericArgsRef, Ty, UserArgs,
+    },
+};
 
 #[derive(TyEncodable, TyDecodable, Debug, HashStable)]
 pub struct TypeckResults<'tcx> {

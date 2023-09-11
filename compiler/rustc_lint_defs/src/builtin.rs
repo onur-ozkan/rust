@@ -4,9 +4,10 @@
 //! compiler code, rather than using their own custom pass. Those
 //! lints are all available in `rustc_lint::builtin`.
 
-use crate::{declare_lint, declare_lint_pass, FutureIncompatibilityReason};
 use rustc_span::edition::Edition;
 use rustc_span::symbol::sym;
+
+use crate::{declare_lint, declare_lint_pass, FutureIncompatibilityReason};
 
 declare_lint! {
     /// The `forbidden_lint_groups` lint detects violations of

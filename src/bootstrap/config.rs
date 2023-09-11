@@ -17,6 +17,12 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::str::FromStr;
 
+use build_helper::exit;
+use once_cell::sync::OnceCell;
+use semver::Version;
+use serde::{Deserialize, Deserializer};
+use serde_derive::Deserialize;
+
 use crate::cache::{Interned, INTERNER};
 use crate::cc_detect::{ndk_compiler, Language};
 use crate::channel::{self, GitInfo};
@@ -24,11 +30,6 @@ use crate::compile::CODEGEN_BACKEND_PREFIX;
 pub use crate::flags::Subcommand;
 use crate::flags::{Color, Flags, Warnings};
 use crate::util::{exe, output, t};
-use build_helper::exit;
-use once_cell::sync::OnceCell;
-use semver::Version;
-use serde::{Deserialize, Deserializer};
-use serde_derive::Deserialize;
 
 macro_rules! check_ci_llvm {
     ($name:expr) => {

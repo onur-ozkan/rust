@@ -1,5 +1,5 @@
-use super::{ObligationCauseCode, PredicateObligation};
-use crate::infer::error_reporting::TypeErrCtxt;
+use std::iter;
+
 use rustc_ast::{MetaItem, NestedMetaItem};
 use rustc_attr as attr;
 use rustc_data_structures::fx::FxHashMap;
@@ -11,13 +11,13 @@ use rustc_middle::ty::{self, GenericParamDefKind, TyCtxt};
 use rustc_parse_format::{ParseMode, Parser, Piece, Position};
 use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_span::{Span, DUMMY_SP};
-use std::iter;
 
+use super::InferCtxtPrivExt;
+use super::{ObligationCauseCode, PredicateObligation};
 use crate::errors::{
     EmptyOnClauseInOnUnimplemented, InvalidOnClauseInOnUnimplemented, NoValueInOnUnimplemented,
 };
-
-use super::InferCtxtPrivExt;
+use crate::infer::error_reporting::TypeErrCtxt;
 
 pub trait TypeErrCtxtExt<'tcx> {
     /*private*/

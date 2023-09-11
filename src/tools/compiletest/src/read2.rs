@@ -4,10 +4,11 @@
 #[cfg(test)]
 mod tests;
 
-pub use self::imp::read2;
 use std::io::{self, Write};
 use std::mem::replace;
 use std::process::{Child, Output};
+
+pub use self::imp::read2;
 
 pub fn read2_abbreviated(mut child: Child, filter_paths_from_len: &[String]) -> io::Result<Output> {
     let mut stdout = ProcOutput::new();

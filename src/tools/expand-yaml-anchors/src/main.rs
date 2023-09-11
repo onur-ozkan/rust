@@ -1,5 +1,6 @@
 use std::error::Error;
 use std::path::{Path, PathBuf};
+
 use yaml_rust::{Yaml, YamlEmitter, YamlLoader};
 
 /// List of directories containing files to expand. The first tuple element is the source

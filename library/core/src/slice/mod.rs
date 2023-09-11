@@ -48,56 +48,41 @@ mod specialize;
 #[unstable(feature = "str_internals", issue = "none")]
 #[doc(hidden)]
 pub use ascii::is_ascii_simple;
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use iter::{Chunks, ChunksMut, Windows};
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use iter::{Iter, IterMut};
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use iter::{RSplitN, RSplitNMut, Split, SplitMut, SplitN, SplitNMut};
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
-pub use iter::{RSplit, RSplitMut};
-
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-pub use iter::{ChunksExact, ChunksExactMut};
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-pub use iter::{RChunks, RChunksExact, RChunksExactMut, RChunksMut};
-
-#[unstable(feature = "array_chunks", issue = "74985")]
-pub use iter::{ArrayChunks, ArrayChunksMut};
-
+#[stable(feature = "inherent_ascii_escape", since = "1.60.0")]
+pub use ascii::EscapeAscii;
+#[unstable(feature = "slice_range", issue = "76393")]
+pub use index::range;
+#[stable(feature = "slice_get_slice", since = "1.28.0")]
+pub use index::SliceIndex;
 #[unstable(feature = "array_windows", issue = "75027")]
 pub use iter::ArrayWindows;
-
+#[unstable(feature = "array_chunks", issue = "74985")]
+pub use iter::{ArrayChunks, ArrayChunksMut};
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use iter::{Chunks, ChunksMut, Windows};
+#[stable(feature = "chunks_exact", since = "1.31.0")]
+pub use iter::{ChunksExact, ChunksExactMut};
 #[unstable(feature = "slice_group_by", issue = "80552")]
 pub use iter::{GroupBy, GroupByMut};
-
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use iter::{Iter, IterMut};
+#[stable(feature = "rchunks", since = "1.31.0")]
+pub use iter::{RChunks, RChunksExact, RChunksExactMut, RChunksMut};
+#[stable(feature = "slice_rsplit", since = "1.27.0")]
+pub use iter::{RSplit, RSplitMut};
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use iter::{RSplitN, RSplitNMut, Split, SplitMut, SplitN, SplitNMut};
 #[stable(feature = "split_inclusive", since = "1.51.0")]
 pub use iter::{SplitInclusive, SplitInclusiveMut};
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use raw::{from_raw_parts, from_raw_parts_mut};
-
 #[stable(feature = "from_ref", since = "1.28.0")]
 pub use raw::{from_mut, from_ref};
-
 #[unstable(feature = "slice_from_ptr_range", issue = "89792")]
 pub use raw::{from_mut_ptr_range, from_ptr_range};
-
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use raw::{from_raw_parts, from_raw_parts_mut};
 // This function is public only because there is no other way to unit test heapsort.
 #[unstable(feature = "sort_internals", reason = "internal to sort module", issue = "none")]
 pub use sort::heapsort;
-
-#[stable(feature = "slice_get_slice", since = "1.28.0")]
-pub use index::SliceIndex;
-
-#[unstable(feature = "slice_range", issue = "76393")]
-pub use index::range;
-
-#[stable(feature = "inherent_ascii_escape", since = "1.60.0")]
-pub use ascii::EscapeAscii;
 
 /// Calculates the direction and split point of a one-sided range.
 ///

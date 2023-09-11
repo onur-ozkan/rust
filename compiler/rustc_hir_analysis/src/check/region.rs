@@ -6,6 +6,8 @@
 //!
 //! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/borrow_check.html
 
+use std::mem;
+
 use rustc_ast::walk_list;
 use rustc_data_structures::fx::FxHashSet;
 use rustc_hir as hir;
@@ -17,8 +19,6 @@ use rustc_middle::middle::region::*;
 use rustc_middle::ty::TyCtxt;
 use rustc_span::source_map;
 use rustc_span::Span;
-
-use std::mem;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Context {

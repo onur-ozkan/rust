@@ -5,14 +5,7 @@
 //! unexpanded macros in the fragment are visited and registered.
 //! Imports are also considered items and placed into modules here, but not resolved yet.
 
-use crate::def_collector::collect_definitions;
-use crate::imports::{ImportData, ImportKind};
-use crate::macros::{MacroRulesBinding, MacroRulesScope, MacroRulesScopeRef};
-use crate::Namespace::{self, MacroNS, TypeNS, ValueNS};
-use crate::{errors, BindingKey, MacroData, NameBindingData};
-use crate::{Determinacy, ExternPreludeEntry, Finalize, Module, ModuleKind, ModuleOrUniformRoot};
-use crate::{NameBinding, NameBindingKind, ParentScope, PathResult, PerNS, ResolutionError};
-use crate::{Resolver, ResolverArenas, Segment, ToNameBinding, VisResolutionError};
+use std::cell::Cell;
 
 use rustc_ast::visit::{self, AssocCtxt, Visitor};
 use rustc_ast::{self as ast, AssocItem, AssocItemKind, MetaItemKind, StmtKind};
@@ -30,7 +23,14 @@ use rustc_span::hygiene::{ExpnId, LocalExpnId, MacroKind};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::Span;
 
-use std::cell::Cell;
+use crate::def_collector::collect_definitions;
+use crate::imports::{ImportData, ImportKind};
+use crate::macros::{MacroRulesBinding, MacroRulesScope, MacroRulesScopeRef};
+use crate::Namespace::{self, MacroNS, TypeNS, ValueNS};
+use crate::{errors, BindingKey, MacroData, NameBindingData};
+use crate::{Determinacy, ExternPreludeEntry, Finalize, Module, ModuleKind, ModuleOrUniformRoot};
+use crate::{NameBinding, NameBindingKind, ParentScope, PathResult, PerNS, ResolutionError};
+use crate::{Resolver, ResolverArenas, Segment, ToNameBinding, VisResolutionError};
 
 type Res = def::Res<NodeId>;
 

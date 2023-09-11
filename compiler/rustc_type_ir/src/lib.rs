@@ -13,13 +13,14 @@ extern crate bitflags;
 #[macro_use]
 extern crate rustc_macros;
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::unify::{EqUnifyValue, UnifyKey};
-use smallvec::SmallVec;
 use std::fmt;
 use std::fmt::Debug;
 use std::hash::Hash;
 use std::mem::discriminant;
+
+use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use rustc_data_structures::unify::{EqUnifyValue, UnifyKey};
+use smallvec::SmallVec;
 
 pub mod codec;
 pub mod fold;

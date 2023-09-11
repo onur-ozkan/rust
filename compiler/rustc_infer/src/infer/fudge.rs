@@ -1,15 +1,14 @@
+use std::ops::Range;
+
+use rustc_data_structures::snapshot_vec as sv;
+use rustc_data_structures::unify as ut;
 use rustc_middle::ty::fold::{TypeFoldable, TypeFolder, TypeSuperFoldable};
 use rustc_middle::ty::{self, ConstVid, FloatVid, IntVid, RegionVid, Ty, TyCtxt, TyVid};
+use ut::UnifyKey;
 
 use super::type_variable::TypeVariableOrigin;
 use super::InferCtxt;
 use super::{ConstVariableOrigin, RegionVariableOrigin, UnificationTable};
-
-use rustc_data_structures::snapshot_vec as sv;
-use rustc_data_structures::unify as ut;
-use ut::UnifyKey;
-
-use std::ops::Range;
 
 fn vars_since_snapshot<'tcx, T>(
     table: &mut UnificationTable<'_, 'tcx, T>,

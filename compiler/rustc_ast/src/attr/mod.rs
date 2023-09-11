@@ -1,5 +1,13 @@
 //! Functions dealing with attributes and meta items.
 
+use std::iter;
+use std::sync::atomic::{AtomicU32, Ordering};
+
+use rustc_index::bit_set::GrowableBitSet;
+use rustc_span::symbol::{sym, Ident, Symbol};
+use rustc_span::Span;
+use thin_vec::{thin_vec, ThinVec};
+
 use crate::ast::{AttrArgs, AttrArgsEq, AttrId, AttrItem, AttrKind, AttrStyle, AttrVec, Attribute};
 use crate::ast::{DelimArgs, Expr, ExprKind, LitKind, MetaItemLit};
 use crate::ast::{MetaItem, MetaItemKind, NestedMetaItem, NormalAttr};
@@ -10,12 +18,6 @@ use crate::tokenstream::{DelimSpan, Spacing, TokenTree};
 use crate::tokenstream::{LazyAttrTokenStream, TokenStream};
 use crate::util::comments;
 use crate::util::literal::escape_string_symbol;
-use rustc_index::bit_set::GrowableBitSet;
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
-use std::iter;
-use std::sync::atomic::{AtomicU32, Ordering};
-use thin_vec::{thin_vec, ThinVec};
 
 pub struct MarkedAttrs(GrowableBitSet<AttrId>);
 

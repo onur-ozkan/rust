@@ -2,14 +2,16 @@
 //!
 //! [work products]: WorkProduct
 
-use crate::errors;
-use crate::persist::fs::*;
+use std::fs as std_fs;
+use std::path::Path;
+
 use rustc_data_structures::unord::UnordMap;
 use rustc_fs_util::link_or_copy;
 use rustc_middle::dep_graph::{WorkProduct, WorkProductId};
 use rustc_session::Session;
-use std::fs as std_fs;
-use std::path::Path;
+
+use crate::errors;
+use crate::persist::fs::*;
 
 /// Copies a CGU work product to the incremental compilation directory, so next compilation can find and reuse it.
 pub fn copy_cgu_workproduct_to_incr_comp_cache_dir(

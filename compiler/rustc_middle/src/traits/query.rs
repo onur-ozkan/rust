@@ -5,17 +5,19 @@
 //! The providers for the queries defined here can be found in
 //! `rustc_traits`.
 
+use rustc_span::source_map::Span;
+
 use crate::error::DropCheckOverflow;
 use crate::infer::canonical::{Canonical, QueryResponse};
 use crate::ty::error::TypeError;
 use crate::ty::GenericArg;
 use crate::ty::{self, Ty, TyCtxt};
-use rustc_span::source_map::Span;
 
 pub mod type_op {
+    use std::fmt;
+
     use crate::ty::fold::TypeFoldable;
     use crate::ty::{Predicate, Ty, TyCtxt, UserType};
-    use std::fmt;
 
     #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, HashStable, Lift)]
     #[derive(TypeFoldable, TypeVisitable)]

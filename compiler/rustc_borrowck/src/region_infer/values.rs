@@ -1,5 +1,8 @@
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
+use std::fmt::Debug;
+use std::rc::Rc;
+
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_index::bit_set::SparseBitMatrix;
 use rustc_index::interval::IntervalSet;
@@ -8,8 +11,6 @@ use rustc_index::Idx;
 use rustc_index::IndexVec;
 use rustc_middle::mir::{BasicBlock, Body, Location};
 use rustc_middle::ty::{self, RegionVid};
-use std::fmt::Debug;
-use std::rc::Rc;
 
 /// Maps between a `Location` and a `PointIndex` (and vice versa).
 pub(crate) struct RegionValueElements {

@@ -1,11 +1,10 @@
 use std::ops::ControlFlow;
 
-use crate::rustc_internal::Opaque;
-
 use super::ty::{
     Allocation, Binder, Const, ConstDef, ConstantKind, ExistentialPredicate, FnSig, GenericArgKind,
     GenericArgs, Promoted, RigidTy, TermKind, Ty, TyKind, UnevaluatedConst,
 };
+use crate::rustc_internal::Opaque;
 
 pub trait Folder: Sized {
     type Break;

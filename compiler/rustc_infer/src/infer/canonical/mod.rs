@@ -21,16 +21,16 @@
 //!
 //! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
-use crate::infer::{ConstVariableOrigin, ConstVariableOriginKind};
-use crate::infer::{InferCtxt, RegionVariableOrigin, TypeVariableOrigin, TypeVariableOriginKind};
 use rustc_index::IndexVec;
+pub use rustc_middle::infer::canonical::*;
 use rustc_middle::ty::fold::TypeFoldable;
 use rustc_middle::ty::GenericArg;
 use rustc_middle::ty::{self, List, Ty, TyCtxt};
 use rustc_span::source_map::Span;
-
-pub use rustc_middle::infer::canonical::*;
 pub use substitute::CanonicalExt;
+
+use crate::infer::{ConstVariableOrigin, ConstVariableOriginKind};
+use crate::infer::{InferCtxt, RegionVariableOrigin, TypeVariableOrigin, TypeVariableOriginKind};
 
 mod canonicalizer;
 pub mod query_response;

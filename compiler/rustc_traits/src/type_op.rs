@@ -1,3 +1,5 @@
+use std::fmt;
+
 use rustc_infer::infer::canonical::{Canonical, QueryResponse};
 use rustc_infer::infer::TyCtxtInferExt;
 use rustc_middle::query::Providers;
@@ -14,7 +16,6 @@ use rustc_trait_selection::traits::query::type_op::normalize::Normalize;
 use rustc_trait_selection::traits::query::type_op::prove_predicate::ProvePredicate;
 use rustc_trait_selection::traits::query::type_op::subtype::Subtype;
 use rustc_trait_selection::traits::{Normalized, Obligation, ObligationCause, ObligationCtxt};
-use std::fmt;
 
 pub(crate) fn provide(p: &mut Providers) {
     *p = Providers {

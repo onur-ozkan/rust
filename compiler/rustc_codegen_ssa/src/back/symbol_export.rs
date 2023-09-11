@@ -1,5 +1,3 @@
-use crate::base::allocator_kind_for_codegen;
-
 use std::collections::hash_map::Entry::*;
 
 use rustc_ast::expand::allocator::{ALLOCATOR_METHODS, NO_ALLOC_SHIM_IS_UNSTABLE};
@@ -17,6 +15,8 @@ use rustc_middle::ty::{self, SymbolName, TyCtxt};
 use rustc_middle::ty::{GenericArgKind, GenericArgsRef};
 use rustc_session::config::{CrateType, OomStrategy};
 use rustc_target::spec::SanitizerSet;
+
+use crate::base::allocator_kind_for_codegen;
 
 pub fn threshold(tcx: TyCtxt<'_>) -> SymbolExportLevel {
     crates_export_threshold(tcx.crate_types())

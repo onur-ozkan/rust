@@ -102,11 +102,12 @@
 //! to use a pointer type to store something that may hold an integer, some of
 //! the time.
 
-use super::{Custom, ErrorData, ErrorKind, RawOsError, SimpleMessage};
 use alloc::boxed::Box;
 use core::marker::PhantomData;
 use core::mem::{align_of, size_of};
 use core::ptr::{self, NonNull};
+
+use super::{Custom, ErrorData, ErrorKind, RawOsError, SimpleMessage};
 
 // The 2 least-significant bits are used as tag.
 const TAG_MASK: usize = 0b11;

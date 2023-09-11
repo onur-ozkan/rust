@@ -1,6 +1,9 @@
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
 
+use std::fmt;
+use std::rc::Rc;
+
 use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed};
 use rustc_infer::infer::canonical::Canonical;
 use rustc_infer::infer::error_reporting::nice_region_error::NiceRegionError;
@@ -17,9 +20,6 @@ use rustc_span::Span;
 use rustc_trait_selection::traits::query::type_op;
 use rustc_trait_selection::traits::ObligationCtxt;
 use rustc_traits::{type_op_ascribe_user_type_with_span, type_op_prove_predicate_with_cause};
-
-use std::fmt;
-use std::rc::Rc;
 
 use crate::region_infer::values::RegionElement;
 use crate::session_diagnostics::HigherRankedErrorCause;

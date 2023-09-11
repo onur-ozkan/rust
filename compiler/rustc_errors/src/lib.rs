@@ -25,11 +25,16 @@ extern crate tracing;
 
 extern crate self as rustc_errors;
 
+use std::borrow::Cow;
+use std::error::Report;
+use std::fmt;
+use std::hash::Hash;
+use std::io::Write;
+use std::num::NonZeroUsize;
+use std::panic;
+use std::path::{Path, PathBuf};
+
 pub use emitter::ColorConfig;
-
-use rustc_lint_defs::LintExpectationId;
-use Level::*;
-
 use emitter::{is_case_difference, DynEmitter, Emitter, EmitterWriter};
 use registry::Registry;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexMap, FxIndexSet};
@@ -41,23 +46,15 @@ pub use rustc_error_messages::{
     LanguageIdentifier, LazyFallbackBundle, MultiSpan, SpanLabel, SubdiagnosticMessage,
 };
 use rustc_fluent_macro::fluent_messages;
+use rustc_lint_defs::LintExpectationId;
 pub use rustc_lint_defs::{pluralize, Applicability};
 use rustc_span::source_map::SourceMap;
 pub use rustc_span::ErrorGuaranteed;
 use rustc_span::{Loc, Span, DUMMY_SP};
-
-use std::borrow::Cow;
-use std::error::Report;
-use std::fmt;
-use std::hash::Hash;
-use std::io::Write;
-use std::num::NonZeroUsize;
-use std::panic;
-use std::path::{Path, PathBuf};
-
 // Used by external projects such as `rust-gpu`.
 // See https://github.com/rust-lang/rust/pull/115393.
 pub use termcolor::{Color, ColorSpec, WriteColor};
+use Level::*;
 
 pub mod annotate_snippet_emitter_writer;
 mod diagnostic;
@@ -396,7 +393,8 @@ pub struct ExplicitBug;
 /// rather than a failed assertion, etc.
 pub struct DelayedBugPanic;
 
-use crate::diagnostic_impls::{DelayedAtWithNewline, DelayedAtWithoutNewline};
+use std::backtrace::{Backtrace, BacktraceStatus};
+
 pub use diagnostic::{
     AddToDiagnostic, DecorateLint, Diagnostic, DiagnosticArg, DiagnosticArgValue, DiagnosticId,
     DiagnosticStyledString, IntoDiagnosticArg, SubDiagnostic,
@@ -407,7 +405,8 @@ pub use diagnostic_impls::{
     IndicateAnonymousLifetime, InvalidFlushedDelayedDiagnosticLevel, LabelKind,
     SingleLabelManySpans,
 };
-use std::backtrace::{Backtrace, BacktraceStatus};
+
+use crate::diagnostic_impls::{DelayedAtWithNewline, DelayedAtWithoutNewline};
 
 /// A handler deals with errors and other compiler output.
 /// Certain errors (fatal, bug, unimpl) may cause immediate exit,

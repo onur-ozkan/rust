@@ -19,8 +19,8 @@ mod llvm_x86;
 mod simd;
 
 pub(crate) use cpuid::codegen_cpuid_call;
+use cranelift_codegen::ir::AtomicRmwOp;
 pub(crate) use llvm::codegen_llvm_intrinsic_call;
-
 use rustc_middle::ty;
 use rustc_middle::ty::layout::{HasParamEnv, ValidityRequirement};
 use rustc_middle::ty::print::{with_no_trimmed_paths, with_no_visible_paths};
@@ -28,7 +28,6 @@ use rustc_middle::ty::GenericArgsRef;
 use rustc_span::symbol::{kw, sym, Symbol};
 
 use crate::prelude::*;
-use cranelift_codegen::ir::AtomicRmwOp;
 
 fn bug_on_incorrect_arg_count(intrinsic: impl std::fmt::Display) -> ! {
     bug!("wrong number of args for intrinsic {}", intrinsic);

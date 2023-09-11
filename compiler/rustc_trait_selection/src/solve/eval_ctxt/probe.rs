@@ -1,6 +1,8 @@
-use super::EvalCtxt;
-use rustc_middle::traits::solve::{inspect, QueryResult};
 use std::marker::PhantomData;
+
+use rustc_middle::traits::solve::{inspect, QueryResult};
+
+use super::EvalCtxt;
 
 pub(in crate::solve) struct ProbeCtxt<'me, 'a, 'tcx, F, T> {
     ecx: &'me mut EvalCtxt<'a, 'tcx>,

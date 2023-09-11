@@ -13,10 +13,8 @@
 //! and a borrowed `TokenStream` is sufficient to build an owned `TokenStream` without taking
 //! ownership of the original.
 
-use crate::ast::{AttrStyle, StmtKind};
-use crate::ast_traits::{HasAttrs, HasSpan, HasTokens};
-use crate::token::{self, Delimiter, Nonterminal, Token, TokenKind};
-use crate::AttrVec;
+use std::borrow::Cow;
+use std::{cmp, fmt, iter, mem};
 
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
 use rustc_data_structures::sync::{self, Lrc};
@@ -25,8 +23,10 @@ use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 use rustc_span::{sym, Span, Symbol, DUMMY_SP};
 use smallvec::{smallvec, SmallVec};
 
-use std::borrow::Cow;
-use std::{cmp, fmt, iter, mem};
+use crate::ast::{AttrStyle, StmtKind};
+use crate::ast_traits::{HasAttrs, HasSpan, HasTokens};
+use crate::token::{self, Delimiter, Nonterminal, Token, TokenKind};
+use crate::AttrVec;
 
 /// When the main Rust parser encounters a syntax-extension invocation, it
 /// parses the arguments to the invocation as a token tree. This is a very
@@ -739,8 +739,9 @@ impl DelimSpan {
 // Some types are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(AttrTokenStream, 8);
     static_assert_size!(AttrTokenTree, 32);

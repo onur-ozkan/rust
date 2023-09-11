@@ -1,10 +1,11 @@
 //! This module contains `HashStable` implementations for various HIR data
 //! types in no particular order.
 
-use crate::ich::hcx::BodyResolver;
-use crate::ich::StableHashingContext;
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
 use rustc_hir as hir;
+
+use crate::ich::hcx::BodyResolver;
+use crate::ich::StableHashingContext;
 
 impl<'ctx> rustc_hir::HashStableContext for StableHashingContext<'ctx> {
     #[inline]

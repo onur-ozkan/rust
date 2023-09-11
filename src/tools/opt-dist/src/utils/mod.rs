@@ -1,10 +1,12 @@
 pub mod io;
 
+use std::time::Duration;
+
+use humansize::{format_size, BINARY};
+use sysinfo::{DiskExt, RefreshKind, System, SystemExt};
+
 use crate::environment::Environment;
 use crate::utils::io::{delete_directory, get_files_from_dir};
-use humansize::{format_size, BINARY};
-use std::time::Duration;
-use sysinfo::{DiskExt, RefreshKind, System, SystemExt};
 
 pub fn format_env_variables() -> String {
     let vars = std::env::vars().map(|(key, value)| format!("{key}={value}")).collect::<Vec<_>>();

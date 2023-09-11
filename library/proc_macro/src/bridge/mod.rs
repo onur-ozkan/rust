@@ -8,7 +8,6 @@
 
 #![deny(unsafe_code)]
 
-use crate::{Delimiter, Level, Spacing};
 use std::fmt;
 use std::hash::Hash;
 use std::marker;
@@ -19,6 +18,8 @@ use std::panic;
 use std::sync::atomic::AtomicUsize;
 use std::sync::Once;
 use std::thread;
+
+use crate::{Delimiter, Level, Spacing};
 
 /// Higher-order macro describing the server RPC API, allowing automatic
 /// generation of type-safe Rust APIs, both client-side and server-side.

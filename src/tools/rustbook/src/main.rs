@@ -1,10 +1,8 @@
-use clap::crate_version;
-
 use std::env;
 use std::path::{Path, PathBuf};
 
+use clap::crate_version;
 use clap::{arg, ArgMatches, Command};
-
 use mdbook::errors::Result as Result3;
 use mdbook::MDBook;
 

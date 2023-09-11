@@ -1,12 +1,13 @@
 #![allow(dead_code)]
 
+use core::hash::{Hash, Hasher};
+
 use crate::cmp::Ordering;
 use crate::ops::{Add, AddAssign, Sub, SubAssign};
 use crate::sys::hermit::abi;
 use crate::sys::hermit::abi::timespec;
 use crate::sys::hermit::abi::{CLOCK_MONOTONIC, CLOCK_REALTIME, NSEC_PER_SEC};
 use crate::time::Duration;
-use core::hash::{Hash, Hasher};
 
 #[derive(Copy, Clone, Debug)]
 struct Timespec {

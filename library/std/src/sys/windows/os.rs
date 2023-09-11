@@ -5,19 +5,17 @@
 #[cfg(test)]
 mod tests;
 
-use crate::os::windows::prelude::*;
-
+use super::to_u16s;
 use crate::error::Error as StdError;
 use crate::ffi::{OsStr, OsString};
 use crate::fmt;
 use crate::io;
 use crate::os::windows::ffi::EncodeWide;
+use crate::os::windows::prelude::*;
 use crate::path::{self, PathBuf};
 use crate::ptr;
 use crate::slice;
 use crate::sys::{c, cvt};
-
-use super::to_u16s;
 
 pub fn errno() -> i32 {
     unsafe { c::GetLastError() as i32 }

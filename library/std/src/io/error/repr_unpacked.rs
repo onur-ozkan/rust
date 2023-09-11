@@ -2,8 +2,9 @@
 //! non-64bit targets, where the packed 64 bit representation wouldn't work, and
 //! would have no benefit.
 
-use super::{Custom, ErrorData, ErrorKind, RawOsError, SimpleMessage};
 use alloc::boxed::Box;
+
+use super::{Custom, ErrorData, ErrorKind, RawOsError, SimpleMessage};
 
 type Inner = ErrorData<Box<Custom>>;
 

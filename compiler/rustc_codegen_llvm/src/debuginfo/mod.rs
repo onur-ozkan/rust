@@ -1,23 +1,13 @@
 #![doc = include_str!("doc.md")]
 
-use rustc_codegen_ssa::mir::debuginfo::VariableKind::*;
+use std::cell::OnceCell;
+use std::cell::RefCell;
+use std::iter;
+use std::ops::Range;
 
-use self::metadata::{file_metadata, type_di_node};
-use self::metadata::{UNKNOWN_COLUMN_NUMBER, UNKNOWN_LINE_NUMBER};
-use self::namespace::mangled_name_of_instance;
-use self::utils::{create_DIArray, is_node_local_to_unit, DIB};
-
-use crate::abi::FnAbi;
-use crate::builder::Builder;
-use crate::common::CodegenCx;
-use crate::llvm;
-use crate::llvm::debuginfo::{
-    DIArray, DIBuilder, DIFile, DIFlags, DILexicalBlock, DILocation, DISPFlags, DIScope, DIType,
-    DIVariable,
-};
-use crate::value::Value;
-
+use libc::c_uint;
 use rustc_codegen_ssa::debuginfo::type_names;
+use rustc_codegen_ssa::mir::debuginfo::VariableKind::*;
 use rustc_codegen_ssa::mir::debuginfo::{DebugScope, FunctionDebugContext, VariableKind};
 use rustc_codegen_ssa::traits::*;
 use rustc_data_structures::fx::FxHashMap;
@@ -34,13 +24,21 @@ use rustc_session::Session;
 use rustc_span::symbol::Symbol;
 use rustc_span::{self, BytePos, Pos, SourceFile, SourceFileAndLine, SourceFileHash, Span};
 use rustc_target::abi::Size;
-
-use libc::c_uint;
 use smallvec::SmallVec;
-use std::cell::OnceCell;
-use std::cell::RefCell;
-use std::iter;
-use std::ops::Range;
+
+use self::metadata::{file_metadata, type_di_node};
+use self::metadata::{UNKNOWN_COLUMN_NUMBER, UNKNOWN_LINE_NUMBER};
+use self::namespace::mangled_name_of_instance;
+use self::utils::{create_DIArray, is_node_local_to_unit, DIB};
+use crate::abi::FnAbi;
+use crate::builder::Builder;
+use crate::common::CodegenCx;
+use crate::llvm;
+use crate::llvm::debuginfo::{
+    DIArray, DIBuilder, DIFile, DIFlags, DILexicalBlock, DILocation, DISPFlags, DIScope, DIType,
+    DIVariable,
+};
+use crate::value::Value;
 
 mod create_scope_map;
 pub mod gdb;

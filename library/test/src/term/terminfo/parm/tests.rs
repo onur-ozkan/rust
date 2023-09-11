@@ -1,6 +1,6 @@
-use super::*;
-
 use std::result::Result::Ok;
+
+use super::*;
 
 #[test]
 fn test_basic_setabf() {

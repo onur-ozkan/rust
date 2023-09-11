@@ -1,5 +1,4 @@
-pub use self::Mode::*;
-
+use std::collections::{HashMap, HashSet};
 use std::ffi::OsString;
 use std::fmt;
 use std::iter;
@@ -7,11 +6,12 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::str::FromStr;
 
-use crate::util::{add_dylib_path, PathBufExt};
 use lazycell::AtomicLazyCell;
 use serde::de::{Deserialize, Deserializer, Error as _};
-use std::collections::{HashMap, HashSet};
 use test::{ColorConfig, OutputFormat};
+
+pub use self::Mode::*;
+use crate::util::{add_dylib_path, PathBufExt};
 
 macro_rules! string_enum {
     ($(#[$meta:meta])* $vis:vis enum $name:ident { $($variant:ident => $repr:expr,)* }) => {

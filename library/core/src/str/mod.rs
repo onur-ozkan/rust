@@ -15,7 +15,6 @@ mod validations;
 
 use self::pattern::Pattern;
 use self::pattern::{DoubleEndedSearcher, ReverseSearcher, Searcher};
-
 use crate::ascii;
 use crate::char::{self, EscapeDebugExtArgs};
 use crate::mem;
@@ -24,58 +23,42 @@ use crate::slice::{self, SliceIndex};
 pub mod pattern;
 
 mod lossy;
-#[unstable(feature = "utf8_chunks", issue = "99543")]
-pub use lossy::{Utf8Chunk, Utf8Chunks};
-
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use converts::{from_utf8, from_utf8_unchecked};
-
 #[stable(feature = "str_mut_extras", since = "1.20.0")]
 pub use converts::{from_utf8_mut, from_utf8_unchecked_mut};
-
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use error::{ParseBoolError, Utf8Error};
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use traits::FromStr;
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use iter::{Bytes, CharIndices, Chars, Lines, SplitWhitespace};
-
+#[stable(feature = "encode_utf16", since = "1.8.0")]
+pub use iter::EncodeUtf16;
 #[stable(feature = "rust1", since = "1.0.0")]
 #[allow(deprecated)]
 pub use iter::LinesAny;
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use iter::{RSplit, RSplitTerminator, Split, SplitTerminator};
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use iter::{RSplitN, SplitN};
-
-#[stable(feature = "str_matches", since = "1.2.0")]
-pub use iter::{Matches, RMatches};
-
-#[stable(feature = "str_match_indices", since = "1.5.0")]
-pub use iter::{MatchIndices, RMatchIndices};
-
-#[stable(feature = "encode_utf16", since = "1.8.0")]
-pub use iter::EncodeUtf16;
-
-#[stable(feature = "str_escape", since = "1.34.0")]
-pub use iter::{EscapeDebug, EscapeDefault, EscapeUnicode};
-
+use iter::MatchIndicesInternal;
 #[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
 pub use iter::SplitAsciiWhitespace;
-
 #[stable(feature = "split_inclusive", since = "1.51.0")]
 pub use iter::SplitInclusive;
-
+use iter::SplitInternal;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use iter::{Bytes, CharIndices, Chars, Lines, SplitWhitespace};
+#[stable(feature = "str_escape", since = "1.34.0")]
+pub use iter::{EscapeDebug, EscapeDefault, EscapeUnicode};
+#[stable(feature = "str_match_indices", since = "1.5.0")]
+pub use iter::{MatchIndices, RMatchIndices};
+#[stable(feature = "str_matches", since = "1.2.0")]
+pub use iter::{Matches, RMatches};
+use iter::{MatchesInternal, SplitNInternal};
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use iter::{RSplit, RSplitTerminator, Split, SplitTerminator};
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use iter::{RSplitN, SplitN};
+#[unstable(feature = "utf8_chunks", issue = "99543")]
+pub use lossy::{Utf8Chunk, Utf8Chunks};
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use traits::FromStr;
 #[unstable(feature = "str_internals", issue = "none")]
 pub use validations::{next_code_point, utf8_char_width};
-
-use iter::MatchIndicesInternal;
-use iter::SplitInternal;
-use iter::{MatchesInternal, SplitNInternal};
 
 #[inline(never)]
 #[cold]

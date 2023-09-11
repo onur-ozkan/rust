@@ -1,8 +1,5 @@
 //! Code related to processing overloaded binary and unary operators.
 
-use super::method::MethodCallee;
-use super::{has_expected_num_generic_args, FnCtxt};
-use crate::Expectation;
 use rustc_ast as ast;
 use rustc_errors::{self, struct_span_err, Applicability, Diagnostic, DiagnosticBuilder};
 use rustc_hir as hir;
@@ -21,6 +18,10 @@ use rustc_trait_selection::infer::InferCtxtExt;
 use rustc_trait_selection::traits::error_reporting::suggestions::TypeErrCtxtExt as _;
 use rustc_trait_selection::traits::{self, FulfillmentError, ObligationCtxt};
 use rustc_type_ir::sty::TyKind::*;
+
+use super::method::MethodCallee;
+use super::{has_expected_num_generic_args, FnCtxt};
+use crate::Expectation;
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// Checks a `a <op>= b`

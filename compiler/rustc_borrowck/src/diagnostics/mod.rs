@@ -1,9 +1,5 @@
 //! Borrow checker diagnostics.
 
-use crate::session_diagnostics::{
-    CaptureArgLabel, CaptureReasonLabel, CaptureReasonNote, CaptureReasonSuggest, CaptureVarCause,
-    CaptureVarKind, CaptureVarPathUseCause, OnClosureNote,
-};
 use itertools::Itertools;
 use rustc_errors::{Applicability, Diagnostic};
 use rustc_hir as hir;
@@ -31,6 +27,10 @@ use rustc_trait_selection::traits::{
 
 use super::borrow_set::BorrowData;
 use super::MirBorrowckCtxt;
+use crate::session_diagnostics::{
+    CaptureArgLabel, CaptureReasonLabel, CaptureReasonNote, CaptureReasonSuggest, CaptureVarCause,
+    CaptureVarKind, CaptureVarPathUseCause, OnClosureNote,
+};
 
 mod find_all_local_uses;
 mod find_use;
@@ -591,8 +591,9 @@ impl UseSpans<'_> {
         err: &mut Diagnostic,
         action: crate::InitializationRequiringAction,
     ) {
-        use crate::InitializationRequiringAction::*;
         use CaptureVarPathUseCause::*;
+
+        use crate::InitializationRequiringAction::*;
         if let UseSpans::ClosureUse { generator_kind, path_span, .. } = self {
             match generator_kind {
                 Some(_) => {

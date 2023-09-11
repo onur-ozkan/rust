@@ -1,10 +1,10 @@
+use std::assert_matches::assert_matches;
+
 use rustc_middle::ty::{
     layout::{LayoutCx, TyAndLayout},
     TyCtxt,
 };
 use rustc_target::abi::*;
-
-use std::assert_matches::assert_matches;
 
 /// Enforce some basic invariants on layouts.
 pub(super) fn sanity_check_layout<'tcx>(

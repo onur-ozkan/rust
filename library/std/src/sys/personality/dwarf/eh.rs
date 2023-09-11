@@ -11,9 +11,10 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused)]
 
-use super::DwarfReader;
 use core::mem;
 use core::ptr;
+
+use super::DwarfReader;
 
 pub const DW_EH_PE_omit: u8 = 0xFF;
 pub const DW_EH_PE_absptr: u8 = 0x00;

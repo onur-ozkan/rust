@@ -24,13 +24,14 @@
 #![allow(internal_features)]
 
 // Public reexports
+pub use cli::TestOpts;
+
 pub use self::bench::{black_box, Bencher};
 pub use self::console::run_tests_console;
 pub use self::options::{ColorConfig, Options, OutputFormat, RunIgnored, ShouldPanic};
 pub use self::types::TestName::*;
 pub use self::types::*;
 pub use self::ColorConfig::*;
-pub use cli::TestOpts;
 
 // Module to be used by rustc to compile tests in libtest
 pub mod test {
@@ -81,6 +82,7 @@ mod types;
 mod tests;
 
 use core::any::Any;
+
 use event::{CompletedTest, TestEvent};
 use helpers::concurrency::get_concurrency;
 use helpers::exit_code::get_exit_code;

@@ -1,3 +1,5 @@
+use std::hash::Hasher;
+
 /// Type metadata identifiers for LLVM Control Flow Integrity (CFI) and cross-language LLVM CFI
 /// support.
 ///
@@ -6,7 +8,6 @@
 use bitflags::bitflags;
 use rustc_middle::ty::{FnSig, Instance, Ty, TyCtxt};
 use rustc_target::abi::call::FnAbi;
-use std::hash::Hasher;
 use twox_hash::XxHash64;
 
 bitflags! {

@@ -1,3 +1,5 @@
+use std::ops::ControlFlow;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_hir::intravisit::Visitor;
 use rustc_hir::{def::DefKind, def_id::LocalDefId};
@@ -8,7 +10,6 @@ use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_middle::ty::{TypeSuperVisitable, TypeVisitable, TypeVisitor};
 use rustc_span::Span;
 use rustc_trait_selection::traits::check_args_compatible;
-use std::ops::ControlFlow;
 
 use crate::errors::{DuplicateArg, NotParam};
 

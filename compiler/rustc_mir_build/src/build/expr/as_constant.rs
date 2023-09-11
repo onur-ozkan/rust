@@ -1,6 +1,5 @@
 //! See docs in build/expr/mod.rs
 
-use crate::build::{parse_float_into_constval, Builder};
 use rustc_ast as ast;
 use rustc_middle::mir;
 use rustc_middle::mir::interpret::{
@@ -13,6 +12,8 @@ use rustc_middle::ty::{
 };
 use rustc_span::DUMMY_SP;
 use rustc_target::abi::Size;
+
+use crate::build::{parse_float_into_constval, Builder};
 
 impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// Compile `expr`, yielding a compile-time constant. Assumes that

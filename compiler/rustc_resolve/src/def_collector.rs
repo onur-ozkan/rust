@@ -1,4 +1,3 @@
-use crate::{ImplTraitContext, Resolver};
 use rustc_ast::visit::{self, FnKind};
 use rustc_ast::*;
 use rustc_expand::expand::AstFragment;
@@ -7,6 +6,8 @@ use rustc_hir::definitions::*;
 use rustc_span::hygiene::LocalExpnId;
 use rustc_span::symbol::sym;
 use rustc_span::Span;
+
+use crate::{ImplTraitContext, Resolver};
 
 pub(crate) fn collect_definitions(
     resolver: &mut Resolver<'_, '_>,

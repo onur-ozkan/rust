@@ -1,8 +1,5 @@
 use std::ops::Range;
 
-use crate::errors;
-use crate::lexer::unicode_chars::UNICODE_ARRAY;
-use crate::make_unclosed_delims_error;
 use rustc_ast::ast::{self, AttrStyle};
 use rustc_ast::token::{self, CommentKind, Delimiter, Token, TokenKind};
 use rustc_ast::tokenstream::TokenStream;
@@ -18,6 +15,10 @@ use rustc_session::lint::BuiltinLintDiagnostics;
 use rustc_session::parse::ParseSess;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::{edition::Edition, BytePos, Pos, Span};
+
+use crate::errors;
+use crate::lexer::unicode_chars::UNICODE_ARRAY;
+use crate::make_unclosed_delims_error;
 
 mod diagnostics;
 mod tokentrees;

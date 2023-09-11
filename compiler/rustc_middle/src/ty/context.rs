@@ -4,33 +4,15 @@
 
 pub mod tls;
 
-use crate::arena::Arena;
-use crate::dep_graph::{DepGraph, DepKindStruct};
-use crate::infer::canonical::CanonicalVarInfo;
-use crate::lint::struct_lint_level;
-use crate::metadata::ModChild;
-use crate::middle::codegen_fn_attrs::CodegenFnAttrs;
-use crate::middle::resolve_bound_vars;
-use crate::middle::stability;
-use crate::mir::interpret::{self, Allocation, ConstAllocation};
-use crate::mir::{Body, Local, Place, PlaceElem, ProjectionKind, Promoted};
-use crate::query::plumbing::QuerySystem;
-use crate::query::LocalCrate;
-use crate::query::Providers;
-use crate::query::{IntoQueryParam, TyCtxtAt};
-use crate::thir::Thir;
-use crate::traits;
-use crate::traits::solve;
-use crate::traits::solve::{
-    ExternalConstraints, ExternalConstraintsData, PredefinedOpaques, PredefinedOpaquesData,
-};
-use crate::ty::{
-    self, AdtDef, AdtDefData, AdtKind, Binder, Clause, Const, ConstData, GenericParamDefKind,
-    ImplPolarity, InferTy, List, ParamConst, ParamTy, PolyExistentialPredicate, PolyFnSig,
-    Predicate, PredicateKind, Region, RegionKind, ReprOptions, TraitObjectVisitor, Ty, TyKind,
-    TyVid, TypeAndMut, Visibility,
-};
-use crate::ty::{GenericArg, GenericArgs, GenericArgsRef};
+use std::any::Any;
+use std::borrow::Borrow;
+use std::cmp::Ordering;
+use std::fmt;
+use std::hash::{Hash, Hasher};
+use std::iter;
+use std::mem;
+use std::ops::{Bound, Deref};
+
 use rustc_ast::{self as ast, attr};
 use rustc_data_structures::fingerprint::Fingerprint;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
@@ -69,14 +51,33 @@ use rustc_type_ir::sty::TyKind::*;
 use rustc_type_ir::WithCachedTypeInfo;
 use rustc_type_ir::{CollectAndApply, Interner, TypeFlags};
 
-use std::any::Any;
-use std::borrow::Borrow;
-use std::cmp::Ordering;
-use std::fmt;
-use std::hash::{Hash, Hasher};
-use std::iter;
-use std::mem;
-use std::ops::{Bound, Deref};
+use crate::arena::Arena;
+use crate::dep_graph::{DepGraph, DepKindStruct};
+use crate::infer::canonical::CanonicalVarInfo;
+use crate::lint::struct_lint_level;
+use crate::metadata::ModChild;
+use crate::middle::codegen_fn_attrs::CodegenFnAttrs;
+use crate::middle::resolve_bound_vars;
+use crate::middle::stability;
+use crate::mir::interpret::{self, Allocation, ConstAllocation};
+use crate::mir::{Body, Local, Place, PlaceElem, ProjectionKind, Promoted};
+use crate::query::plumbing::QuerySystem;
+use crate::query::LocalCrate;
+use crate::query::Providers;
+use crate::query::{IntoQueryParam, TyCtxtAt};
+use crate::thir::Thir;
+use crate::traits;
+use crate::traits::solve;
+use crate::traits::solve::{
+    ExternalConstraints, ExternalConstraintsData, PredefinedOpaques, PredefinedOpaquesData,
+};
+use crate::ty::{
+    self, AdtDef, AdtDefData, AdtKind, Binder, Clause, Const, ConstData, GenericParamDefKind,
+    ImplPolarity, InferTy, List, ParamConst, ParamTy, PolyExistentialPredicate, PolyFnSig,
+    Predicate, PredicateKind, Region, RegionKind, ReprOptions, TraitObjectVisitor, Ty, TyKind,
+    TyVid, TypeAndMut, Visibility,
+};
+use crate::ty::{GenericArg, GenericArgs, GenericArgsRef};
 
 #[allow(rustc::usage_of_ty_tykind)]
 impl<'tcx> Interner for TyCtxt<'tcx> {

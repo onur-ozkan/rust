@@ -12,10 +12,6 @@ pub use self::caches::{
 };
 
 mod config;
-pub use self::config::{HashResult, QueryConfig};
-
-use crate::dep_graph::DepKind;
-use crate::dep_graph::{DepNodeIndex, HasDepContext, SerializedDepNodeIndex};
 use rustc_data_structures::stable_hasher::Hash64;
 use rustc_data_structures::sync::Lock;
 use rustc_errors::Diagnostic;
@@ -23,6 +19,10 @@ use rustc_hir::def::DefKind;
 use rustc_span::def_id::DefId;
 use rustc_span::Span;
 use thin_vec::ThinVec;
+
+pub use self::config::{HashResult, QueryConfig};
+use crate::dep_graph::DepKind;
+use crate::dep_graph::{DepNodeIndex, HasDepContext, SerializedDepNodeIndex};
 
 /// Description of a frame in the query stack.
 ///

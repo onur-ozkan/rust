@@ -17,9 +17,11 @@
 //! `// ignore-tidy-CHECK-NAME`.
 // ignore-tidy-dbg
 
-use crate::walk::{filter_dirs, walk};
-use regex::{Regex, RegexSet};
 use std::{ffi::OsStr, path::Path};
+
+use regex::{Regex, RegexSet};
+
+use crate::walk::{filter_dirs, walk};
 
 /// Error code markdown is restricted to 80 columns because they can be
 /// displayed on the console with --example.

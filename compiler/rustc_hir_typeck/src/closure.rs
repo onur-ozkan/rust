@@ -1,6 +1,8 @@
 //! Code for type-checking closure expressions.
 
-use super::{check_fn, Expectation, FnCtxt, GeneratorTypes};
+use std::cmp;
+use std::iter;
+use std::ops::ControlFlow;
 
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir as hir;
@@ -20,9 +22,8 @@ use rustc_target::spec::abi::Abi;
 use rustc_trait_selection::traits;
 use rustc_trait_selection::traits::error_reporting::ArgKind;
 use rustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
-use std::cmp;
-use std::iter;
-use std::ops::ControlFlow;
+
+use super::{check_fn, Expectation, FnCtxt, GeneratorTypes};
 
 /// What signature do we *expect* the closure to have from context?
 #[derive(Debug, Clone, TypeFoldable, TypeVisitable)]

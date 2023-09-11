@@ -42,6 +42,12 @@
 //!   progress, they can hit a performance cliff.
 //! * complexity
 
+#[cfg(not(all(target_os = "linux", target_env = "gnu")))]
+use libc::sendfile as sendfile64;
+#[cfg(all(target_os = "linux", target_env = "gnu"))]
+use libc::sendfile64;
+use libc::{EBADF, EINVAL, ENOSYS, EOPNOTSUPP, EOVERFLOW, EPERM, EXDEV};
+
 use crate::cmp::min;
 use crate::fs::{File, Metadata};
 use crate::io::copy::generic_copy;
@@ -59,11 +65,6 @@ use crate::ptr;
 use crate::sync::atomic::{AtomicBool, AtomicU8, Ordering};
 use crate::sys::cvt;
 use crate::sys::weak::syscall;
-#[cfg(not(all(target_os = "linux", target_env = "gnu")))]
-use libc::sendfile as sendfile64;
-#[cfg(all(target_os = "linux", target_env = "gnu"))]
-use libc::sendfile64;
-use libc::{EBADF, EINVAL, ENOSYS, EOPNOTSUPP, EOVERFLOW, EPERM, EXDEV};
 
 #[cfg(test)]
 mod tests;

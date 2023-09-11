@@ -1,13 +1,3 @@
-use crate::{
-    builtin::MISSING_DOCS,
-    context::{CheckLintNameResult, LintStore},
-    fluent_generated as fluent,
-    late::unerased_lint_store,
-    lints::{
-        DeprecatedLintName, IgnoredUnlessCrateSpecified, OverruledAttributeLint, RemovedLint,
-        RenamedLint, RenamedLintSuggestion, UnknownLint, UnknownLintSuggestion,
-    },
-};
 use rustc_ast as ast;
 use rustc_ast_pretty::pprust;
 use rustc_data_structures::fx::FxHashMap;
@@ -39,6 +29,16 @@ use rustc_span::{Span, DUMMY_SP};
 use crate::errors::{
     MalformedAttribute, MalformedAttributeSub, OverruledAttribute, OverruledAttributeSub,
     UnknownToolInScopedLint,
+};
+use crate::{
+    builtin::MISSING_DOCS,
+    context::{CheckLintNameResult, LintStore},
+    fluent_generated as fluent,
+    late::unerased_lint_store,
+    lints::{
+        DeprecatedLintName, IgnoredUnlessCrateSpecified, OverruledAttributeLint, RemovedLint,
+        RenamedLint, RenamedLintSuggestion, UnknownLint, UnknownLintSuggestion,
+    },
 };
 
 /// Collection of lint levels for the whole crate.

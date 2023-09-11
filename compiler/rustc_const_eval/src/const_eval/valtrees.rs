@@ -1,3 +1,8 @@
+use rustc_middle::ty::layout::{LayoutOf, TyAndLayout};
+use rustc_middle::ty::{self, ScalarInt, Ty, TyCtxt};
+use rustc_span::source_map::DUMMY_SP;
+use rustc_target::abi::VariantIdx;
+
 use super::eval_queries::{mk_eval_cx, op_to_const};
 use super::machine::CompileTimeEvalContext;
 use super::{ValTreeCreationError, ValTreeCreationResult, VALTREE_MAX_NODES};
@@ -7,10 +12,6 @@ use crate::interpret::{
     intern_const_alloc_recursive, ConstValue, ImmTy, Immediate, InternKind, MemPlaceMeta,
     MemoryKind, PlaceTy, Projectable, Scalar,
 };
-use rustc_middle::ty::layout::{LayoutOf, TyAndLayout};
-use rustc_middle::ty::{self, ScalarInt, Ty, TyCtxt};
-use rustc_span::source_map::DUMMY_SP;
-use rustc_target::abi::VariantIdx;
 
 #[instrument(skip(ecx), level = "debug")]
 fn branches<'tcx>(

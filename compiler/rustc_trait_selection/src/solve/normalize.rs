@@ -1,6 +1,3 @@
-use crate::traits::error_reporting::TypeErrCtxtExt;
-use crate::traits::query::evaluate_obligation::InferCtxtExt;
-use crate::traits::{needs_normalization, BoundVarReplacer, PlaceholderReplacer};
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_infer::infer::at::At;
 use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
@@ -13,6 +10,9 @@ use rustc_middle::ty::{FallibleTypeFolder, TypeSuperFoldable};
 use rustc_middle::ty::{TypeFoldable, TypeVisitableExt};
 
 use super::FulfillmentCtxt;
+use crate::traits::error_reporting::TypeErrCtxtExt;
+use crate::traits::query::evaluate_obligation::InferCtxtExt;
+use crate::traits::{needs_normalization, BoundVarReplacer, PlaceholderReplacer};
 
 /// Deeply normalize all aliases in `value`. This does not handle inference and expects
 /// its input to be already fully resolved.

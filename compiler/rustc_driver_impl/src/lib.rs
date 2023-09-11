@@ -19,6 +19,21 @@ extern crate tracing;
 
 pub extern crate rustc_plugin_impl as plugin;
 
+use std::cmp::max;
+use std::collections::BTreeMap;
+use std::env;
+use std::ffi::OsString;
+use std::fmt::Write as _;
+use std::fs;
+use std::io::{self, IsTerminal, Read, Write};
+use std::panic::{self, catch_unwind};
+use std::path::PathBuf;
+use std::process::{self, Command, Stdio};
+use std::str;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::OnceLock;
+use std::time::{Instant, SystemTime};
+
 use rustc_ast as ast;
 use rustc_codegen_ssa::{traits::CodegenBackend, CodegenErrors, CodegenResults};
 use rustc_data_structures::profiling::{
@@ -44,21 +59,6 @@ use rustc_span::source_map::{FileLoader, FileName};
 use rustc_span::symbol::sym;
 use rustc_target::json::ToJson;
 use rustc_target::spec::{Target, TargetTriple};
-
-use std::cmp::max;
-use std::collections::BTreeMap;
-use std::env;
-use std::ffi::OsString;
-use std::fmt::Write as _;
-use std::fs;
-use std::io::{self, IsTerminal, Read, Write};
-use std::panic::{self, catch_unwind};
-use std::path::PathBuf;
-use std::process::{self, Command, Stdio};
-use std::str;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::OnceLock;
-use std::time::{Instant, SystemTime};
 use time::format_description::well_known::Rfc3339;
 use time::OffsetDateTime;
 
@@ -725,7 +725,6 @@ fn print_crate_info(
     parse_attrs: bool,
 ) -> Compilation {
     use rustc_session::config::PrintKind::*;
-
     // This import prevents the following code from using the printing macros
     // used by the rest of the module. Within this function, we only write to
     // the output specified by `sess.io.output_file`.

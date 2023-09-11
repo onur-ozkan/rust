@@ -1,22 +1,12 @@
-pub use self::at::DefineOpaqueTypes;
-pub use self::freshen::TypeFreshener;
-pub use self::lexical_region_resolve::RegionResolutionError;
-pub use self::LateBoundRegionConversionTime::*;
-pub use self::RegionVariableOrigin::*;
-pub use self::SubregionOrigin::*;
-pub use self::ValuePairs::*;
+use std::cell::{Cell, RefCell};
+use std::fmt;
+
 pub use combine::ObligationEmittingRelation;
-use rustc_data_structures::undo_log::UndoLogs;
-
-use self::opaque_types::OpaqueTypeStorage;
-pub(crate) use self::undo_log::{InferCtxtUndoLogs, Snapshot, UndoLog};
-
-use crate::traits::{self, ObligationCause, PredicateObligations, TraitEngine, TraitEngineExt};
-
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_data_structures::sync::Lrc;
 use rustc_data_structures::undo_log::Rollback;
+use rustc_data_structures::undo_log::UndoLogs;
 use rustc_data_structures::unify as ut;
 use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed};
 use rustc_hir::def_id::{DefId, LocalDefId};
@@ -38,18 +28,25 @@ use rustc_middle::ty::{GenericArg, GenericArgKind, GenericArgs, GenericArgsRef};
 use rustc_span::symbol::Symbol;
 use rustc_span::Span;
 
-use std::cell::{Cell, RefCell};
-use std::fmt;
-
+pub use self::at::DefineOpaqueTypes;
 use self::combine::CombineFields;
 use self::error_reporting::TypeErrCtxt;
 use self::free_regions::RegionRelations;
+pub use self::freshen::TypeFreshener;
 use self::lexical_region_resolve::LexicalRegionResolutions;
+pub use self::lexical_region_resolve::RegionResolutionError;
+use self::opaque_types::OpaqueTypeStorage;
 use self::region_constraints::{GenericKind, VarInfos, VerifyBound};
 use self::region_constraints::{
     RegionConstraintCollector, RegionConstraintStorage, RegionSnapshot,
 };
 use self::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+pub(crate) use self::undo_log::{InferCtxtUndoLogs, Snapshot, UndoLog};
+pub use self::LateBoundRegionConversionTime::*;
+pub use self::RegionVariableOrigin::*;
+pub use self::SubregionOrigin::*;
+pub use self::ValuePairs::*;
+use crate::traits::{self, ObligationCause, PredicateObligations, TraitEngine, TraitEngineExt};
 
 pub mod at;
 pub mod canonical;

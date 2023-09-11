@@ -2,6 +2,8 @@
 // closely. The idea is that all reachable symbols are live, codes called
 // from live codes are live, and everything else is dead.
 
+use std::mem;
+
 use hir::def_id::{LocalDefIdMap, LocalDefIdSet};
 use itertools::Itertools;
 use rustc_data_structures::unord::UnordSet;
@@ -18,7 +20,6 @@ use rustc_middle::ty::{self, TyCtxt};
 use rustc_session::lint;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_target::abi::FieldIdx;
-use std::mem;
 
 use crate::errors::{
     ChangeFieldsToBeOfUnitType, IgnoredDerivedImpls, MultipleDeadCodes, ParentInfo,

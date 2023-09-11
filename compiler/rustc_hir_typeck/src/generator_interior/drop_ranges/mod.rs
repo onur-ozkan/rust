@@ -12,9 +12,9 @@
 //! The end result is a data structure that maps the post-order index of each node in the HIR tree
 //! to a set of values that are known to be dropped at that location.
 
-use self::cfg_build::build_control_flow_graph;
-use self::record_consumed_borrow::find_consumed_and_borrowed;
-use crate::FnCtxt;
+use std::collections::BTreeMap;
+use std::fmt::Debug;
+
 use hir::def_id::DefId;
 use hir::{Body, HirId, HirIdMap, Node};
 use rustc_data_structures::unord::{UnordMap, UnordSet};
@@ -24,8 +24,10 @@ use rustc_index::IndexVec;
 use rustc_middle::hir::map::Map;
 use rustc_middle::hir::place::{PlaceBase, PlaceWithHirId};
 use rustc_middle::ty;
-use std::collections::BTreeMap;
-use std::fmt::Debug;
+
+use self::cfg_build::build_control_flow_graph;
+use self::record_consumed_borrow::find_consumed_and_borrowed;
+use crate::FnCtxt;
 
 mod cfg_build;
 mod cfg_propagate;

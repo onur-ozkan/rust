@@ -1,12 +1,11 @@
 //! Definitions of integer that is known not to equal zero.
 
-use crate::fmt;
-use crate::ops::{BitOr, BitOrAssign, Div, Neg, Rem};
-use crate::str::FromStr;
-
 use super::from_str_radix;
 use super::{IntErrorKind, ParseIntError};
+use crate::fmt;
 use crate::intrinsics;
+use crate::ops::{BitOr, BitOrAssign, Div, Neg, Rem};
+use crate::str::FromStr;
 
 macro_rules! impl_nonzero_fmt {
     ( #[$stability: meta] ( $( $Trait: ident ),+ ) for $Ty: ident ) => {

@@ -1,9 +1,9 @@
-use crate::tests::string_to_stream;
-
 use rustc_ast::token;
 use rustc_ast::tokenstream::{TokenStream, TokenTree};
 use rustc_span::create_default_session_globals_then;
 use rustc_span::{BytePos, Span, Symbol};
+
+use crate::tests::string_to_stream;
 
 fn string_to_ts(string: &str) -> TokenStream {
     string_to_stream(string.to_owned())

@@ -1,10 +1,4 @@
-use super::place::PlaceRef;
-use super::{FunctionCx, LocalRef};
-
-use crate::base;
-use crate::glue;
-use crate::traits::*;
-use crate::MemFlags;
+use std::fmt;
 
 use rustc_middle::mir;
 use rustc_middle::mir::interpret::{alloc_range, ConstValue, Pointer, Scalar};
@@ -12,7 +6,12 @@ use rustc_middle::ty::layout::{LayoutOf, TyAndLayout};
 use rustc_middle::ty::Ty;
 use rustc_target::abi::{self, Abi, Align, Size};
 
-use std::fmt;
+use super::place::PlaceRef;
+use super::{FunctionCx, LocalRef};
+use crate::base;
+use crate::glue;
+use crate::traits::*;
+use crate::MemFlags;
 
 /// The representation of a Rust value. The enum variant is in fact
 /// uniquely determined by the value's type, but is kept as a

@@ -1,8 +1,3 @@
-use crate::common::CodegenCx;
-use crate::coverageinfo;
-use crate::coverageinfo::ffi::{Counter, CounterExpression, CounterMappingRegion};
-use crate::llvm;
-
 use rustc_codegen_ssa::traits::ConstMethods;
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_hir::def::DefKind;
@@ -13,6 +8,11 @@ use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
 use rustc_middle::mir::coverage::CodeRegion;
 use rustc_middle::ty::TyCtxt;
 use rustc_span::Symbol;
+
+use crate::common::CodegenCx;
+use crate::coverageinfo;
+use crate::coverageinfo::ffi::{Counter, CounterExpression, CounterMappingRegion};
+use crate::llvm;
 
 /// Generates and exports the Coverage Map.
 ///

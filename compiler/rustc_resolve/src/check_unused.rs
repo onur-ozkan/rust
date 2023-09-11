@@ -23,10 +23,6 @@
 //  - `check_crate` finally emits the diagnostics based on the data generated
 //    in the last step
 
-use crate::imports::ImportKind;
-use crate::module_to_string;
-use crate::Resolver;
-
 use rustc_ast as ast;
 use rustc_ast::visit::{self, Visitor};
 use rustc_data_structures::fx::{FxHashMap, FxIndexMap};
@@ -37,6 +33,10 @@ use rustc_session::lint::builtin::{MACRO_USE_EXTERN_CRATE, UNUSED_EXTERN_CRATES,
 use rustc_session::lint::BuiltinLintDiagnostics;
 use rustc_span::symbol::{kw, Ident};
 use rustc_span::{Span, DUMMY_SP};
+
+use crate::imports::ImportKind;
+use crate::module_to_string;
+use crate::Resolver;
 
 struct UnusedImport<'a> {
     use_tree: &'a ast::UseTree,

@@ -14,15 +14,14 @@
 //! always immutable. At least for `const` however we use this opportunity to reject any `const`
 //! that contains allocations whose mutability we cannot identify.)
 
-use super::validity::RefTracking;
+use rustc_ast::Mutability;
 use rustc_data_structures::fx::{FxIndexMap, FxIndexSet};
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir as hir;
 use rustc_middle::mir::interpret::InterpResult;
 use rustc_middle::ty::{self, layout::TyAndLayout, Ty};
 
-use rustc_ast::Mutability;
-
+use super::validity::RefTracking;
 use super::{
     AllocId, Allocation, ConstAllocation, InterpCx, MPlaceTy, Machine, MemoryKind, PlaceTy,
     Projectable, ValueVisitor,

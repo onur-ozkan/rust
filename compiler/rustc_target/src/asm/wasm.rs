@@ -1,6 +1,7 @@
-use super::{InlineAsmArch, InlineAsmType};
 use rustc_macros::HashStable_Generic;
 use rustc_span::Symbol;
+
+use super::{InlineAsmArch, InlineAsmType};
 
 def_reg_class! {
     Wasm WasmInlineAsmRegClass {

@@ -21,7 +21,6 @@ use super::{
     util::ensure_monomorphic_enough, CheckInAllocMsg, ImmTy, InterpCx, Machine, OpTy, PlaceTy,
     Pointer,
 };
-
 use crate::fluent_generated as fluent;
 
 mod caller_location;

@@ -1,8 +1,6 @@
-use crate::callee::{self, DeferredCallResolution};
-use crate::errors::CtorIsPrivate;
-use crate::method::{self, MethodCallee, SelfSource};
-use crate::rvalue_scopes;
-use crate::{BreakableCtxt, Diverges, Expectation, FnCtxt, RawTy};
+use std::collections::hash_map::Entry;
+use std::slice;
+
 use rustc_data_structures::captures::Captures;
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::{Applicability, Diagnostic, ErrorGuaranteed, MultiSpan, StashKey};
@@ -40,8 +38,11 @@ use rustc_trait_selection::traits::{
     self, NormalizeExt, ObligationCauseCode, ObligationCtxt, StructurallyNormalizeExt,
 };
 
-use std::collections::hash_map::Entry;
-use std::slice;
+use crate::callee::{self, DeferredCallResolution};
+use crate::errors::CtorIsPrivate;
+use crate::method::{self, MethodCallee, SelfSource};
+use crate::rvalue_scopes;
+use crate::{BreakableCtxt, Diverges, Expectation, FnCtxt, RawTy};
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// Produces warning on the given node, if the current point in the

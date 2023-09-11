@@ -1,10 +1,9 @@
-use rustc_span::symbol::sym;
-use rustc_span::Span;
-
 use rustc_index::bit_set::ChunkedBitSet;
 use rustc_middle::mir::MirPass;
 use rustc_middle::mir::{self, Body, Local, Location};
 use rustc_middle::ty::{self, Ty, TyCtxt};
+use rustc_span::symbol::sym;
+use rustc_span::Span;
 
 use crate::errors::{
     PeekArgumentNotALocal, PeekArgumentUntracked, PeekBitNotSet, PeekMustBeNotTemporary,

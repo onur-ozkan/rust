@@ -1,13 +1,7 @@
-use crate::base::*;
-use crate::config::StripUnconfigured;
-use crate::errors::{
-    IncompleteParse, RecursionLimitReached, RemoveExprNotSupported, RemoveNodeNotSupported,
-    UnsupportedKeyValue, WrongFragmentKind,
-};
-use crate::hygiene::SyntaxContext;
-use crate::mbe::diagnostics::annotate_err_with_kind;
-use crate::module::{mod_dir_path, parse_external_mod, DirOwnership, ParsedExternalMod};
-use crate::placeholders::{placeholder, PlaceholderExpander};
+use std::ops::Deref;
+use std::path::PathBuf;
+use std::rc::Rc;
+use std::{iter, mem};
 
 use rustc_ast as ast;
 use rustc_ast::mut_visit::*;
@@ -34,12 +28,18 @@ use rustc_session::parse::{feature_err, ParseSess};
 use rustc_session::Limit;
 use rustc_span::symbol::{sym, Ident};
 use rustc_span::{FileName, LocalExpnId, Span};
-
 use smallvec::SmallVec;
-use std::ops::Deref;
-use std::path::PathBuf;
-use std::rc::Rc;
-use std::{iter, mem};
+
+use crate::base::*;
+use crate::config::StripUnconfigured;
+use crate::errors::{
+    IncompleteParse, RecursionLimitReached, RemoveExprNotSupported, RemoveNodeNotSupported,
+    UnsupportedKeyValue, WrongFragmentKind,
+};
+use crate::hygiene::SyntaxContext;
+use crate::mbe::diagnostics::annotate_err_with_kind;
+use crate::module::{mod_dir_path, parse_external_mod, DirOwnership, ParsedExternalMod};
+use crate::placeholders::{placeholder, PlaceholderExpander};
 
 macro_rules! ast_fragments {
     (

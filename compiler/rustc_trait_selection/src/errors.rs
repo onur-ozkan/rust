@@ -1,4 +1,3 @@
-use crate::fluent_generated as fluent;
 use rustc_errors::{
     AddToDiagnostic, Applicability, Diagnostic, ErrorGuaranteed, Handler, IntoDiagnostic,
     SubdiagnosticMessage,
@@ -6,6 +5,8 @@ use rustc_errors::{
 use rustc_macros::Diagnostic;
 use rustc_middle::ty::{self, ClosureKind, PolyTraitRef, Ty};
 use rustc_span::{Span, Symbol};
+
+use crate::fluent_generated as fluent;
 
 #[derive(Diagnostic)]
 #[diag(trait_selection_dump_vtable_entries)]

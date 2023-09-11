@@ -1,5 +1,3 @@
-use crate::method::MethodCallee;
-use crate::{has_expected_num_generic_args, FnCtxt, PlaceOp};
 use rustc_ast as ast;
 use rustc_errors::Applicability;
 use rustc_hir as hir;
@@ -11,6 +9,9 @@ use rustc_middle::ty::adjustment::{AllowTwoPhase, AutoBorrow, AutoBorrowMutabili
 use rustc_middle::ty::{self, Ty};
 use rustc_span::symbol::{sym, Ident};
 use rustc_span::Span;
+
+use crate::method::MethodCallee;
+use crate::{has_expected_num_generic_args, FnCtxt, PlaceOp};
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// Type-check `*oprnd_expr` with `oprnd_expr` type-checked already.

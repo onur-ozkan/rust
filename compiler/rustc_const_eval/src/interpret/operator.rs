@@ -7,7 +7,6 @@ use rustc_span::symbol::sym;
 use rustc_target::abi::Abi;
 
 use super::{ImmTy, Immediate, InterpCx, Machine, PlaceTy};
-
 use crate::fluent_generated as fluent;
 
 impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {

@@ -1,8 +1,3 @@
-use super::TrackedValue;
-use crate::{
-    expr_use_visitor::{self, ExprUseVisitor},
-    FnCtxt,
-};
 use hir::{def_id::DefId, Body, HirId, HirIdMap};
 use rustc_data_structures::{fx::FxIndexSet, unord::UnordSet};
 use rustc_hir as hir;
@@ -10,6 +5,12 @@ use rustc_middle::ty::{ParamEnv, TyCtxt};
 use rustc_middle::{
     hir::place::{PlaceBase, Projection, ProjectionKind},
     ty::TypeVisitableExt,
+};
+
+use super::TrackedValue;
+use crate::{
+    expr_use_visitor::{self, ExprUseVisitor},
+    FnCtxt,
 };
 
 pub(super) fn find_consumed_and_borrowed<'a, 'tcx>(

@@ -1,3 +1,7 @@
+use std::fmt::Write;
+use std::iter;
+use std::ops::Range;
+
 use rustc_data_structures::base_n;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::intern::Interned;
@@ -15,10 +19,6 @@ use rustc_middle::ty::{GenericArg, GenericArgKind};
 use rustc_span::symbol::kw;
 use rustc_target::abi::Integer;
 use rustc_target::spec::abi::Abi;
-
-use std::fmt::Write;
-use std::iter;
-use std::ops::Range;
 
 pub(super) fn mangle<'tcx>(
     tcx: TyCtxt<'tcx>,

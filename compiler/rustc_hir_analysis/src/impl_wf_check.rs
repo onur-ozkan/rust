@@ -8,9 +8,7 @@
 //! specialization errors. These things can (and probably should) be
 //! fixed, but for the moment it's easier to do these checks early.
 
-use crate::constrained_generic_params as cgp;
 use min_specialization::check_min_specialization;
-
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::struct_span_err;
 use rustc_hir::def::DefKind;
@@ -18,6 +16,8 @@ use rustc_hir::def_id::{LocalDefId, LocalModDefId};
 use rustc_middle::query::Providers;
 use rustc_middle::ty::{self, TyCtxt, TypeVisitableExt};
 use rustc_span::{Span, Symbol};
+
+use crate::constrained_generic_params as cgp;
 
 mod min_specialization;
 

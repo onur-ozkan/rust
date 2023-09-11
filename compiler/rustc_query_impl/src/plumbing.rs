@@ -2,9 +2,8 @@
 //! generate the actual methods on tcx which find and execute the provider,
 //! manage the caches, and so forth.
 
-use crate::rustc_middle::dep_graph::DepContext;
-use crate::rustc_middle::ty::TyEncoder;
-use crate::QueryConfigRestored;
+use std::num::NonZeroU64;
+
 use rustc_data_structures::stable_hasher::{Hash64, HashStable, StableHasher};
 use rustc_data_structures::sync::Lock;
 use rustc_errors::Diagnostic;
@@ -28,8 +27,11 @@ use rustc_serialize::Decodable;
 use rustc_serialize::Encodable;
 use rustc_session::Limit;
 use rustc_span::def_id::LOCAL_CRATE;
-use std::num::NonZeroU64;
 use thin_vec::ThinVec;
+
+use crate::rustc_middle::dep_graph::DepContext;
+use crate::rustc_middle::ty::TyEncoder;
+use crate::QueryConfigRestored;
 
 #[derive(Copy, Clone)]
 pub struct QueryCtxt<'tcx> {

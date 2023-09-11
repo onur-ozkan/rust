@@ -1,5 +1,12 @@
 //! Defines the set of legal keys that can be used in queries.
 
+use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LocalModDefId, ModDefId, LOCAL_CRATE};
+use rustc_hir::hir_id::{HirId, OwnerId};
+use rustc_query_system::query::{DefaultCacheSelector, SingleCacheSelector, VecCacheSelector};
+use rustc_span::symbol::{Ident, Symbol};
+use rustc_span::{Span, DUMMY_SP};
+use rustc_target::abi::FieldIdx;
+
 use crate::infer::canonical::Canonical;
 use crate::mir;
 use crate::mir::interpret::ConstValue;
@@ -8,12 +15,6 @@ use crate::ty::fast_reject::SimplifiedType;
 use crate::ty::layout::{TyAndLayout, ValidityRequirement};
 use crate::ty::{self, Ty, TyCtxt};
 use crate::ty::{GenericArg, GenericArgsRef};
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LocalModDefId, ModDefId, LOCAL_CRATE};
-use rustc_hir::hir_id::{HirId, OwnerId};
-use rustc_query_system::query::{DefaultCacheSelector, SingleCacheSelector, VecCacheSelector};
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::abi::FieldIdx;
 
 /// Placeholder for `CrateNum`'s "local" counterpart
 #[derive(Copy, Clone, Debug)]

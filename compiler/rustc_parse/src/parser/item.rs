@@ -1,8 +1,6 @@
-use super::diagnostics::{dummy_arg, ConsumeClosingDelim};
-use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
-use super::{AttrWrapper, FollowedByType, ForceCollect, Parser, PathStyle, TrailingToken};
-use crate::errors::{self, MacroExpandsToAdtField};
-use crate::fluent_generated as fluent;
+use std::fmt::Write;
+use std::mem;
+
 use ast::StaticItem;
 use rustc_ast::ast::*;
 use rustc_ast::ptr::P;
@@ -25,9 +23,13 @@ use rustc_span::edition::Edition;
 use rustc_span::source_map::{self, Span};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::DUMMY_SP;
-use std::fmt::Write;
-use std::mem;
 use thin_vec::{thin_vec, ThinVec};
+
+use super::diagnostics::{dummy_arg, ConsumeClosingDelim};
+use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
+use super::{AttrWrapper, FollowedByType, ForceCollect, Parser, PathStyle, TrailingToken};
+use crate::errors::{self, MacroExpandsToAdtField};
+use crate::fluent_generated as fluent;
 
 impl<'a> Parser<'a> {
     /// Parses a source module as a crate. This is the main entry point for the parser.

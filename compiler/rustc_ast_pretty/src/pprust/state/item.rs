@@ -1,12 +1,12 @@
-use crate::pp::Breaks::Inconsistent;
-use crate::pprust::state::delimited::IterDelimited;
-use crate::pprust::state::{AnnNode, PrintState, State, INDENT_UNIT};
-
 use ast::StaticItem;
 use rustc_ast as ast;
 use rustc_ast::GenericBound;
 use rustc_ast::ModKind;
 use rustc_span::symbol::Ident;
+
+use crate::pp::Breaks::Inconsistent;
+use crate::pprust::state::delimited::IterDelimited;
+use crate::pprust::state::{AnnNode, PrintState, State, INDENT_UNIT};
 
 fn visibility_qualified(vis: &ast::Visibility, s: &str) -> String {
     format!("{}{}", State::to_string(|s| s.print_visibility(vis)), s)

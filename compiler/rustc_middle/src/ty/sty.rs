@@ -2,15 +2,13 @@
 
 #![allow(rustc::usage_of_ty_tykind)]
 
-use crate::infer::canonical::Canonical;
-use crate::ty::visit::ValidateBoundVars;
-use crate::ty::InferTy::*;
-use crate::ty::{
-    self, AdtDef, Discr, Term, Ty, TyCtxt, TypeFlags, TypeSuperVisitable, TypeVisitable,
-    TypeVisitableExt, TypeVisitor,
-};
-use crate::ty::{GenericArg, GenericArgs, GenericArgsRef};
-use crate::ty::{List, ParamEnv};
+use std::assert_matches::debug_assert_matches;
+use std::borrow::Cow;
+use std::cmp::Ordering;
+use std::fmt;
+use std::marker::PhantomData;
+use std::ops::{ControlFlow, Deref, Range};
+
 use hir::def::DefKind;
 use polonius_engine::Atom;
 use rustc_data_structures::captures::Captures;
@@ -25,14 +23,6 @@ use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_span::{Span, DUMMY_SP};
 use rustc_target::abi::{FieldIdx, VariantIdx, FIRST_VARIANT};
 use rustc_target::spec::abi::{self, Abi};
-use std::assert_matches::debug_assert_matches;
-use std::borrow::Cow;
-use std::cmp::Ordering;
-use std::fmt;
-use std::marker::PhantomData;
-use std::ops::{ControlFlow, Deref, Range};
-use ty::util::IntTypeExt;
-
 use rustc_type_ir::sty::TyKind::*;
 use rustc_type_ir::CollectAndApply;
 use rustc_type_ir::ConstKind as IrConstKind;
@@ -40,8 +30,18 @@ use rustc_type_ir::DebugWithInfcx;
 use rustc_type_ir::DynKind;
 use rustc_type_ir::RegionKind as IrRegionKind;
 use rustc_type_ir::TyKind as IrTyKind;
+use ty::util::IntTypeExt;
 
 use super::GenericParamDefKind;
+use crate::infer::canonical::Canonical;
+use crate::ty::visit::ValidateBoundVars;
+use crate::ty::InferTy::*;
+use crate::ty::{
+    self, AdtDef, Discr, Term, Ty, TyCtxt, TypeFlags, TypeSuperVisitable, TypeVisitable,
+    TypeVisitableExt, TypeVisitor,
+};
+use crate::ty::{GenericArg, GenericArgs, GenericArgsRef};
+use crate::ty::{List, ParamEnv};
 
 // Re-export the `TyKind` from `rustc_type_ir` here for convenience
 #[rustc_diagnostic_item = "TyKind"]
@@ -2971,8 +2971,9 @@ impl<'tcx> VarianceDiagInfo<'tcx> {
 // Some types are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(RegionKind<'_>, 28);
     static_assert_size!(TyKind<'_>, 32);

@@ -9,13 +9,12 @@
 #![stable(feature = "", since = "1.30.0")]
 #![allow(non_camel_case_types)]
 
+#[stable(feature = "core_c_str", since = "1.64.0")]
+pub use self::c_str::{CStr, FromBytesUntilNulError, FromBytesWithNulError};
 use crate::fmt;
 use crate::marker::PhantomData;
 use crate::num::*;
 use crate::ops::{Deref, DerefMut};
-
-#[stable(feature = "core_c_str", since = "1.64.0")]
-pub use self::c_str::{CStr, FromBytesUntilNulError, FromBytesWithNulError};
 
 mod c_str;
 

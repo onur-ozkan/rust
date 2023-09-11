@@ -1,7 +1,8 @@
+use std::thread;
+
 use super::*;
 use crate::config::{Config, DryRun, TargetSelection};
 use crate::doc::DocumentationFormat;
-use std::thread;
 
 fn configure(cmd: &str, host: &[&str], target: &[&str]) -> Config {
     configure_with_args(&[cmd.to_owned()], host, target)
@@ -174,10 +175,11 @@ fn test_beta_rev_parsing() {
 }
 
 mod defaults {
+    use pretty_assertions::assert_eq;
+
     use super::{configure, first, run_build};
     use crate::builder::*;
     use crate::Config;
-    use pretty_assertions::assert_eq;
 
     #[test]
     fn build_default() {
@@ -285,9 +287,10 @@ mod defaults {
 }
 
 mod dist {
+    use pretty_assertions::assert_eq;
+
     use super::{first, run_build, Config};
     use crate::builder::*;
-    use pretty_assertions::assert_eq;
 
     fn configure(host: &[&str], target: &[&str]) -> Config {
         Config { stage: 2, ..super::configure("dist", host, target) }

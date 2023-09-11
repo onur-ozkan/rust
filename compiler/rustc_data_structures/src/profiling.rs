@@ -81,9 +81,6 @@
 //!
 //! [mm]: https://github.com/rust-lang/measureme/
 
-use crate::cold_path;
-use crate::fx::FxHashMap;
-
 use std::borrow::Borrow;
 use std::collections::hash_map::Entry;
 use std::error::Error;
@@ -99,6 +96,9 @@ pub use measureme::EventId;
 use measureme::{EventIdBuilder, Profiler, SerializableString, StringId};
 use parking_lot::RwLock;
 use smallvec::SmallVec;
+
+use crate::cold_path;
+use crate::fx::FxHashMap;
 
 bitflags::bitflags! {
     struct EventFilter: u16 {

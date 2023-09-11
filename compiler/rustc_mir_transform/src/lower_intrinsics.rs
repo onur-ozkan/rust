@@ -1,11 +1,12 @@
 //! Lowers intrinsic calls
 
-use crate::MirPass;
 use rustc_middle::mir::*;
 use rustc_middle::ty::GenericArgsRef;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_span::symbol::{sym, Symbol};
 use rustc_target::abi::{FieldIdx, VariantIdx};
+
+use crate::MirPass;
 
 pub struct LowerIntrinsics;
 

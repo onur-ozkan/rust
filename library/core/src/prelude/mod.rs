@@ -36,14 +36,12 @@ pub mod rust_2021 {
     #[stable(feature = "prelude_2021", since = "1.55.0")]
     #[doc(no_inline)]
     pub use super::v1::*;
-
-    #[stable(feature = "prelude_2021", since = "1.55.0")]
-    #[doc(no_inline)]
-    pub use crate::iter::FromIterator;
-
     #[stable(feature = "prelude_2021", since = "1.55.0")]
     #[doc(no_inline)]
     pub use crate::convert::{TryFrom, TryInto};
+    #[stable(feature = "prelude_2021", since = "1.55.0")]
+    #[doc(no_inline)]
+    pub use crate::iter::FromIterator;
 }
 
 /// The 2024 edition of the core prelude.

@@ -7,6 +7,7 @@ use core::num::flt2dec::MAX_SIG_DIGITS;
 use core::num::flt2dec::{decode, DecodableFloat, Decoded, FullDecoded};
 use std::io::Write;
 use std::vec::Vec;
+
 use test::{black_box, Bencher};
 
 pub fn decode_finite<T: DecodableFloat>(v: T) -> Decoded {

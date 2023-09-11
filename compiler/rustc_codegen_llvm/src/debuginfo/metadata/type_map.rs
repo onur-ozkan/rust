@@ -11,6 +11,7 @@ use rustc_middle::{
 };
 use rustc_target::abi::{Align, Size, VariantIdx};
 
+use super::{unknown_file_metadata, SmallVec, UNKNOWN_LINE_NUMBER};
 use crate::{
     common::CodegenCx,
     debuginfo::utils::{create_DIArray, debug_context, DIB},
@@ -19,8 +20,6 @@ use crate::{
         debuginfo::{DIFlags, DIScope, DIType},
     },
 };
-
-use super::{unknown_file_metadata, SmallVec, UNKNOWN_LINE_NUMBER};
 
 mod private {
     // This type cannot be constructed outside of this module because

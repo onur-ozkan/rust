@@ -1,9 +1,10 @@
-use crate::back::write::create_informational_target_machine;
-use crate::errors::{
-    PossibleFeature, TargetFeatureDisableOrEnable, UnknownCTargetFeature,
-    UnknownCTargetFeaturePrefix,
-};
-use crate::llvm;
+use std::ffi::{c_char, c_void, CStr, CString};
+use std::path::Path;
+use std::ptr;
+use std::slice;
+use std::str;
+use std::sync::Once;
+
 use libc::c_int;
 use rustc_codegen_ssa::target_features::{
     supported_target_features, tied_target_features, RUSTC_SPECIFIC_FEATURES,
@@ -18,12 +19,12 @@ use rustc_session::Session;
 use rustc_span::symbol::Symbol;
 use rustc_target::spec::{MergeFunctions, PanicStrategy};
 
-use std::ffi::{c_char, c_void, CStr, CString};
-use std::path::Path;
-use std::ptr;
-use std::slice;
-use std::str;
-use std::sync::Once;
+use crate::back::write::create_informational_target_machine;
+use crate::errors::{
+    PossibleFeature, TargetFeatureDisableOrEnable, UnknownCTargetFeature,
+    UnknownCTargetFeaturePrefix,
+};
+use crate::llvm;
 
 static INIT: Once = Once::new();
 

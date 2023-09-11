@@ -12,6 +12,13 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::{Duration, Instant};
 
+// FIXME:
+// - use std::lazy for `Lazy`
+// - use std::cell for `OnceCell`
+// Once they get stabilized and reach beta.
+use clap::ValueEnum;
+use once_cell::sync::{Lazy, OnceCell};
+
 use crate::cache::{Cache, Interned, INTERNER};
 use crate::config::{DryRun, SplitDebuginfo, TargetSelection};
 use crate::doc;
@@ -23,18 +30,11 @@ use crate::setup;
 use crate::test;
 use crate::tool::{self, SourceType};
 use crate::util::{self, add_dylib_path, add_link_lib_path, exe, libdir, output, t};
+pub use crate::Compiler;
 use crate::EXTRA_CHECK_CFGS;
 use crate::{check, compile, Crate};
 use crate::{clean, dist};
 use crate::{Build, CLang, DocTests, GitRepo, Mode};
-
-pub use crate::Compiler;
-// FIXME:
-// - use std::lazy for `Lazy`
-// - use std::cell for `OnceCell`
-// Once they get stabilized and reach beta.
-use clap::ValueEnum;
-use once_cell::sync::{Lazy, OnceCell};
 
 pub struct Builder<'a> {
     pub build: &'a Build,

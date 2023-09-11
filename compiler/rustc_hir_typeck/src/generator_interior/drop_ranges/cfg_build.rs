@@ -1,7 +1,5 @@
-use super::{
-    for_each_consumable, record_consumed_borrow::ConsumedAndBorrowedPlaces, DropRangesBuilder,
-    NodeInfo, PostOrderId, TrackedValue, TrackedValueIndex,
-};
+use std::mem::swap;
+
 use hir::{
     intravisit::{self, Visitor},
     Body, Expr, ExprKind, Guard, HirId, LoopIdError,
@@ -14,7 +12,11 @@ use rustc_middle::{
     hir::map::Map,
     ty::{ParamEnv, TyCtxt, TypeVisitableExt, TypeckResults},
 };
-use std::mem::swap;
+
+use super::{
+    for_each_consumable, record_consumed_borrow::ConsumedAndBorrowedPlaces, DropRangesBuilder,
+    NodeInfo, PostOrderId, TrackedValue, TrackedValueIndex,
+};
 
 /// Traverses the body to find the control flow graph and locations for the
 /// relevant places are dropped or reinitialized.

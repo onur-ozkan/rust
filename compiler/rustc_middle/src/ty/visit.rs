@@ -1,11 +1,11 @@
-use crate::ty::{self, flags::FlagComputation, Binder, Ty, TyCtxt, TypeFlags};
-use rustc_errors::ErrorGuaranteed;
+use std::ops::ControlFlow;
 
 use rustc_data_structures::fx::FxHashSet;
 use rustc_data_structures::sso::SsoHashSet;
-use std::ops::ControlFlow;
-
+use rustc_errors::ErrorGuaranteed;
 pub use rustc_type_ir::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitor};
+
+use crate::ty::{self, flags::FlagComputation, Binder, Ty, TyCtxt, TypeFlags};
 
 pub trait TypeVisitableExt<'tcx>: TypeVisitable<TyCtxt<'tcx>> {
     /// Returns `true` if `self` has any late-bound regions that are either

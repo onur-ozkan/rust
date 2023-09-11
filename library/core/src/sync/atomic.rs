@@ -124,12 +124,10 @@
 #![rustc_diagnostic_item = "atomic_mod"]
 
 use self::Ordering::*;
-
 use crate::cell::UnsafeCell;
 use crate::fmt;
-use crate::intrinsics;
-
 use crate::hint::spin_loop;
+use crate::intrinsics;
 
 // Some architectures don't have byte-sized atomics, which results in LLVM
 // emulating them using a LL/SC loop. However for AtomicBool we can take

@@ -3,12 +3,13 @@
 // interface.
 //
 
+use std::env;
+
 use rustc_ast::tokenstream::TokenStream;
 use rustc_ast::{self as ast, AstDeref, GenericArg};
 use rustc_expand::base::{self, *};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::Span;
-use std::env;
 use thin_vec::thin_vec;
 
 use crate::errors;

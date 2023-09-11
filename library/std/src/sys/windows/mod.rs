@@ -1,13 +1,12 @@
 #![allow(missing_docs, nonstandard_style)]
 
+pub use self::rand::hashmap_random_keys;
 use crate::ffi::{CStr, OsStr, OsString};
 use crate::io::ErrorKind;
 use crate::mem::MaybeUninit;
 use crate::os::windows::ffi::{OsStrExt, OsStringExt};
 use crate::path::PathBuf;
 use crate::time::Duration;
-
-pub use self::rand::hashmap_random_keys;
 
 #[macro_use]
 pub mod compat;

@@ -57,11 +57,11 @@ where
 // FIXME: Nix this cfg, so we can write unit tests independently of rustc
 #[cfg(feature = "rustc")]
 mod rustc {
-    use super::*;
-    use crate::layout::tree::rustc::Err;
-
     use rustc_middle::ty::Ty;
     use rustc_middle::ty::TyCtxt;
+
+    use super::*;
+    use crate::layout::tree::rustc::Err;
 
     impl<'tcx> MaybeTransmutableQuery<Ty<'tcx>, TyCtxt<'tcx>> {
         /// This method begins by converting `src` and `dst` from `Ty`s to `Tree`s,

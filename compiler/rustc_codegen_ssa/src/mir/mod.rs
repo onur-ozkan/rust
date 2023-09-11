@@ -1,5 +1,5 @@
-use crate::base;
-use crate::traits::*;
+use std::iter;
+
 use rustc_index::bit_set::BitSet;
 use rustc_index::IndexVec;
 use rustc_middle::mir;
@@ -10,7 +10,8 @@ use rustc_middle::ty::layout::{FnAbiOf, HasTyCtxt, TyAndLayout};
 use rustc_middle::ty::{self, Instance, Ty, TyCtxt, TypeFoldable, TypeVisitableExt};
 use rustc_target::abi::call::{FnAbi, PassMode};
 
-use std::iter;
+use crate::base;
+use crate::traits::*;
 
 mod analyze;
 mod block;

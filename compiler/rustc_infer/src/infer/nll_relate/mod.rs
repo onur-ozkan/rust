@@ -21,6 +21,8 @@
 //!   thing we relate in chalk are basically domain goals and their
 //!   constituents)
 
+use std::fmt::Debug;
+
 use rustc_data_structures::fx::FxHashMap;
 use rustc_middle::traits::ObligationCause;
 use rustc_middle::ty::fold::FnMutDelegate;
@@ -28,7 +30,6 @@ use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
 use rustc_middle::ty::visit::TypeVisitableExt;
 use rustc_middle::ty::{self, InferConst, Ty, TyCtxt};
 use rustc_span::{Span, Symbol};
-use std::fmt::Debug;
 
 use crate::infer::combine::ObligationEmittingRelation;
 use crate::infer::generalize::{self, Generalization};

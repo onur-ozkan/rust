@@ -1,19 +1,20 @@
-use crate::diagnostic::IntoDiagnosticArg;
-use crate::{
-    Diagnostic, DiagnosticId, DiagnosticMessage, DiagnosticStyledString, ErrorGuaranteed,
-    ExplicitBug, SubdiagnosticMessage,
-};
-use crate::{Handler, Level, MultiSpan, StashKey};
-use rustc_lint_defs::Applicability;
-use rustc_span::source_map::Spanned;
-
-use rustc_span::Span;
 use std::borrow::Cow;
 use std::fmt::{self, Debug};
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
 use std::panic;
 use std::thread::panicking;
+
+use rustc_lint_defs::Applicability;
+use rustc_span::source_map::Spanned;
+use rustc_span::Span;
+
+use crate::diagnostic::IntoDiagnosticArg;
+use crate::{
+    Diagnostic, DiagnosticId, DiagnosticMessage, DiagnosticStyledString, ErrorGuaranteed,
+    ExplicitBug, SubdiagnosticMessage,
+};
+use crate::{Handler, Level, MultiSpan, StashKey};
 
 /// Trait implemented by error types. This should not be implemented manually. Instead, use
 /// `#[derive(Diagnostic)]` -- see [rustc_macros::Diagnostic].

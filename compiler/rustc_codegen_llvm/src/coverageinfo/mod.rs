@@ -1,10 +1,4 @@
-use crate::llvm;
-
-use crate::abi::Abi;
-use crate::builder::Builder;
-use crate::common::CodegenCx;
-use crate::coverageinfo::ffi::{CounterExpression, CounterMappingRegion};
-use crate::coverageinfo::map_data::FunctionCoverage;
+use std::cell::RefCell;
 
 use libc::c_uint;
 use rustc_codegen_ssa::traits::{
@@ -24,7 +18,12 @@ use rustc_middle::ty::GenericArgs;
 use rustc_middle::ty::Instance;
 use rustc_middle::ty::Ty;
 
-use std::cell::RefCell;
+use crate::abi::Abi;
+use crate::builder::Builder;
+use crate::common::CodegenCx;
+use crate::coverageinfo::ffi::{CounterExpression, CounterMappingRegion};
+use crate::coverageinfo::map_data::FunctionCoverage;
+use crate::llvm;
 
 pub(crate) mod ffi;
 pub(crate) mod map_data;

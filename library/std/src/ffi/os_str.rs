@@ -10,7 +10,6 @@ use crate::ops;
 use crate::rc::Rc;
 use crate::str::FromStr;
 use crate::sync::Arc;
-
 use crate::sys::os_str::{Buf, Slice};
 use crate::sys_common::{AsInner, FromInner, IntoInner};
 

@@ -1,9 +1,9 @@
 //! Metadata from source code coverage analysis and instrumentation.
 
+use std::fmt::{self, Debug, Formatter};
+
 use rustc_macros::HashStable;
 use rustc_span::Symbol;
-
-use std::fmt::{self, Debug, Formatter};
 
 rustc_index::newtype_index! {
     /// ID of a coverage counter. Values ascend from 0.

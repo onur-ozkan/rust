@@ -1,6 +1,5 @@
-use crate::common::*;
-use crate::context::TypeLowering;
-use crate::type_::Type;
+use std::fmt::Write;
+
 use rustc_codegen_ssa::traits::*;
 use rustc_middle::bug;
 use rustc_middle::ty::layout::{LayoutOf, TyAndLayout};
@@ -12,7 +11,9 @@ use rustc_target::abi::{Int, Pointer, F32, F64};
 use rustc_target::abi::{PointeeInfo, Scalar, Size, TyAbiInterface, Variants};
 use smallvec::{smallvec, SmallVec};
 
-use std::fmt::Write;
+use crate::common::*;
+use crate::context::TypeLowering;
+use crate::type_::Type;
 
 fn uncached_llvm_type<'a, 'tcx>(
     cx: &CodegenCx<'a, 'tcx>,

@@ -5,11 +5,7 @@ mod const_to_pat;
 pub(crate) mod deconstruct_pat;
 mod usefulness;
 
-pub(crate) use self::check_match::check_match;
-pub(crate) use self::usefulness::MatchCheckCtxt;
-
-use crate::errors::*;
-use crate::thir::util::UserAnnotatedTyHelpers;
+use std::cmp::Ordering;
 
 use rustc_errors::error_code;
 use rustc_hir as hir;
@@ -30,7 +26,10 @@ use rustc_middle::ty::{GenericArg, GenericArgsRef};
 use rustc_span::{Span, Symbol};
 use rustc_target::abi::FieldIdx;
 
-use std::cmp::Ordering;
+pub(crate) use self::check_match::check_match;
+pub(crate) use self::usefulness::MatchCheckCtxt;
+use crate::errors::*;
+use crate::thir::util::UserAnnotatedTyHelpers;
 
 struct PatCtxt<'a, 'tcx> {
     tcx: TyCtxt<'tcx>,

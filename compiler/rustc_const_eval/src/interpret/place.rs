@@ -5,7 +5,6 @@
 use std::assert_matches::assert_matches;
 
 use either::{Either, Left, Right};
-
 use rustc_ast::Mutability;
 use rustc_index::IndexSlice;
 use rustc_middle::mir;
@@ -1088,8 +1087,9 @@ where
 // Some nodes are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(MemPlace, 40);
     static_assert_size!(MemPlaceMeta, 24);

@@ -122,11 +122,11 @@ pub mod rust_2018 {
 pub mod rust_2021 {
     #[stable(feature = "prelude_2021", since = "1.55.0")]
     #[doc(no_inline)]
-    pub use super::v1::*;
+    pub use core::prelude::rust_2021::*;
 
     #[stable(feature = "prelude_2021", since = "1.55.0")]
     #[doc(no_inline)]
-    pub use core::prelude::rust_2021::*;
+    pub use super::v1::*;
 }
 
 /// The 2024 version of the prelude of The Rust Standard Library.
@@ -136,9 +136,9 @@ pub mod rust_2021 {
 pub mod rust_2024 {
     #[unstable(feature = "prelude_2024", issue = "none")]
     #[doc(no_inline)]
-    pub use super::v1::*;
+    pub use core::prelude::rust_2024::*;
 
     #[unstable(feature = "prelude_2024", issue = "none")]
     #[doc(no_inline)]
-    pub use core::prelude::rust_2024::*;
+    pub use super::v1::*;
 }

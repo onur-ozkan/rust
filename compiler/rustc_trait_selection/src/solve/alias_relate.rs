@@ -11,10 +11,11 @@
 //! * bidirectional-normalizes-to: If `A` and `B` are both projections, and both
 //!   may apply, then we can compute the "intersection" of both normalizes-to by
 //!   performing them together. This is used specifically to resolve ambiguities.
-use super::{EvalCtxt, SolverMode};
 use rustc_infer::traits::query::NoSolution;
 use rustc_middle::traits::solve::{Certainty, Goal, QueryResult};
 use rustc_middle::ty;
+
+use super::{EvalCtxt, SolverMode};
 
 /// We may need to invert the alias relation direction if dealing an alias on the RHS.
 #[derive(Debug)]

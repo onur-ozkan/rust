@@ -40,7 +40,7 @@
 #[macro_use]
 extern crate tracing;
 
-use crate::errors::{AssocTyParentheses, AssocTyParenthesesSub, MisplacedImplTrait, TraitFnAsync};
+use std::collections::hash_map::Entry;
 
 use rustc_ast::ptr::P;
 use rustc_ast::visit;
@@ -72,8 +72,9 @@ use rustc_span::source_map::DesugaringKind;
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{Span, DUMMY_SP};
 use smallvec::SmallVec;
-use std::collections::hash_map::Entry;
 use thin_vec::ThinVec;
+
+use crate::errors::{AssocTyParentheses, AssocTyParenthesesSub, MisplacedImplTrait, TraitFnAsync};
 
 macro_rules! arena_vec {
     ($this:expr; $($x:expr),*) => (

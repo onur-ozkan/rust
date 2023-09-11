@@ -65,9 +65,6 @@
 //! cause use after frees with purely safe code in the same way as specializing
 //! on traits with methods can.
 
-use crate::errors::SubstsOnOverriddenImpl;
-use crate::{constrained_generic_params as cgp, errors};
-
 use rustc_data_structures::fx::FxHashSet;
 use rustc_hir as hir;
 use rustc_hir::def_id::{DefId, LocalDefId};
@@ -81,6 +78,9 @@ use rustc_span::{ErrorGuaranteed, Span};
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt;
 use rustc_trait_selection::traits::outlives_bounds::InferCtxtExt as _;
 use rustc_trait_selection::traits::{self, translate_args_with_cause, wf, ObligationCtxt};
+
+use crate::errors::SubstsOnOverriddenImpl;
+use crate::{constrained_generic_params as cgp, errors};
 
 pub(super) fn check_min_specialization(tcx: TyCtxt<'_>, impl_def_id: LocalDefId) {
     if let Some(node) = parent_specialization_node(tcx, impl_def_id) {

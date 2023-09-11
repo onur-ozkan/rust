@@ -9,13 +9,20 @@
 
 #![deny(unsafe_op_in_unsafe_fn)]
 
-use crate::panic::BacktraceStyle;
 use core::panic::{BoxMeUp, Location, PanicInfo};
+
+// make sure to use the stderr output configured
+// by libtest in the real copy of std
+#[cfg(test)]
+use realstd::io::set_output_capture;
 
 use crate::any::Any;
 use crate::fmt;
 use crate::intrinsics;
+#[cfg(not(test))]
+use crate::io::set_output_capture;
 use crate::mem::{self, ManuallyDrop};
+use crate::panic::BacktraceStyle;
 use crate::process;
 use crate::sync::atomic::{AtomicBool, Ordering};
 use crate::sync::{PoisonError, RwLock};
@@ -23,13 +30,6 @@ use crate::sys::stdio::panic_output;
 use crate::sys_common::backtrace;
 use crate::sys_common::thread_info;
 use crate::thread;
-
-#[cfg(not(test))]
-use crate::io::set_output_capture;
-// make sure to use the stderr output configured
-// by libtest in the real copy of std
-#[cfg(test)]
-use realstd::io::set_output_capture;
 
 // Binary interface to the panic runtime that the standard library depends on.
 //

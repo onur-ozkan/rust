@@ -1,12 +1,12 @@
+use std::cmp;
+use std::io::{self, Write};
+
 use rustc_hir::def_id::DefId;
 use rustc_middle::hir;
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
 use rustc_session::config::MirSpanview;
 use rustc_span::{BytePos, Pos, Span};
-
-use std::cmp;
-use std::io::{self, Write};
 
 pub const TOOLTIP_INDENT: &str = "    ";
 

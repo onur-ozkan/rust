@@ -4,13 +4,13 @@
 #[cfg(test)]
 mod tests;
 
-use crate::backtrace::Backtrace;
-use crate::fmt::{self, Write};
-
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use core::error::Error;
 #[unstable(feature = "error_generic_member_access", issue = "99301")]
 pub use core::error::{request_ref, request_value, Request};
+
+use crate::backtrace::Backtrace;
+use crate::fmt::{self, Write};
 
 mod private {
     // This is a hack to prevent `type_id` from being overridden by `Error`

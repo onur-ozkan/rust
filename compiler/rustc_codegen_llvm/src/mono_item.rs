@@ -1,9 +1,3 @@
-use crate::attributes;
-use crate::base;
-use crate::context::CodegenCx;
-use crate::errors::SymbolAlreadyDefined;
-use crate::llvm;
-use crate::type_of::LayoutLlvmExt;
 use rustc_codegen_ssa::traits::*;
 use rustc_hir::def_id::{DefId, LOCAL_CRATE};
 pub use rustc_middle::mir::mono::MonoItem;
@@ -12,6 +6,13 @@ use rustc_middle::ty::layout::{FnAbiOf, LayoutOf};
 use rustc_middle::ty::{self, Instance, TypeVisitableExt};
 use rustc_session::config::CrateType;
 use rustc_target::spec::RelocModel;
+
+use crate::attributes;
+use crate::base;
+use crate::context::CodegenCx;
+use crate::errors::SymbolAlreadyDefined;
+use crate::llvm;
+use crate::type_of::LayoutLlvmExt;
 
 impl<'tcx> PreDefineMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn predefine_static(

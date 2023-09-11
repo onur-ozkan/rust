@@ -4,13 +4,14 @@
 #![cfg_attr(test, allow(dead_code))]
 #![unstable(issue = "none", feature = "windows_c")]
 
+use core::ffi::NonZero_c_ulong;
+
 use crate::ffi::CStr;
 use crate::mem;
 pub use crate::os::raw::c_int;
 use crate::os::raw::{c_char, c_long, c_longlong, c_uint, c_ulong, c_ushort, c_void};
 use crate::os::windows::io::{AsRawHandle, BorrowedHandle};
 use crate::ptr;
-use core::ffi::NonZero_c_ulong;
 
 mod windows_sys;
 pub use windows_sys::*;

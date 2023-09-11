@@ -1,7 +1,3 @@
-use crate::traits::{check_args_compatible, specialization_graph};
-
-use super::assembly::{self, structural_traits};
-use super::EvalCtxt;
 use rustc_hir::def::DefKind;
 use rustc_hir::def_id::DefId;
 use rustc_hir::LangItem;
@@ -16,6 +12,10 @@ use rustc_middle::ty::ProjectionPredicate;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_middle::ty::{ToPredicate, TypeVisitableExt};
 use rustc_span::{sym, ErrorGuaranteed, DUMMY_SP};
+
+use super::assembly::{self, structural_traits};
+use super::EvalCtxt;
+use crate::traits::{check_args_compatible, specialization_graph};
 
 impl<'tcx> EvalCtxt<'_, 'tcx> {
     #[instrument(level = "debug", skip(self), ret)]

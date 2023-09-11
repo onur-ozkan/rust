@@ -1,26 +1,12 @@
-use self::type_map::DINodeCreationResult;
-use self::type_map::Stub;
-use self::type_map::UniqueTypeId;
-
-use super::namespace::mangled_name_of_instance;
-use super::type_names::{compute_debuginfo_type_name, compute_debuginfo_vtable_name};
-use super::utils::{
-    create_DIArray, debug_context, get_namespace_for_item, is_node_local_to_unit, DIB,
-};
-use super::CodegenUnitDebugContext;
-
-use crate::abi;
-use crate::common::CodegenCx;
-use crate::debuginfo::metadata::type_map::build_type_with_children;
-use crate::debuginfo::utils::fat_pointer_kind;
-use crate::debuginfo::utils::FatPtrKind;
-use crate::llvm;
-use crate::llvm::debuginfo::{
-    DIDescriptor, DIFile, DIFlags, DILexicalBlock, DIScope, DIType, DebugEmissionKind,
-};
-use crate::value::Value;
+use std::borrow::Cow;
+use std::fmt::{self, Write};
+use std::hash::{Hash, Hasher};
+use std::iter;
+use std::path::{Path, PathBuf};
+use std::ptr;
 
 use cstr::cstr;
+use libc::{c_char, c_longlong, c_uint};
 use rustc_codegen_ssa::debuginfo::type_names::cpp_like_debuginfo;
 use rustc_codegen_ssa::debuginfo::type_names::VTableNameKind;
 use rustc_codegen_ssa::traits::*;
@@ -40,13 +26,25 @@ use rustc_symbol_mangling::typeid_for_trait_ref;
 use rustc_target::abi::{Align, Size};
 use smallvec::smallvec;
 
-use libc::{c_char, c_longlong, c_uint};
-use std::borrow::Cow;
-use std::fmt::{self, Write};
-use std::hash::{Hash, Hasher};
-use std::iter;
-use std::path::{Path, PathBuf};
-use std::ptr;
+use self::type_map::DINodeCreationResult;
+use self::type_map::Stub;
+use self::type_map::UniqueTypeId;
+use super::namespace::mangled_name_of_instance;
+use super::type_names::{compute_debuginfo_type_name, compute_debuginfo_vtable_name};
+use super::utils::{
+    create_DIArray, debug_context, get_namespace_for_item, is_node_local_to_unit, DIB,
+};
+use super::CodegenUnitDebugContext;
+use crate::abi;
+use crate::common::CodegenCx;
+use crate::debuginfo::metadata::type_map::build_type_with_children;
+use crate::debuginfo::utils::fat_pointer_kind;
+use crate::debuginfo::utils::FatPtrKind;
+use crate::llvm;
+use crate::llvm::debuginfo::{
+    DIDescriptor, DIFile, DIFlags, DILexicalBlock, DIScope, DIType, DebugEmissionKind,
+};
+use crate::value::Value;
 
 impl PartialEq for llvm::Metadata {
     fn eq(&self, other: &Self) -> bool {

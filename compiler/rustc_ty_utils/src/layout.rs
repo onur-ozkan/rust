@@ -1,3 +1,6 @@
+use std::fmt::Debug;
+use std::iter;
+
 use hir::def_id::DefId;
 use rustc_hir as hir;
 use rustc_index::bit_set::BitSet;
@@ -14,9 +17,6 @@ use rustc_session::{DataTypeKind, FieldInfo, FieldKind, SizeKind, VariantInfo};
 use rustc_span::symbol::Symbol;
 use rustc_span::DUMMY_SP;
 use rustc_target::abi::*;
-
-use std::fmt::Debug;
-use std::iter;
 
 use crate::errors::{
     MultipleArrayFieldsSimdType, NonPrimitiveSimdType, OversizedSimdType, ZeroLengthSimdType,

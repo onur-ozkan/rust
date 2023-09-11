@@ -1,5 +1,3 @@
-use super::*;
-use crate::infer::CombinedSnapshot;
 use rustc_data_structures::{
     fx::FxIndexMap,
     graph::{scc::Sccs, vec_graph::VecGraph},
@@ -7,6 +5,9 @@ use rustc_data_structures::{
 use rustc_index::Idx;
 use rustc_middle::ty::error::TypeError;
 use rustc_middle::ty::relate::RelateResult;
+
+use super::*;
+use crate::infer::CombinedSnapshot;
 
 impl<'tcx> RegionConstraintCollector<'_, 'tcx> {
     /// Searches new universes created during `snapshot`, looking for

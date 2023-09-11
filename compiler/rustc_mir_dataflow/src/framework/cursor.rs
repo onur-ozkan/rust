@@ -1,7 +1,5 @@
 //! Random access inspection of the results of a dataflow analysis.
 
-use crate::{framework::BitSetExt, CloneAnalysis};
-
 use std::borrow::{Borrow, BorrowMut};
 use std::cmp::Ordering;
 
@@ -10,6 +8,7 @@ use rustc_index::bit_set::BitSet;
 use rustc_middle::mir::{self, BasicBlock, Location};
 
 use super::{Analysis, Direction, Effect, EffectIndex, EntrySets, Results, ResultsCloned};
+use crate::{framework::BitSetExt, CloneAnalysis};
 
 // `AnalysisResults` is needed as an impl such as the following has an unconstrained type
 // parameter:

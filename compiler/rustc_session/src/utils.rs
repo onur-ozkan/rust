@@ -1,7 +1,9 @@
-use crate::session::Session;
+use std::path::{Path, PathBuf};
+
 use rustc_data_structures::profiling::VerboseTimingGuard;
 use rustc_fs_util::try_canonicalize;
-use std::path::{Path, PathBuf};
+
+use crate::session::Session;
 
 impl Session {
     pub fn timer(&self, what: &'static str) -> VerboseTimingGuard<'_> {

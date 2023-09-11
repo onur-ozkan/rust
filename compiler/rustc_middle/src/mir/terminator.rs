@@ -1,17 +1,17 @@
-use rustc_hir::LangItem;
-use smallvec::SmallVec;
-
-use super::{BasicBlock, InlineAsmOperand, Operand, SourceInfo, TerminatorKind, UnwindAction};
-use rustc_ast::InlineAsmTemplatePiece;
-pub use rustc_ast::Mutability;
-use rustc_macros::HashStable;
 use std::borrow::Cow;
 use std::fmt::{self, Debug, Formatter, Write};
 use std::iter;
 use std::slice;
 
+use rustc_ast::InlineAsmTemplatePiece;
+pub use rustc_ast::Mutability;
+use rustc_hir::LangItem;
+use rustc_macros::HashStable;
+use smallvec::SmallVec;
+
 pub use super::query::*;
 use super::*;
+use super::{BasicBlock, InlineAsmOperand, Operand, SourceInfo, TerminatorKind, UnwindAction};
 
 #[derive(Debug, Clone, TyEncodable, TyDecodable, Hash, HashStable, PartialEq)]
 pub struct SwitchTargets {

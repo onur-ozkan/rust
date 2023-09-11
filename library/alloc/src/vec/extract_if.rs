@@ -1,8 +1,8 @@
-use crate::alloc::{Allocator, Global};
 use core::ptr;
 use core::slice;
 
 use super::Vec;
+use crate::alloc::{Allocator, Global};
 
 /// An iterator which uses a closure to determine if an element should be removed.
 ///

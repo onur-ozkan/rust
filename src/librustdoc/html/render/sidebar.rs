@@ -5,13 +5,12 @@ use rustc_data_structures::fx::FxHashSet;
 use rustc_hir::{def::CtorKind, def_id::DefIdSet};
 use rustc_middle::ty::{self, TyCtxt};
 
+use super::{item_ty_to_section, Context, ItemSection};
 use crate::{
     clean,
     formats::{item_type::ItemType, Impl},
     html::{format::Buffer, markdown::IdMap},
 };
-
-use super::{item_ty_to_section, Context, ItemSection};
 
 #[derive(Template)]
 #[template(path = "sidebar.html")]

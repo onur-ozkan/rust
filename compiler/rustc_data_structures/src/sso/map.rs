@@ -1,9 +1,11 @@
-use crate::fx::FxHashMap;
-use arrayvec::ArrayVec;
-use itertools::Either;
 use std::fmt;
 use std::hash::Hash;
 use std::ops::Index;
+
+use arrayvec::ArrayVec;
+use itertools::Either;
+
+use crate::fx::FxHashMap;
 
 /// For pointer-sized arguments arrays
 /// are faster than set/map for up to 64

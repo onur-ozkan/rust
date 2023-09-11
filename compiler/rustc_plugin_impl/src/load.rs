@@ -1,7 +1,9 @@
 //! Used by `rustc` when loading a plugin.
 
-use crate::errors::{LoadPluginError, MalformedPluginAttribute};
-use crate::Registry;
+use std::env;
+use std::mem;
+use std::path::PathBuf;
+
 use libloading::Library;
 use rustc_ast::Attribute;
 use rustc_metadata::locator;
@@ -9,9 +11,8 @@ use rustc_session::cstore::MetadataLoader;
 use rustc_session::Session;
 use rustc_span::symbol::{sym, Ident};
 
-use std::env;
-use std::mem;
-use std::path::PathBuf;
+use crate::errors::{LoadPluginError, MalformedPluginAttribute};
+use crate::Registry;
 
 /// Pointer to a registrar function.
 type PluginRegistrarFn = fn(&mut Registry<'_>);

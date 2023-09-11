@@ -27,7 +27,6 @@ pub fn hashmap_random_keys() -> (u64, u64) {
 mod imp {
     use crate::fs::File;
     use crate::io::Read;
-
     #[cfg(any(target_os = "linux", target_os = "android"))]
     use crate::sys::weak::syscall;
 
@@ -156,11 +155,12 @@ mod imp {
 
 #[cfg(target_os = "macos")]
 mod imp {
+    use libc::{c_int, c_void, size_t};
+
     use crate::fs::File;
     use crate::io::Read;
     use crate::sys::os::errno;
     use crate::sys::weak::weak;
-    use libc::{c_int, c_void, size_t};
 
     fn getentropy_fill_bytes(v: &mut [u8]) -> bool {
         weak!(fn getentropy(*mut c_void, size_t) -> c_int);
@@ -215,9 +215,10 @@ mod imp {
 // sandbox.
 #[cfg(any(target_os = "ios", target_os = "tvos", target_os = "watchos"))]
 mod imp {
+    use libc::{c_int, size_t};
+
     use crate::io;
     use crate::ptr;
-    use libc::{c_int, size_t};
 
     enum SecRandom {}
 
@@ -293,8 +294,9 @@ mod imp {
 
 #[cfg(target_os = "vxworks")]
 mod imp {
-    use crate::io;
     use core::sync::atomic::{AtomicBool, Ordering::Relaxed};
+
+    use crate::io;
 
     pub fn fill_bytes(v: &mut [u8]) {
         static RNG_INIT: AtomicBool = AtomicBool::new(false);

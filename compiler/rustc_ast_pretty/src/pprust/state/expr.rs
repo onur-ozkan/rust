@@ -1,5 +1,4 @@
-use crate::pp::Breaks::Inconsistent;
-use crate::pprust::state::{AnnNode, IterDelimited, PrintState, State, INDENT_UNIT};
+use std::fmt::Write;
 
 use rustc_ast::ptr::P;
 use rustc_ast::token;
@@ -10,7 +9,9 @@ use rustc_ast::{
     FormatAlignment, FormatArgPosition, FormatArgsPiece, FormatCount, FormatDebugHex, FormatSign,
     FormatTrait,
 };
-use std::fmt::Write;
+
+use crate::pp::Breaks::Inconsistent;
+use crate::pprust::state::{AnnNode, IterDelimited, PrintState, State, INDENT_UNIT};
 
 impl<'a> State<'a> {
     fn print_else(&mut self, els: Option<&ast::Expr>) {

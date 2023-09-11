@@ -1,8 +1,8 @@
-use crate::error::UnsupportedFnAbi;
-use crate::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use crate::query::TyCtxtAt;
-use crate::ty::normalize_erasing_regions::NormalizationError;
-use crate::ty::{self, ConstKind, ReprOptions, Ty, TyCtxt, TypeVisitableExt};
+use std::cmp;
+use std::fmt;
+use std::num::NonZeroUsize;
+use std::ops::Bound;
+
 use rustc_error_messages::DiagnosticMessage;
 use rustc_errors::{
     DiagnosticArgValue, DiagnosticBuilder, Handler, IntoDiagnostic, IntoDiagnosticArg,
@@ -17,10 +17,11 @@ use rustc_target::abi::call::FnAbi;
 use rustc_target::abi::*;
 use rustc_target::spec::{abi::Abi as SpecAbi, HasTargetSpec, PanicStrategy, Target};
 
-use std::cmp;
-use std::fmt;
-use std::num::NonZeroUsize;
-use std::ops::Bound;
+use crate::error::UnsupportedFnAbi;
+use crate::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use crate::query::TyCtxtAt;
+use crate::ty::normalize_erasing_regions::NormalizationError;
+use crate::ty::{self, ConstKind, ReprOptions, Ty, TyCtxt, TypeVisitableExt};
 
 pub trait IntegerExt {
     fn to_ty<'tcx>(&self, tcx: TyCtxt<'tcx>, signed: bool) -> Ty<'tcx>;
@@ -220,8 +221,9 @@ pub enum LayoutError<'tcx> {
 
 impl<'tcx> LayoutError<'tcx> {
     pub fn diagnostic_message(&self) -> DiagnosticMessage {
-        use crate::fluent_generated::*;
         use LayoutError::*;
+
+        use crate::fluent_generated::*;
         match self {
             Unknown(_) => middle_unknown_layout,
             SizeOverflow(_) => middle_values_too_big,
@@ -232,8 +234,9 @@ impl<'tcx> LayoutError<'tcx> {
     }
 
     pub fn into_diagnostic(self) -> crate::error::LayoutError<'tcx> {
-        use crate::error::LayoutError as E;
         use LayoutError::*;
+
+        use crate::error::LayoutError as E;
         match self {
             Unknown(ty) => E::Unknown { ty },
             SizeOverflow(ty) => E::Overflow { ty },

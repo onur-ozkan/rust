@@ -1,10 +1,11 @@
 //! Contains information about "passes", used to modify crate information during the documentation
 //! process.
 
+use std::ops::Range;
+
 use rustc_middle::ty::TyCtxt;
 use rustc_resolve::rustdoc::DocFragmentKind;
 use rustc_span::{InnerSpan, Span, DUMMY_SP};
-use std::ops::Range;
 
 use self::Condition::*;
 use crate::clean;

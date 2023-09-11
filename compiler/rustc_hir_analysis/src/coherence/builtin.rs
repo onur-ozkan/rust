@@ -1,9 +1,8 @@
 //! Check properties that are required by built-in traits and set
 //! up data structures required by type-checking/codegen.
 
-use crate::errors::{
-    ConstParamTyImplOnNonAdt, CopyImplOnNonAdt, CopyImplOnTypeWithDtor, DropImplOnWrongItem,
-};
+use std::collections::BTreeMap;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::{struct_span_err, ErrorGuaranteed, MultiSpan};
 use rustc_hir as hir;
@@ -24,7 +23,10 @@ use rustc_trait_selection::traits::misc::{
 };
 use rustc_trait_selection::traits::ObligationCtxt;
 use rustc_trait_selection::traits::{self, ObligationCause};
-use std::collections::BTreeMap;
+
+use crate::errors::{
+    ConstParamTyImplOnNonAdt, CopyImplOnNonAdt, CopyImplOnTypeWithDtor, DropImplOnWrongItem,
+};
 
 pub fn check_trait(tcx: TyCtxt<'_>, trait_def_id: DefId) {
     let lang_items = tcx.lang_items();

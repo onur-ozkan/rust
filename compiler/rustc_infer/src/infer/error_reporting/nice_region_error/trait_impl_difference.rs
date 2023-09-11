@@ -1,10 +1,7 @@
 //! Error Reporting for `impl` items that do not match the obligations from their `trait`.
 
-use crate::errors::{ConsiderBorrowingParamHelp, RelationshipHelp, TraitImplDiff};
-use crate::infer::error_reporting::nice_region_error::NiceRegionError;
-use crate::infer::lexical_region_resolve::RegionResolutionError;
-use crate::infer::{Subtype, ValuePairs};
-use crate::traits::ObligationCauseCode::CompareImplItemObligation;
+use std::ops::ControlFlow;
+
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir as hir;
 use rustc_hir::def::Res;
@@ -16,7 +13,11 @@ use rustc_middle::ty::print::RegionHighlightMode;
 use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitor};
 use rustc_span::Span;
 
-use std::ops::ControlFlow;
+use crate::errors::{ConsiderBorrowingParamHelp, RelationshipHelp, TraitImplDiff};
+use crate::infer::error_reporting::nice_region_error::NiceRegionError;
+use crate::infer::lexical_region_resolve::RegionResolutionError;
+use crate::infer::{Subtype, ValuePairs};
+use crate::traits::ObligationCauseCode::CompareImplItemObligation;
 
 impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
     /// Print the error message for lifetime errors when the `impl` doesn't conform to the `trait`.

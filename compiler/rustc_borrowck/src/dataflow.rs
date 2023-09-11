@@ -1,5 +1,7 @@
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
+use std::fmt;
+
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_index::bit_set::BitSet;
 use rustc_middle::mir::{
@@ -11,7 +13,6 @@ use rustc_mir_dataflow::impls::{EverInitializedPlaces, MaybeUninitializedPlaces}
 use rustc_mir_dataflow::ResultsVisitable;
 use rustc_mir_dataflow::{self, fmt::DebugWithContext, GenKill};
 use rustc_mir_dataflow::{Analysis, Direction, Results};
-use std::fmt;
 
 use crate::{places_conflict, BorrowSet, PlaceConflictBias, PlaceExt, RegionInferenceContext};
 

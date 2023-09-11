@@ -3,7 +3,6 @@
 //! The main entry point is the `step` method.
 
 use either::Either;
-
 use rustc_middle::mir;
 use rustc_middle::mir::interpret::{InterpResult, Scalar};
 use rustc_middle::ty::layout::LayoutOf;

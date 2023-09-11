@@ -5,6 +5,9 @@ mod graph;
 mod query;
 mod serialized;
 
+use std::hash::Hash;
+use std::{fmt, panic};
+
 pub use dep_node::{DepKindStruct, DepNode, DepNodeParams, WorkProductId};
 pub use edges::EdgesVec;
 pub use graph::{
@@ -12,17 +15,13 @@ pub use graph::{
     WorkProduct, WorkProductMap,
 };
 pub use query::DepGraphQuery;
-pub use serialized::{SerializedDepGraph, SerializedDepNodeIndex};
-
-use crate::ich::StableHashingContext;
 use rustc_data_structures::profiling::SelfProfilerRef;
 use rustc_serialize::{opaque::FileEncoder, Encodable};
 use rustc_session::Session;
-
-use std::hash::Hash;
-use std::{fmt, panic};
+pub use serialized::{SerializedDepGraph, SerializedDepNodeIndex};
 
 use self::graph::{print_markframe_trace, MarkFrame};
+use crate::ich::StableHashingContext;
 
 pub trait DepContext: Copy {
     type DepKind: self::DepKind;

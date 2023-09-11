@@ -1,10 +1,12 @@
-use crate::mir::Mutability;
-use crate::ty::GenericArgKind;
-use crate::ty::{self, GenericArgsRef, Ty, TyCtxt, TypeVisitableExt};
-use rustc_hir::def_id::DefId;
 use std::fmt::Debug;
 use std::hash::Hash;
 use std::iter;
+
+use rustc_hir::def_id::DefId;
+
+use crate::mir::Mutability;
+use crate::ty::GenericArgKind;
+use crate::ty::{self, GenericArgsRef, Ty, TyCtxt, TypeVisitableExt};
 
 /// See `simplify_type`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, TyEncodable, TyDecodable, HashStable)]

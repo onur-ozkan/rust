@@ -7,22 +7,21 @@
 //! * Traits that represent operators; e.g., `Add`, `Sub`, `Index`.
 //! * Functions called by the compiler itself.
 
-use crate::check_attr::target_from_impl_item;
-use crate::errors::{
-    DuplicateLangItem, IncorrectTarget, LangItemOnIncorrectTarget, UnknownLangItem,
-};
-use crate::weak_lang_items;
-
 use rustc_hir as hir;
 use rustc_hir::def::DefKind;
 use rustc_hir::def_id::{DefId, LocalDefId};
 use rustc_hir::lang_items::{extract, GenericRequirement};
 use rustc_hir::{LangItem, LanguageItems, Target};
+use rustc_middle::query::Providers;
 use rustc_middle::ty::TyCtxt;
 use rustc_session::cstore::ExternCrate;
 use rustc_span::{symbol::kw::Empty, Span};
 
-use rustc_middle::query::Providers;
+use crate::check_attr::target_from_impl_item;
+use crate::errors::{
+    DuplicateLangItem, IncorrectTarget, LangItemOnIncorrectTarget, UnknownLangItem,
+};
+use crate::weak_lang_items;
 
 pub(crate) enum Duplicate {
     Plain,

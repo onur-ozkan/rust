@@ -5,7 +5,6 @@ use core::ptr;
 
 use super::node::{marker, ForceResult::*, Handle, NodeRef};
 use super::search::SearchBound;
-
 use crate::alloc::Allocator;
 // `front` and `back` are always both `None` or both `Some`.
 pub struct LeafRange<BorrowType, K, V> {

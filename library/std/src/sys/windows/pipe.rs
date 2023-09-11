@@ -1,8 +1,7 @@
-use crate::os::windows::prelude::*;
-
 use crate::ffi::OsStr;
 use crate::io::{self, BorrowedCursor, IoSlice, IoSliceMut, Read};
 use crate::mem;
+use crate::os::windows::prelude::*;
 use crate::path::Path;
 use crate::ptr;
 use crate::slice;

@@ -1,3 +1,12 @@
+use core::assert_matches::assert_matches;
+use std::cmp::Ordering;
+use std::iter;
+use std::mem;
+use std::ops::Bound::{self, Excluded, Included, Unbounded};
+use std::ops::RangeBounds;
+use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
+
 use super::Entry::{Occupied, Vacant};
 use super::*;
 use crate::boxed::Box;
@@ -8,14 +17,6 @@ use crate::testing::crash_test::{CrashTestDummy, Panic};
 use crate::testing::ord_chaos::{Cyclic3, Governed, Governor};
 use crate::testing::rng::DeterministicRng;
 use crate::vec::Vec;
-use core::assert_matches::assert_matches;
-use std::cmp::Ordering;
-use std::iter;
-use std::mem;
-use std::ops::Bound::{self, Excluded, Included, Unbounded};
-use std::ops::RangeBounds;
-use std::panic::{catch_unwind, AssertUnwindSafe};
-use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
 
 // Minimum number of elements to insert, to guarantee a tree with 2 levels,
 // i.e., a tree who's root is an internal node at height 1, with edges to leaf nodes.

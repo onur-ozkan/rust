@@ -1,14 +1,16 @@
 //! Related to out filenames of compilation (e.g. save analysis, binaries).
+use std::path::Path;
+
+use rustc_ast::{self as ast, attr};
+use rustc_span::symbol::sym;
+use rustc_span::{Span, Symbol};
+
 use crate::config::{CrateType, Input, OutFileName, OutputFilenames, OutputType};
 use crate::errors::{
     CrateNameDoesNotMatch, CrateNameEmpty, CrateNameInvalid, FileIsNotWriteable,
     InvalidCharacterInCrateName, InvalidCrateNameHelp,
 };
 use crate::Session;
-use rustc_ast::{self as ast, attr};
-use rustc_span::symbol::sym;
-use rustc_span::{Span, Symbol};
-use std::path::Path;
 
 pub fn out_filename(
     sess: &Session,

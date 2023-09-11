@@ -11,16 +11,15 @@ use core::cmp::{self, Ordering};
 use core::fmt;
 use core::hash::{Hash, Hasher};
 use core::iter::{repeat_n, repeat_with, ByRefSized};
-use core::mem::{ManuallyDrop, SizedTypeProperties};
-use core::ops::{Index, IndexMut, Range, RangeBounds};
-use core::ptr;
-use core::slice;
-
 // This is used in a bunch of intra-doc links.
 // FIXME: For some reason, `#[cfg(doc)]` wasn't sufficient, resulting in
 // failures in linkchecker even though rustdoc built the docs just fine.
 #[allow(unused_imports)]
 use core::mem;
+use core::mem::{ManuallyDrop, SizedTypeProperties};
+use core::ops::{Index, IndexMut, Range, RangeBounds};
+use core::ptr;
+use core::slice;
 
 use crate::alloc::{Allocator, Global};
 use crate::collections::TryReserveError;

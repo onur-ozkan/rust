@@ -1,10 +1,7 @@
 //! This module analyzes crates to find call sites that can serve as examples in the documentation.
 
-use crate::clean;
-use crate::config;
-use crate::formats;
-use crate::formats::renderer::FormatRenderer;
-use crate::html::render::Context;
+use std::fs;
+use std::path::PathBuf;
 
 use rustc_data_structures::fx::FxHashMap;
 use rustc_hir::{
@@ -27,8 +24,11 @@ use rustc_span::{
     BytePos, FileName, SourceFile,
 };
 
-use std::fs;
-use std::path::PathBuf;
+use crate::clean;
+use crate::config;
+use crate::formats;
+use crate::formats::renderer::FormatRenderer;
+use crate::html::render::Context;
 
 #[derive(Debug, Clone)]
 pub(crate) struct ScrapeExamplesOptions {

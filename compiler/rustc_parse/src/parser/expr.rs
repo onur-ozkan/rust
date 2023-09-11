@@ -1,15 +1,6 @@
-use super::diagnostics::SnapshotParser;
-use super::pat::{CommaRecoveryMode, Expected, RecoverColon, RecoverComma};
-use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
-use super::{
-    AttrWrapper, BlockMode, ClosureSpans, ForceCollect, Parser, PathStyle, Restrictions,
-    SemiColonMode, SeqSep, TokenExpectType, TokenType, TrailingToken,
-};
-
-use crate::errors;
-use crate::maybe_recover_from_interpolated_ty_qpath;
-use ast::{Path, PathSegment};
 use core::mem;
+
+use ast::{Path, PathSegment};
 use rustc_ast::ptr::P;
 use rustc_ast::token::{self, Delimiter, Token, TokenKind};
 use rustc_ast::tokenstream::Spacing;
@@ -35,6 +26,16 @@ use rustc_span::symbol::kw::PathRoot;
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{BytePos, Pos};
 use thin_vec::{thin_vec, ThinVec};
+
+use super::diagnostics::SnapshotParser;
+use super::pat::{CommaRecoveryMode, Expected, RecoverColon, RecoverComma};
+use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
+use super::{
+    AttrWrapper, BlockMode, ClosureSpans, ForceCollect, Parser, PathStyle, Restrictions,
+    SemiColonMode, SeqSep, TokenExpectType, TokenType, TrailingToken,
+};
+use crate::errors;
+use crate::maybe_recover_from_interpolated_ty_qpath;
 
 /// Possibly accepts an `token::Interpolated` expression (a pre-parsed expression
 /// dropped into the token stream, which happens while parsing the result of

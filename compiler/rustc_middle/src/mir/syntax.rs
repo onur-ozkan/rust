@@ -3,27 +3,25 @@
 //! This is in a dedicated file so that changes to this file can be reviewed more carefully.
 //! The intention is that this file only contains datatype declarations, no code.
 
-use super::{BasicBlock, Constant, Local, SwitchTargets, UserTypeProjection};
+use rustc_ast::Mutability;
+use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use rustc_hir::def_id::DefId;
+use rustc_hir::{self as hir};
+use rustc_hir::{self, GeneratorKind};
+use rustc_index::IndexVec;
+use rustc_span::def_id::LocalDefId;
+use rustc_span::symbol::Symbol;
+use rustc_span::Span;
+use rustc_target::abi::{FieldIdx, VariantIdx};
+use rustc_target::asm::InlineAsmRegOrRegClass;
 
+use super::{BasicBlock, Constant, Local, SwitchTargets, UserTypeProjection};
 use crate::mir::coverage::{CodeRegion, CoverageKind};
 use crate::traits::Reveal;
 use crate::ty::adjustment::PointerCoercion;
 use crate::ty::GenericArgsRef;
 use crate::ty::{self, List, Ty};
 use crate::ty::{Region, UserTypeAnnotationIndex};
-
-use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_hir::def_id::DefId;
-use rustc_hir::{self as hir};
-use rustc_hir::{self, GeneratorKind};
-use rustc_index::IndexVec;
-use rustc_target::abi::{FieldIdx, VariantIdx};
-
-use rustc_ast::Mutability;
-use rustc_span::def_id::LocalDefId;
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
-use rustc_target::asm::InlineAsmRegOrRegClass;
 
 /// Represents the "flavors" of MIR.
 ///

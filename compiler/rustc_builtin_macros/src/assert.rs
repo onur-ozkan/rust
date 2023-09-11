@@ -1,7 +1,5 @@
 mod context;
 
-use crate::edition_panic::use_panic_2021;
-use crate::errors;
 use rustc_ast::ptr::P;
 use rustc_ast::token;
 use rustc_ast::token::Delimiter;
@@ -14,6 +12,9 @@ use rustc_parse::parser::Parser;
 use rustc_span::symbol::{sym, Ident, Symbol};
 use rustc_span::{Span, DUMMY_SP};
 use thin_vec::thin_vec;
+
+use crate::edition_panic::use_panic_2021;
+use crate::errors;
 
 pub fn expand_assert<'cx>(
     cx: &'cx mut ExtCtxt<'_>,

@@ -16,7 +16,6 @@
 #[macro_use]
 extern crate rustc_middle;
 
-use crate::plumbing::{__rust_begin_short_backtrace, encode_all_query_results, try_mark_green};
 use field_offset::offset_of;
 use rustc_data_structures::stable_hasher::HashStable;
 use rustc_data_structures::sync::AtomicU64;
@@ -42,6 +41,8 @@ use rustc_query_system::query::{
 use rustc_query_system::HandleCycleError;
 use rustc_query_system::Value;
 use rustc_span::{ErrorGuaranteed, Span};
+
+use crate::plumbing::{__rust_begin_short_backtrace, encode_all_query_results, try_mark_green};
 
 #[macro_use]
 mod plumbing;

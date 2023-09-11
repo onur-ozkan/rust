@@ -3,6 +3,7 @@
 #[macro_use] // import iterator! and forward_iterator!
 mod macros;
 
+use super::{from_raw_parts, from_raw_parts_mut};
 use crate::cmp;
 use crate::cmp::Ordering;
 use crate::fmt;
@@ -14,8 +15,6 @@ use crate::marker::{PhantomData, Send, Sized, Sync};
 use crate::mem::{self, SizedTypeProperties};
 use crate::num::NonZeroUsize;
 use crate::ptr::{self, invalid, invalid_mut, NonNull};
-
-use super::{from_raw_parts, from_raw_parts_mut};
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<'a, T> IntoIterator for &'a [T] {

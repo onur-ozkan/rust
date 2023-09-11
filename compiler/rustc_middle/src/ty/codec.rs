@@ -6,6 +6,17 @@
 //! The functionality in here is shared between persisting to crate metadata and
 //! persisting to incr. comp. caches.
 
+use std::hash::Hash;
+use std::intrinsics;
+use std::marker::DiscriminantKind;
+
+use rustc_data_structures::fx::FxHashMap;
+use rustc_middle::ty::TyCtxt;
+use rustc_serialize::{Decodable, Encodable};
+use rustc_span::Span;
+use rustc_target::abi::FieldIdx;
+pub use rustc_type_ir::{TyDecoder, TyEncoder};
+
 use crate::arena::ArenaAllocatable;
 use crate::infer::canonical::{CanonicalVarInfo, CanonicalVarInfos};
 use crate::mir::{
@@ -15,15 +26,6 @@ use crate::mir::{
 use crate::traits;
 use crate::ty::GenericArgsRef;
 use crate::ty::{self, AdtDef, Ty};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_middle::ty::TyCtxt;
-use rustc_serialize::{Decodable, Encodable};
-use rustc_span::Span;
-use rustc_target::abi::FieldIdx;
-pub use rustc_type_ir::{TyDecoder, TyEncoder};
-use std::hash::Hash;
-use std::intrinsics;
-use std::marker::DiscriminantKind;
 
 /// The shorthand encoding uses an enum's variant index `usize`
 /// and is offset by this value so it never matches a real variant.

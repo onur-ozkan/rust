@@ -1,5 +1,5 @@
-use crate::dep_graph::DepKind;
-use crate::query::plumbing::CyclePlaceholder;
+use std::fmt::Write;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::{pluralize, struct_span_err, Applicability, MultiSpan};
 use rustc_hir as hir;
@@ -11,7 +11,8 @@ use rustc_query_system::Value;
 use rustc_span::def_id::LocalDefId;
 use rustc_span::{ErrorGuaranteed, Span};
 
-use std::fmt::Write;
+use crate::dep_graph::DepKind;
+use crate::query::plumbing::CyclePlaceholder;
 
 impl<'tcx> Value<TyCtxt<'tcx>, DepKind> for Ty<'_> {
     fn from_cycle_error(

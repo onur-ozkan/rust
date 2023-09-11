@@ -23,9 +23,17 @@
 #[macro_use]
 extern crate tracing;
 
+use std::cell::{Cell, RefCell};
+use std::collections::BTreeSet;
+use std::fmt;
+
+use diagnostics::{ImportSuggestion, LabelSuggestion, Suggestion};
 use errors::{
     ParamKindInEnumDiscriminant, ParamKindInNonTrivialAnonConst, ParamKindInTyOfConstParam,
 };
+use imports::{Import, ImportData, ImportKind, NameResolution};
+use late::{HasGenericParams, PathSource, PatternSource};
+use macros::{MacroRulesBinding, MacroRulesScope, MacroRulesScopeRef};
 use rustc_arena::{DroplessArena, TypedArena};
 use rustc_ast::expand::StrippedCfgItem;
 use rustc_ast::node_id::NodeMap;
@@ -61,16 +69,7 @@ use rustc_session::lint::LintBuffer;
 use rustc_span::hygiene::{ExpnId, LocalExpnId, MacroKind, SyntaxContext, Transparency};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{Span, DUMMY_SP};
-
 use smallvec::{smallvec, SmallVec};
-use std::cell::{Cell, RefCell};
-use std::collections::BTreeSet;
-use std::fmt;
-
-use diagnostics::{ImportSuggestion, LabelSuggestion, Suggestion};
-use imports::{Import, ImportData, ImportKind, NameResolution};
-use late::{HasGenericParams, PathSource, PatternSource};
-use macros::{MacroRulesBinding, MacroRulesScope, MacroRulesScopeRef};
 
 use crate::effective_visibilities::EffectiveVisibilitiesVisitor;
 

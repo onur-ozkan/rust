@@ -1,9 +1,10 @@
-use crate::infer::error_reporting::TypeErrCtxt;
-use crate::infer::lexical_region_resolve::RegionResolutionError;
-use crate::infer::lexical_region_resolve::RegionResolutionError::*;
 use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed};
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_span::source_map::Span;
+
+use crate::infer::error_reporting::TypeErrCtxt;
+use crate::infer::lexical_region_resolve::RegionResolutionError;
+use crate::infer::lexical_region_resolve::RegionResolutionError::*;
 
 mod different_lifetimes;
 pub mod find_anon_type;

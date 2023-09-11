@@ -1,4 +1,3 @@
-use crate::MirPass;
 use rustc_data_structures::flat_map_in_place::FlatMapInPlace;
 use rustc_index::bit_set::{BitSet, GrowableBitSet};
 use rustc_index::IndexVec;
@@ -8,6 +7,8 @@ use rustc_middle::mir::*;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_mir_dataflow::value_analysis::{excluded_locals, iter_fields};
 use rustc_target::abi::{FieldIdx, ReprFlags, FIRST_VARIANT};
+
+use crate::MirPass;
 
 pub struct ScalarReplacementOfAggregates;
 

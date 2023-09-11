@@ -1,7 +1,5 @@
 //! Miscellaneous type-system utilities that are too small to deserve their own modules.
 
-use crate::traits::{self, ObligationCause, ObligationCtxt};
-
 use hir::LangItem;
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_hir as hir;
@@ -13,6 +11,7 @@ use rustc_middle::ty::{self, AdtDef, GenericArg, List, ParamEnv, Ty, TyCtxt, Typ
 use rustc_span::DUMMY_SP;
 
 use super::outlives_bounds::InferCtxtExt;
+use crate::traits::{self, ObligationCause, ObligationCtxt};
 
 pub enum CopyImplementationError<'tcx> {
     InfringingFields(Vec<(&'tcx ty::FieldDef, Ty<'tcx>, InfringingFieldsReason<'tcx>)>),

@@ -2,9 +2,8 @@ use core::iter::{FusedIterator, TrustedLen};
 use core::num::NonZeroUsize;
 use core::{array, fmt, mem::MaybeUninit, ops::Try, ptr};
 
-use crate::alloc::{Allocator, Global};
-
 use super::VecDeque;
+use crate::alloc::{Allocator, Global};
 
 /// An owning iterator over the elements of a `VecDeque`.
 ///

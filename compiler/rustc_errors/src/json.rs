@@ -9,7 +9,19 @@
 
 // FIXME: spec the JSON output properly.
 
+use std::error::Report;
+use std::io::{self, Write};
+use std::path::Path;
+use std::sync::{Arc, Mutex};
+use std::vec;
+
+use rustc_data_structures::sync::{IntoDynSyncSend, Lrc};
+use rustc_error_messages::FluentArgs;
+use rustc_lint_defs::Applicability;
+use rustc_span::hygiene::ExpnData;
 use rustc_span::source_map::{FilePathMapping, SourceMap};
+use rustc_span::Span;
+use serde::Serialize;
 use termcolor::{ColorSpec, WriteColor};
 
 use crate::emitter::{Emitter, HumanReadableErrorType};
@@ -20,19 +32,6 @@ use crate::{
     CodeSuggestion, FluentBundle, LazyFallbackBundle, MultiSpan, SpanLabel, SubDiagnostic,
     TerminalUrl,
 };
-use rustc_lint_defs::Applicability;
-
-use rustc_data_structures::sync::{IntoDynSyncSend, Lrc};
-use rustc_error_messages::FluentArgs;
-use rustc_span::hygiene::ExpnData;
-use rustc_span::Span;
-use std::error::Report;
-use std::io::{self, Write};
-use std::path::Path;
-use std::sync::{Arc, Mutex};
-use std::vec;
-
-use serde::Serialize;
 
 #[cfg(test)]
 mod tests;

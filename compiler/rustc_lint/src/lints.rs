@@ -2,7 +2,6 @@
 #![allow(rustc::diagnostic_outside_of_impl)]
 use std::num::NonZeroU32;
 
-use crate::fluent_generated as fluent;
 use rustc_errors::{
     AddToDiagnostic, Applicability, DecorateLint, DiagnosticMessage, DiagnosticStyledString,
     SuggestionStyle,
@@ -15,6 +14,7 @@ use rustc_middle::ty::{
 use rustc_session::parse::ParseSess;
 use rustc_span::{edition::Edition, sym, symbol::Ident, Span, Symbol};
 
+use crate::fluent_generated as fluent;
 use crate::{
     builtin::InitError, builtin::TypeAliasBounds, errors::OverruledAttributeSub, LateContext,
 };

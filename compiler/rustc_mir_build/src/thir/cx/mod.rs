@@ -2,9 +2,6 @@
 //! structures into the THIR. The `builder` is generally ignorant of the tcx,
 //! etc., and instead goes through the `Cx` for most of its work.
 
-use crate::thir::pattern::pat_from_hir;
-use crate::thir::util::UserAnnotatedTyHelpers;
-
 use rustc_data_structures::steal::Steal;
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir as hir;
@@ -16,6 +13,9 @@ use rustc_hir::Node;
 use rustc_middle::middle::region;
 use rustc_middle::thir::*;
 use rustc_middle::ty::{self, RvalueScopes, Ty, TyCtxt};
+
+use crate::thir::pattern::pat_from_hir;
+use crate::thir::util::UserAnnotatedTyHelpers;
 
 pub(crate) fn thir_body(
     tcx: TyCtxt<'_>,

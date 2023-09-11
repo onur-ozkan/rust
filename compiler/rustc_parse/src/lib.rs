@@ -13,6 +13,8 @@
 #[macro_use]
 extern crate tracing;
 
+use std::path::Path;
+
 use rustc_ast as ast;
 use rustc_ast::token;
 use rustc_ast::tokenstream::TokenStream;
@@ -24,8 +26,6 @@ use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
 use rustc_fluent_macro::fluent_messages;
 use rustc_session::parse::ParseSess;
 use rustc_span::{FileName, SourceFile, Span};
-
-use std::path::Path;
 
 pub const MACRO_ARGUMENTS: Option<&str> = Some("macro arguments");
 
@@ -48,8 +48,9 @@ fluent_messages! { "../messages.ftl" }
 /// `DiagnosticBuilder`.
 macro_rules! panictry_buffer {
     ($handler:expr, $e:expr) => {{
-        use rustc_errors::FatalError;
         use std::result::Result::{Err, Ok};
+
+        use rustc_errors::FatalError;
         match $e {
             Ok(e) => e,
             Err(errs) => {

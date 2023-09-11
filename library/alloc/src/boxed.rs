@@ -165,6 +165,9 @@ use core::pin::Pin;
 use core::ptr::{self, NonNull, Unique};
 use core::task::{Context, Poll};
 
+#[unstable(feature = "thin_box", issue = "92791")]
+pub use thin::ThinBox;
+
 #[cfg(not(no_global_oom_handling))]
 use crate::alloc::{handle_alloc_error, WriteCloneIntoRaw};
 use crate::alloc::{AllocError, Allocator, Global, Layout};
@@ -177,9 +180,6 @@ use crate::str::from_boxed_utf8_unchecked;
 use crate::string::String;
 #[cfg(not(no_global_oom_handling))]
 use crate::vec::Vec;
-
-#[unstable(feature = "thin_box", issue = "92791")]
-pub use thin::ThinBox;
 
 mod thin;
 

@@ -1,12 +1,13 @@
 //! Helper routines for higher-ranked things. See the `doc` module at
 //! the end of the file for details.
 
-use super::combine::CombineFields;
-use super::{HigherRankedType, InferCtxt};
-use crate::infer::CombinedSnapshot;
 use rustc_middle::ty::fold::FnMutDelegate;
 use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
 use rustc_middle::ty::{self, Binder, Ty, TyCtxt, TypeFoldable};
+
+use super::combine::CombineFields;
+use super::{HigherRankedType, InferCtxt};
+use crate::infer::CombinedSnapshot;
 
 impl<'a, 'tcx> CombineFields<'a, 'tcx> {
     /// Checks whether `for<..> sub <: for<..> sup` holds.

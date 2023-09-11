@@ -1,5 +1,6 @@
-use super::{make_test, GlobalTestOptions};
 use rustc_span::edition::DEFAULT_EDITION;
+
+use super::{make_test, GlobalTestOptions};
 
 #[test]
 fn make_test_basic() {

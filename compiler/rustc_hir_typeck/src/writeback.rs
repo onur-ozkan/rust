@@ -2,7 +2,8 @@
 // unresolved type variables and replaces "ty_var" types with their
 // substitutions.
 
-use crate::FnCtxt;
+use std::mem;
+
 use rustc_data_structures::unord::ExtendUnord;
 use rustc_errors::{ErrorGuaranteed, StashKey};
 use rustc_hir as hir;
@@ -15,7 +16,7 @@ use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_span::symbol::sym;
 use rustc_span::Span;
 
-use std::mem;
+use crate::FnCtxt;
 
 ///////////////////////////////////////////////////////////////////////////
 // Entry point

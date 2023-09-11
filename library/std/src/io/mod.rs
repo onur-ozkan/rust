@@ -251,19 +251,14 @@
 #[cfg(test)]
 mod tests;
 
-use crate::cmp;
-use crate::fmt;
-use crate::mem::take;
-use crate::ops::{Deref, DerefMut};
-use crate::slice;
-use crate::str;
-use crate::sys;
-use crate::sys_common::memchr;
+pub(crate) use error::const_io_error;
 
 #[stable(feature = "bufwriter_into_parts", since = "1.56.0")]
 pub use self::buffered::WriterPanicked;
 #[unstable(feature = "raw_os_error_ty", issue = "107792")]
 pub use self::error::RawOsError;
+#[unstable(feature = "read_buf", issue = "78485")]
+pub use self::readbuf::{BorrowedBuf, BorrowedCursor};
 pub(crate) use self::stdio::attempt_print_to_stderr;
 #[unstable(feature = "internal_output_capture", issue = "none")]
 #[doc(no_inline, hidden)]
@@ -281,10 +276,14 @@ pub use self::{
     stdio::{stderr, stdin, stdout, Stderr, StderrLock, Stdin, StdinLock, Stdout, StdoutLock},
     util::{empty, repeat, sink, Empty, Repeat, Sink},
 };
-
-#[unstable(feature = "read_buf", issue = "78485")]
-pub use self::readbuf::{BorrowedBuf, BorrowedCursor};
-pub(crate) use error::const_io_error;
+use crate::cmp;
+use crate::fmt;
+use crate::mem::take;
+use crate::ops::{Deref, DerefMut};
+use crate::slice;
+use crate::str;
+use crate::sys;
+use crate::sys_common::memchr;
 
 mod buffered;
 pub(crate) mod copy;

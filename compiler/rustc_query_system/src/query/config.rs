@@ -1,16 +1,17 @@
 //! Query configuration and description traits.
 
+use std::fmt::Debug;
+use std::hash::Hash;
+
+use rustc_data_structures::fingerprint::Fingerprint;
+use rustc_span::ErrorGuaranteed;
+
 use crate::dep_graph::{DepNode, DepNodeParams, SerializedDepNodeIndex};
 use crate::error::HandleCycleError;
 use crate::ich::StableHashingContext;
 use crate::query::caches::QueryCache;
 use crate::query::DepNodeIndex;
 use crate::query::{QueryContext, QueryInfo, QueryState};
-
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_span::ErrorGuaranteed;
-use std::fmt::Debug;
-use std::hash::Hash;
 
 pub type HashResult<V> = Option<fn(&mut StableHashingContext<'_>, &V) -> Fingerprint>;
 

@@ -1,7 +1,3 @@
-use crate::hir::{ModuleItems, Owner};
-use crate::middle::debugger_visualizer::DebuggerVisualizerFile;
-use crate::query::LocalCrate;
-use crate::ty::TyCtxt;
 use rustc_ast as ast;
 use rustc_data_structures::fingerprint::Fingerprint;
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
@@ -18,6 +14,11 @@ use rustc_span::def_id::StableCrateId;
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::Span;
 use rustc_target::spec::abi::Abi;
+
+use crate::hir::{ModuleItems, Owner};
+use crate::middle::debugger_visualizer::DebuggerVisualizerFile;
+use crate::query::LocalCrate;
+use crate::ty::TyCtxt;
 
 #[inline]
 pub fn associated_body(node: Node<'_>) -> Option<(LocalDefId, BodyId)> {

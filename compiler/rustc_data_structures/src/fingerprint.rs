@@ -1,6 +1,8 @@
-use crate::stable_hasher::{Hash64, StableHasher, StableHasherResult};
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 use std::hash::{Hash, Hasher};
+
+use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+
+use crate::stable_hasher::{Hash64, StableHasher, StableHasherResult};
 
 #[cfg(test)]
 mod tests;

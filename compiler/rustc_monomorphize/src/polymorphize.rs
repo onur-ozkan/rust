@@ -5,6 +5,8 @@
 //! generic parameters are unused (and eventually, in what ways generic parameters are used - only
 //! for their size, offset of a field, etc.).
 
+use std::ops::ControlFlow;
+
 use rustc_hir::{def::DefKind, def_id::DefId, ConstContext};
 use rustc_middle::mir::{
     self,
@@ -18,7 +20,6 @@ use rustc_middle::ty::{
     Const, GenericArgsRef, Ty, TyCtxt, UnusedGenericParams,
 };
 use rustc_span::symbol::sym;
-use std::ops::ControlFlow;
 
 use crate::errors::UnusedGenericParamsHint;
 

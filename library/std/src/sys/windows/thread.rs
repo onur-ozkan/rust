@@ -1,3 +1,6 @@
+use libc::c_void;
+
+use super::to_u16s;
 use crate::ffi::CStr;
 use crate::io;
 use crate::num::NonZeroUsize;
@@ -9,10 +12,6 @@ use crate::sys::handle::Handle;
 use crate::sys::stack_overflow;
 use crate::sys_common::FromInner;
 use crate::time::Duration;
-
-use libc::c_void;
-
-use super::to_u16s;
 
 pub const DEFAULT_MIN_STACK_SIZE: usize = 2 * 1024 * 1024;
 

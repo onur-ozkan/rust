@@ -1,5 +1,8 @@
 //! The `Visitor` responsible for actually checking a `mir::Body` for invalid operations.
 
+use std::mem;
+use std::ops::Deref;
+
 use rustc_errors::{Diagnostic, ErrorGuaranteed};
 use rustc_hir as hir;
 use rustc_hir::def_id::DefId;
@@ -16,9 +19,6 @@ use rustc_mir_dataflow::{self, Analysis};
 use rustc_span::{sym, Span, Symbol};
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt as _;
 use rustc_trait_selection::traits::{self, ObligationCauseCode, ObligationCtxt, SelectionContext};
-
-use std::mem;
-use std::ops::Deref;
 
 use super::ops::{self, NonConstOp, Status};
 use super::qualifs::{self, CustomEq, HasMutInterior, NeedsDrop};

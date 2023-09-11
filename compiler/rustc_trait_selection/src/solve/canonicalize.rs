@@ -1,6 +1,5 @@
 use std::cmp::Ordering;
 
-use crate::infer::InferCtxt;
 use rustc_middle::infer::canonical::Canonical;
 use rustc_middle::infer::canonical::CanonicalTyVarKind;
 use rustc_middle::infer::canonical::CanonicalVarInfo;
@@ -12,6 +11,8 @@ use rustc_middle::ty::TyCtxt;
 use rustc_middle::ty::TypeVisitableExt;
 use rustc_middle::ty::{self, Ty};
 use rustc_middle::ty::{TypeFoldable, TypeFolder, TypeSuperFoldable};
+
+use crate::infer::InferCtxt;
 
 /// Whether we're canonicalizing a query input or the query response.
 ///

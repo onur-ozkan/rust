@@ -1,5 +1,3 @@
-use Context::*;
-
 use rustc_hir as hir;
 use rustc_hir::def_id::LocalModDefId;
 use rustc_hir::intravisit::{self, Visitor};
@@ -11,6 +9,7 @@ use rustc_middle::ty::TyCtxt;
 use rustc_session::Session;
 use rustc_span::hygiene::DesugaringKind;
 use rustc_span::Span;
+use Context::*;
 
 use crate::errors::{
     BreakInsideAsyncBlock, BreakInsideClosure, BreakNonLoop, ContinueLabeledBlock, OutsideLoop,

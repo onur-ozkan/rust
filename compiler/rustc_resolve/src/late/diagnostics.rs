@@ -1,10 +1,6 @@
-use crate::diagnostics::{ImportSuggestion, LabelSuggestion, TypoSuggestion};
-use crate::late::{AliasPossibility, LateResolutionVisitor, RibKind};
-use crate::late::{LifetimeBinderKind, LifetimeRes, LifetimeRibKind, LifetimeUseSet};
-use crate::{errors, path_names_to_string};
-use crate::{Module, ModuleKind, ModuleOrUniformRoot};
-use crate::{PathResult, PathSource, Segment};
-use rustc_hir::def::Namespace::{self, *};
+use std::borrow::Cow;
+use std::iter;
+use std::ops::Deref;
 
 use rustc_ast::visit::{FnCtxt, FnKind, LifetimeCtxt};
 use rustc_ast::{
@@ -18,6 +14,7 @@ use rustc_errors::{
     MultiSpan,
 };
 use rustc_hir as hir;
+use rustc_hir::def::Namespace::{self, *};
 use rustc_hir::def::{self, CtorKind, CtorOf, DefKind};
 use rustc_hir::def_id::{DefId, CRATE_DEF_ID};
 use rustc_hir::PrimTy;
@@ -28,14 +25,15 @@ use rustc_span::edition::Edition;
 use rustc_span::hygiene::MacroKind;
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::Span;
-
-use std::borrow::Cow;
-use std::iter;
-use std::ops::Deref;
-
 use thin_vec::ThinVec;
 
 use super::NoConstantGenericsReason;
+use crate::diagnostics::{ImportSuggestion, LabelSuggestion, TypoSuggestion};
+use crate::late::{AliasPossibility, LateResolutionVisitor, RibKind};
+use crate::late::{LifetimeBinderKind, LifetimeRes, LifetimeRibKind, LifetimeUseSet};
+use crate::{errors, path_names_to_string};
+use crate::{Module, ModuleKind, ModuleOrUniformRoot};
+use crate::{PathResult, PathSource, Segment};
 
 type Res = def::Res<ast::NodeId>;
 

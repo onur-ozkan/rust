@@ -1,10 +1,5 @@
-use crate::coercion::CoerceMany;
-use crate::errors::{
-    LangStartIncorrectNumberArgs, LangStartIncorrectParam, LangStartIncorrectRetTy,
-};
-use crate::gather_locals::GatherLocalsVisitor;
-use crate::FnCtxt;
-use crate::GeneratorTypes;
+use std::cell::RefCell;
+
 use rustc_hir as hir;
 use rustc_hir::def::DefKind;
 use rustc_hir::intravisit::Visitor;
@@ -16,7 +11,14 @@ use rustc_middle::ty::{self, Binder, Ty, TyCtxt};
 use rustc_span::def_id::LocalDefId;
 use rustc_target::spec::abi::Abi;
 use rustc_trait_selection::traits;
-use std::cell::RefCell;
+
+use crate::coercion::CoerceMany;
+use crate::errors::{
+    LangStartIncorrectNumberArgs, LangStartIncorrectParam, LangStartIncorrectRetTy,
+};
+use crate::gather_locals::GatherLocalsVisitor;
+use crate::FnCtxt;
+use crate::GeneratorTypes;
 
 /// Helper used for fns and closures. Does the grungy work of checking a function
 /// body and returns the function context used for that purpose, since in the case of a fn item

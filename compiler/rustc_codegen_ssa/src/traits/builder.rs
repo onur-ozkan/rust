@@ -1,3 +1,11 @@
+use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
+use rustc_middle::ty::layout::{HasParamEnv, TyAndLayout};
+use rustc_middle::ty::Ty;
+use rustc_span::Span;
+use rustc_target::abi::call::FnAbi;
+use rustc_target::abi::{Abi, Align, Scalar, Size, WrappingRange};
+use rustc_target::spec::HasTargetSpec;
+
 use super::abi::AbiBuilderMethods;
 use super::asm::AsmBuilderMethods;
 use super::coverageinfo::CoverageInfoBuilderMethods;
@@ -6,21 +14,12 @@ use super::intrinsic::IntrinsicCallMethods;
 use super::misc::MiscMethods;
 use super::type_::{ArgAbiMethods, BaseTypeMethods};
 use super::{HasCodegen, StaticBuilderMethods};
-
 use crate::common::{
     AtomicOrdering, AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope, TypeKind,
 };
 use crate::mir::operand::OperandRef;
 use crate::mir::place::PlaceRef;
 use crate::MemFlags;
-
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
-use rustc_middle::ty::layout::{HasParamEnv, TyAndLayout};
-use rustc_middle::ty::Ty;
-use rustc_span::Span;
-use rustc_target::abi::call::FnAbi;
-use rustc_target::abi::{Abi, Align, Scalar, Size, WrappingRange};
-use rustc_target::spec::HasTargetSpec;
 
 #[derive(Copy, Clone)]
 pub enum OverflowOp {

@@ -1,14 +1,16 @@
 //! Runs rustfmt on the repository.
 
-use crate::builder::Builder;
-use crate::util::{output, program_out_of_date, t};
-use build_helper::ci::CiEnv;
-use build_helper::git::get_git_modified_files;
-use ignore::WalkBuilder;
 use std::collections::VecDeque;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::mpsc::SyncSender;
+
+use build_helper::ci::CiEnv;
+use build_helper::git::get_git_modified_files;
+use ignore::WalkBuilder;
+
+use crate::builder::Builder;
+use crate::util::{output, program_out_of_date, t};
 
 fn rustfmt(src: &Path, rustfmt: &Path, paths: &[PathBuf], check: bool) -> impl FnMut(bool) -> bool {
     let mut cmd = Command::new(&rustfmt);

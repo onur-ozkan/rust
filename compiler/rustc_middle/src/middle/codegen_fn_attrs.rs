@@ -1,7 +1,8 @@
-use crate::mir::mono::Linkage;
 use rustc_attr::{InlineAttr, InstructionSetAttr, OptimizeAttr};
 use rustc_span::symbol::Symbol;
 use rustc_target::spec::SanitizerSet;
+
+use crate::mir::mono::Linkage;
 
 #[derive(Clone, TyEncodable, TyDecodable, HashStable, Debug)]
 pub struct CodegenFnAttrs {

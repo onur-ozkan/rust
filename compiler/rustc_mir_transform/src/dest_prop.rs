@@ -133,8 +133,6 @@
 
 use std::collections::hash_map::{Entry, OccupiedEntry};
 
-use crate::simplify::remove_dead_blocks;
-use crate::MirPass;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_index::bit_set::BitSet;
 use rustc_middle::mir::visit::{MutVisitor, PlaceContext, Visitor};
@@ -147,6 +145,9 @@ use rustc_middle::mir::{
 use rustc_middle::ty::TyCtxt;
 use rustc_mir_dataflow::impls::MaybeLiveLocals;
 use rustc_mir_dataflow::{Analysis, ResultsCursor};
+
+use crate::simplify::remove_dead_blocks;
+use crate::MirPass;
 
 pub struct DestinationPropagation;
 

@@ -1,12 +1,13 @@
 //! Characters and their corresponding confusables were collected from
 //! <https://www.unicode.org/Public/security/10.0.0/confusables.txt>
 
+use rustc_span::{symbol::kw, BytePos, Pos, Span};
+
 use super::StringReader;
 use crate::{
     errors::TokenSubstitution,
     token::{self, Delimiter},
 };
-use rustc_span::{symbol::kw, BytePos, Pos, Span};
 
 #[rustfmt::skip] // for line breaks
 pub(crate) const UNICODE_ARRAY: &[(char, &str, &str)] = &[

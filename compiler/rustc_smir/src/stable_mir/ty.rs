@@ -1,10 +1,11 @@
+use std::fmt::{self, Debug, Formatter};
+
 use super::{
     mir::Safety,
     mir::{Body, Mutability},
     with, AllocId, DefId,
 };
 use crate::rustc_internal::Opaque;
-use std::fmt::{self, Debug, Formatter};
 
 #[derive(Copy, Clone)]
 pub struct Ty(pub usize);

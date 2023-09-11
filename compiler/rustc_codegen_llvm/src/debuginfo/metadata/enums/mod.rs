@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use rustc_codegen_ssa::debuginfo::{
     type_names::{compute_debuginfo_type_name, cpp_like_debuginfo},
     wants_c_like_enum_debuginfo,
@@ -17,8 +19,12 @@ use rustc_span::Symbol;
 use rustc_target::abi::{
     FieldIdx, HasDataLayout, Integer, Primitive, TagEncoding, VariantIdx, Variants,
 };
-use std::borrow::Cow;
 
+use super::{
+    size_and_align_of,
+    type_map::{DINodeCreationResult, UniqueTypeId},
+    SmallVec,
+};
 use crate::{
     common::CodegenCx,
     debuginfo::{
@@ -33,12 +39,6 @@ use crate::{
         self,
         debuginfo::{DIFlags, DIType},
     },
-};
-
-use super::{
-    size_and_align_of,
-    type_map::{DINodeCreationResult, UniqueTypeId},
-    SmallVec,
 };
 
 mod cpp_like;

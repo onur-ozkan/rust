@@ -1,13 +1,3 @@
-use super::{Parser, PathStyle, TokenType};
-
-use crate::errors::{
-    self, DynAfterMut, ExpectedFnPathFoundFnKeyword, ExpectedMutOrConstInRawPointerType,
-    FnPointerCannotBeAsync, FnPointerCannotBeConst, FnPtrWithGenerics, FnPtrWithGenericsSugg,
-    InvalidDynKeyword, LifetimeAfterMut, NeedPlusAfterTraitObjectLifetime, NestedCVariadicType,
-    ReturnTypesUseThinArrow,
-};
-use crate::{maybe_recover_from_interpolated_ty_qpath, maybe_whole};
-
 use ast::DUMMY_NODE_ID;
 use rustc_ast::ptr::P;
 use rustc_ast::token::{self, Delimiter, Token, TokenKind};
@@ -22,6 +12,15 @@ use rustc_span::source_map::Span;
 use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::Symbol;
 use thin_vec::{thin_vec, ThinVec};
+
+use super::{Parser, PathStyle, TokenType};
+use crate::errors::{
+    self, DynAfterMut, ExpectedFnPathFoundFnKeyword, ExpectedMutOrConstInRawPointerType,
+    FnPointerCannotBeAsync, FnPointerCannotBeConst, FnPtrWithGenerics, FnPtrWithGenericsSugg,
+    InvalidDynKeyword, LifetimeAfterMut, NeedPlusAfterTraitObjectLifetime, NestedCVariadicType,
+    ReturnTypesUseThinArrow,
+};
+use crate::{maybe_recover_from_interpolated_ty_qpath, maybe_whole};
 
 /// Any `?`, `!`, or `~const` modifiers that appear at the start of a bound.
 struct BoundModifiers {

@@ -14,7 +14,9 @@
 //! upon. As the ast is traversed, this keeps track of the current lint level
 //! for all lint attributes.
 
-use crate::{passes::LateLintPassObject, LateContext, LateLintPass, LintStore};
+use std::any::Any;
+use std::cell::Cell;
+
 use rustc_ast as ast;
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_data_structures::sync::join;
@@ -27,8 +29,7 @@ use rustc_middle::ty::{self, TyCtxt};
 use rustc_session::lint::LintPass;
 use rustc_span::Span;
 
-use std::any::Any;
-use std::cell::Cell;
+use crate::{passes::LateLintPassObject, LateContext, LateLintPass, LintStore};
 
 /// Extract the `LintStore` from the query context.
 /// This function exists because we've erased `LintStore` as `dyn Any` in the context.

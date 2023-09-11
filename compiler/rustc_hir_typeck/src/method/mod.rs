@@ -7,11 +7,6 @@ mod prelude2021;
 pub mod probe;
 mod suggest;
 
-pub use self::suggest::{MethodCallComponents, SelfSource};
-pub use self::MethodError::*;
-
-use crate::errors::OpMethodGenericParams;
-use crate::FnCtxt;
 use rustc_errors::{Applicability, Diagnostic, SubdiagnosticMessage};
 use rustc_hir as hir;
 use rustc_hir::def::{CtorOf, DefKind, Namespace};
@@ -27,6 +22,10 @@ use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
 use rustc_trait_selection::traits::{self, NormalizeExt};
 
 use self::probe::{IsSuggestion, ProbeScope};
+pub use self::suggest::{MethodCallComponents, SelfSource};
+pub use self::MethodError::*;
+use crate::errors::OpMethodGenericParams;
+use crate::FnCtxt;
 
 pub fn provide(providers: &mut Providers) {
     probe::provide(providers);

@@ -25,10 +25,10 @@
 //! sometimes useful when the types of `c` and `d` are not traceable
 //! things. (That system should probably be refactored.)
 
-use super::*;
-
 use rustc_middle::ty::relate::{Relate, TypeRelation};
 use rustc_middle::ty::{Const, ImplSubject};
+
+use super::*;
 
 /// Whether we should define opaque types or just treat them opaquely.
 ///

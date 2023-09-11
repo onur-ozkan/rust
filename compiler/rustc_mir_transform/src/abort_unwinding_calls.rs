@@ -1,10 +1,11 @@
-use crate::MirPass;
 use rustc_ast::InlineAsmOptions;
 use rustc_middle::mir::*;
 use rustc_middle::ty::layout;
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_target::spec::abi::Abi;
 use rustc_target::spec::PanicStrategy;
+
+use crate::MirPass;
 
 /// A pass that runs which is targeted at ensuring that codegen guarantees about
 /// unwinding are upheld for compilations of panic=abort programs.

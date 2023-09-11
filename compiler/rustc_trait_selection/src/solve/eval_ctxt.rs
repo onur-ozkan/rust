@@ -1,3 +1,6 @@
+use std::io::Write;
+use std::ops::ControlFlow;
+
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_hir::def_id::{DefId, LocalDefId};
 use rustc_infer::infer::at::ToTrace;
@@ -22,16 +25,13 @@ use rustc_middle::ty::{
 };
 use rustc_session::config::DumpSolverProofTree;
 use rustc_span::DUMMY_SP;
-use std::io::Write;
-use std::ops::ControlFlow;
-
-use crate::traits::vtable::{count_own_vtable_entries, prepare_vtable_segments, VtblSegment};
+pub use select::InferCtxtSelectExt;
 
 use super::inspect::ProofTreeBuilder;
 use super::search_graph;
 use super::SolverMode;
 use super::{search_graph::SearchGraph, Goal};
-pub use select::InferCtxtSelectExt;
+use crate::traits::vtable::{count_own_vtable_entries, prepare_vtable_segments, VtblSegment};
 
 mod canonical;
 mod probe;

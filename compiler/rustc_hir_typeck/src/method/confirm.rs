@@ -1,6 +1,5 @@
-use super::{probe, MethodCallee};
+use std::ops::Deref;
 
-use crate::{callee, FnCtxt};
 use rustc_hir as hir;
 use rustc_hir::def_id::DefId;
 use rustc_hir::GenericArg;
@@ -19,7 +18,8 @@ use rustc_middle::ty::{
 use rustc_span::{Span, DUMMY_SP};
 use rustc_trait_selection::traits;
 
-use std::ops::Deref;
+use super::{probe, MethodCallee};
+use crate::{callee, FnCtxt};
 
 struct ConfirmContext<'a, 'tcx> {
     fcx: &'a FnCtxt<'a, 'tcx>,

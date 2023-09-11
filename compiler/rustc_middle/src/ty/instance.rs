@@ -1,7 +1,5 @@
-use crate::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use crate::ty::print::{FmtPrinter, Printer};
-use crate::ty::{self, Ty, TyCtxt, TypeFoldable, TypeSuperFoldable};
-use crate::ty::{EarlyBinder, GenericArgs, GenericArgsRef, TypeVisitableExt};
+use std::fmt;
+
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir::def::Namespace;
 use rustc_hir::def_id::{CrateNum, DefId};
@@ -11,7 +9,10 @@ use rustc_macros::HashStable;
 use rustc_middle::ty::normalize_erasing_regions::NormalizationError;
 use rustc_span::Symbol;
 
-use std::fmt;
+use crate::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use crate::ty::print::{FmtPrinter, Printer};
+use crate::ty::{self, Ty, TyCtxt, TypeFoldable, TypeSuperFoldable};
+use crate::ty::{EarlyBinder, GenericArgs, GenericArgsRef, TypeVisitableExt};
 
 /// A monomorphized `InstanceDef`.
 ///

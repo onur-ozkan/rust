@@ -7,13 +7,11 @@ use std::rc::Rc;
 use std::slice;
 
 use arrayvec::ArrayVec;
-use smallvec::{smallvec, SmallVec};
-
 use rustc_macros::{Decodable, Encodable};
+use smallvec::{smallvec, SmallVec};
+use Chunk::*;
 
 use crate::{Idx, IndexVec};
-
-use Chunk::*;
 
 #[cfg(test)]
 mod tests;

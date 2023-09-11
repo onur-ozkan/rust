@@ -1,11 +1,12 @@
-use crate::rustc_middle::ty::util::IntTypeExt;
-use crate::MirPass;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_middle::mir::interpret::AllocId;
 use rustc_middle::mir::*;
 use rustc_middle::ty::{self, AdtDef, ParamEnv, Ty, TyCtxt};
 use rustc_session::Session;
 use rustc_target::abi::{HasDataLayout, Size, TagEncoding, Variants};
+
+use crate::rustc_middle::ty::util::IntTypeExt;
+use crate::MirPass;
 
 /// A pass that seeks to optimize unnecessary moves of large enum types, if there is a large
 /// enough discrepancy between them.

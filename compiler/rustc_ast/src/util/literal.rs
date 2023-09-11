@@ -1,15 +1,17 @@
 //! Code related to parsing literals.
 
-use crate::ast::{self, LitKind, MetaItemLit, StrStyle};
-use crate::token::{self, Token};
+use std::ops::Range;
+use std::{ascii, fmt, str};
+
 use rustc_lexer::unescape::{
     byte_from_char, unescape_byte, unescape_c_string, unescape_char, unescape_literal, CStrUnit,
     Mode,
 };
 use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_span::Span;
-use std::ops::Range;
-use std::{ascii, fmt, str};
+
+use crate::ast::{self, LitKind, MetaItemLit, StrStyle};
+use crate::token::{self, Token};
 
 // Escapes a string, represented as a symbol. Reuses the original symbol,
 // avoiding interning, if no changes are required.

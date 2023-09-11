@@ -1,10 +1,11 @@
+use anyhow::Context;
+use camino::{Utf8Path, Utf8PathBuf};
+use humansize::BINARY;
+
 use crate::environment::Environment;
 use crate::exec::{cmd, CmdBuilder};
 use crate::utils::io::{count_files, delete_directory};
 use crate::utils::with_log_group;
-use anyhow::Context;
-use camino::{Utf8Path, Utf8PathBuf};
-use humansize::BINARY;
 
 const LLVM_PGO_CRATES: &[&str] = &[
     "syn-1.0.89",

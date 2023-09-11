@@ -1,5 +1,5 @@
-use crate::deref_separator::deref_finder;
-use crate::MirPass;
+use std::fmt;
+
 use rustc_index::bit_set::BitSet;
 use rustc_index::IndexVec;
 use rustc_middle::mir::patch::MirPatch;
@@ -15,7 +15,9 @@ use rustc_mir_dataflow::{on_all_children_bits, on_all_drop_children_bits};
 use rustc_mir_dataflow::{Analysis, ResultsCursor};
 use rustc_span::Span;
 use rustc_target::abi::{FieldIdx, VariantIdx};
-use std::fmt;
+
+use crate::deref_separator::deref_finder;
+use crate::MirPass;
 
 /// During MIR building, Drop terminators are inserted in every place where a drop may occur.
 /// However, in this phase, the presence of these terminators does not guarantee that a destructor will run,

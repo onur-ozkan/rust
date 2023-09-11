@@ -1,13 +1,12 @@
-pub use self::AssocItemContainer::*;
-
-use crate::ty;
 use rustc_data_structures::sorted_map::SortedIndexMultiMap;
 use rustc_hir as hir;
 use rustc_hir::def::{DefKind, Namespace};
 use rustc_hir::def_id::DefId;
 use rustc_span::symbol::{Ident, Symbol};
 
+pub use self::AssocItemContainer::*;
 use super::{TyCtxt, Visibility};
+use crate::ty;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, HashStable, Hash, Encodable, Decodable)]
 pub enum AssocItemContainer {

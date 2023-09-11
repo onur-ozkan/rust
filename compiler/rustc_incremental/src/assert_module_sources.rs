@@ -23,7 +23,6 @@
 //! allows for doing a more fine-grained check to see if pre- or post-lto data
 //! was re-used.
 
-use crate::errors;
 use rustc_ast as ast;
 use rustc_data_structures::unord::UnordSet;
 use rustc_hir::def_id::LOCAL_CRATE;
@@ -32,6 +31,8 @@ use rustc_middle::ty::TyCtxt;
 use rustc_session::cgu_reuse_tracker::*;
 use rustc_span::symbol::{sym, Symbol};
 use thin_vec::ThinVec;
+
+use crate::errors;
 
 #[allow(missing_docs)]
 pub fn assert_module_sources(tcx: TyCtxt<'_>) {

@@ -1,6 +1,10 @@
-use crate::diagnostic::DiagnosticLocation;
-use crate::{fluent_generated as fluent, AddToDiagnostic};
-use crate::{DiagnosticArgValue, DiagnosticBuilder, Handler, IntoDiagnostic, IntoDiagnosticArg};
+use std::backtrace::Backtrace;
+use std::borrow::Cow;
+use std::fmt;
+use std::num::ParseIntError;
+use std::path::{Path, PathBuf};
+use std::process::ExitStatus;
+
 use rustc_ast as ast;
 use rustc_ast_pretty::pprust;
 use rustc_hir as hir;
@@ -11,12 +15,10 @@ use rustc_span::Span;
 use rustc_target::abi::TargetDataLayoutErrors;
 use rustc_target::spec::{PanicStrategy, SplitDebuginfo, StackProtector, TargetTriple};
 use rustc_type_ir as type_ir;
-use std::backtrace::Backtrace;
-use std::borrow::Cow;
-use std::fmt;
-use std::num::ParseIntError;
-use std::path::{Path, PathBuf};
-use std::process::ExitStatus;
+
+use crate::diagnostic::DiagnosticLocation;
+use crate::{fluent_generated as fluent, AddToDiagnostic};
+use crate::{DiagnosticArgValue, DiagnosticBuilder, Handler, IntoDiagnostic, IntoDiagnosticArg};
 
 pub struct DiagnosticArgFromDisplay<'a>(pub &'a dyn fmt::Display);
 

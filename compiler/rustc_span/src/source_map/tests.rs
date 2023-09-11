@@ -1,6 +1,6 @@
-use super::*;
-
 use rustc_data_structures::sync::{FreezeLock, Lrc};
+
+use super::*;
 
 fn init_source_map() -> SourceMap {
     let sm = SourceMap::new(FilePathMapping::empty());

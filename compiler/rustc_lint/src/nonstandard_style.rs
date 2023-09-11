@@ -1,8 +1,3 @@
-use crate::lints::{
-    NonCamelCaseType, NonCamelCaseTypeSub, NonSnakeCaseDiag, NonSnakeCaseDiagSub,
-    NonUpperCaseGlobal, NonUpperCaseGlobalSub,
-};
-use crate::{EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext};
 use rustc_ast as ast;
 use rustc_attr as attr;
 use rustc_hir as hir;
@@ -14,6 +9,12 @@ use rustc_span::def_id::LocalDefId;
 use rustc_span::symbol::{sym, Ident};
 use rustc_span::{BytePos, Span};
 use rustc_target::spec::abi::Abi;
+
+use crate::lints::{
+    NonCamelCaseType, NonCamelCaseTypeSub, NonSnakeCaseDiag, NonSnakeCaseDiagSub,
+    NonUpperCaseGlobal, NonUpperCaseGlobalSub,
+};
+use crate::{EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext};
 
 #[derive(PartialEq)]
 pub enum MethodLateContext {

@@ -430,24 +430,6 @@ pub mod prelude;
 
 // Public module declarations and re-exports
 #[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::borrow;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::boxed;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::fmt;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::format;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::rc;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::slice;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::str;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::string;
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use alloc_crate::vec;
-#[stable(feature = "rust1", since = "1.0.0")]
 pub use core::any;
 #[stable(feature = "core_array", since = "1.36.0")]
 pub use core::array;
@@ -526,6 +508,25 @@ pub use core::u8;
 #[allow(deprecated, deprecated_in_future)]
 pub use core::usize;
 
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::borrow;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::boxed;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::fmt;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::format;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::rc;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::slice;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::str;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::string;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use alloc_crate::vec;
+
 pub mod f32;
 pub mod f64;
 
@@ -560,9 +561,10 @@ mod std_float;
 #[unstable(feature = "portable_simd", issue = "86656")]
 pub mod simd {
     #[doc(inline)]
-    pub use crate::std_float::StdFloat;
-    #[doc(inline)]
     pub use core::simd::*;
+
+    #[doc(inline)]
+    pub use crate::std_float::StdFloat;
 }
 
 #[stable(feature = "futures_api", since = "1.36.0")]
@@ -570,12 +572,11 @@ pub mod task {
     //! Types and Traits for working with asynchronous tasks.
 
     #[doc(inline)]
-    #[stable(feature = "futures_api", since = "1.36.0")]
-    pub use core::task::*;
-
-    #[doc(inline)]
     #[stable(feature = "wake_trait", since = "1.51.0")]
     pub use alloc::task::*;
+    #[doc(inline)]
+    #[stable(feature = "futures_api", since = "1.36.0")]
+    pub use core::task::*;
 }
 
 #[doc = include_str!("../../stdarch/crates/core_arch/src/core_arch_docs.md")]
@@ -621,13 +622,14 @@ pub use panicking::panic_hook_with_disk_dump;
 mod backtrace_rs;
 
 // Re-export macros defined in core.
-#[stable(feature = "rust1", since = "1.0.0")]
-#[allow(deprecated, deprecated_in_future)]
-pub use core::{
-    assert_eq, assert_ne, debug_assert, debug_assert_eq, debug_assert_ne, matches, todo, r#try,
-    unimplemented, unreachable, write, writeln,
-};
-
+#[unstable(
+    feature = "concat_bytes",
+    issue = "87555",
+    reason = "`concat_bytes` is not stable enough for use and is subject to change"
+)]
+pub use core::concat_bytes;
+#[stable(feature = "core_primitive", since = "1.43.0")]
+pub use core::primitive;
 // Re-export built-in macros defined through core.
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow(deprecated)]
@@ -636,16 +638,12 @@ pub use core::{
     env, file, format_args, format_args_nl, include, include_bytes, include_str, line, log_syntax,
     module_path, option_env, stringify, trace_macros,
 };
-
-#[unstable(
-    feature = "concat_bytes",
-    issue = "87555",
-    reason = "`concat_bytes` is not stable enough for use and is subject to change"
-)]
-pub use core::concat_bytes;
-
-#[stable(feature = "core_primitive", since = "1.43.0")]
-pub use core::primitive;
+#[stable(feature = "rust1", since = "1.0.0")]
+#[allow(deprecated, deprecated_in_future)]
+pub use core::{
+    assert_eq, assert_ne, debug_assert, debug_assert_eq, debug_assert_ne, matches, todo, r#try,
+    unimplemented, unreachable, write, writeln,
+};
 
 // Include a number of private modules that exist solely to provide
 // the rustdoc documentation for primitive types. Using `include!`

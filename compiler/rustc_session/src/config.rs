@@ -1,31 +1,6 @@
 //! Contains infrastructure for configuring the compiler, including parsing
 //! command-line options.
 
-pub use crate::options::*;
-
-use crate::errors::FileWriteFail;
-use crate::search_paths::SearchPath;
-use crate::utils::{CanonicalizedPath, NativeLib, NativeLibKind};
-use crate::{lint, HashStableContext};
-use crate::{EarlyErrorHandler, Session};
-
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::stable_hasher::{StableOrd, ToStableHashKey};
-use rustc_target::abi::Align;
-use rustc_target::spec::{PanicStrategy, RelocModel, SanitizerSet, SplitDebuginfo};
-use rustc_target::spec::{Target, TargetTriple, TargetWarnings, TARGETS};
-
-use crate::parse::{CrateCheckConfig, CrateConfig};
-use rustc_feature::UnstableFeatures;
-use rustc_span::edition::{Edition, DEFAULT_EDITION, EDITION_NAME_LIST, LATEST_STABLE_EDITION};
-use rustc_span::source_map::{FileName, FilePathMapping};
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::RealFileName;
-use rustc_span::SourceFileHashAlgorithm;
-
-use rustc_errors::emitter::HumanReadableErrorType;
-use rustc_errors::{ColorConfig, DiagnosticArgValue, HandlerFlags, IntoDiagnosticArg};
-
 use std::collections::btree_map::{
     Iter as BTreeMapIter, Keys as BTreeMapKeysIter, Values as BTreeMapValuesIter,
 };
@@ -38,6 +13,28 @@ use std::iter;
 use std::path::{Path, PathBuf};
 use std::str::{self, FromStr};
 use std::sync::LazyLock;
+
+use rustc_data_structures::fx::{FxHashMap, FxHashSet};
+use rustc_data_structures::stable_hasher::{StableOrd, ToStableHashKey};
+use rustc_errors::emitter::HumanReadableErrorType;
+use rustc_errors::{ColorConfig, DiagnosticArgValue, HandlerFlags, IntoDiagnosticArg};
+use rustc_feature::UnstableFeatures;
+use rustc_span::edition::{Edition, DEFAULT_EDITION, EDITION_NAME_LIST, LATEST_STABLE_EDITION};
+use rustc_span::source_map::{FileName, FilePathMapping};
+use rustc_span::symbol::{sym, Symbol};
+use rustc_span::RealFileName;
+use rustc_span::SourceFileHashAlgorithm;
+use rustc_target::abi::Align;
+use rustc_target::spec::{PanicStrategy, RelocModel, SanitizerSet, SplitDebuginfo};
+use rustc_target::spec::{Target, TargetTriple, TargetWarnings, TARGETS};
+
+use crate::errors::FileWriteFail;
+pub use crate::options::*;
+use crate::parse::{CrateCheckConfig, CrateConfig};
+use crate::search_paths::SearchPath;
+use crate::utils::{CanonicalizedPath, NativeLib, NativeLibKind};
+use crate::{lint, HashStableContext};
+use crate::{EarlyErrorHandler, Session};
 
 pub mod sigpipe;
 
@@ -2958,9 +2955,10 @@ pub fn parse_crate_types_from_list(list_list: Vec<String>) -> Result<Vec<CrateTy
 }
 
 pub mod nightly_options {
+    use rustc_feature::UnstableFeatures;
+
     use super::{OptionStability, RustcOptGroup};
     use crate::EarlyErrorHandler;
-    use rustc_feature::UnstableFeatures;
 
     pub fn is_unstable_enabled(matches: &getopts::Matches) -> bool {
         match_is_nightly_build(matches)
@@ -3149,6 +3147,21 @@ impl PpMode {
 /// we have an opt-in scheme here, so one is hopefully forced to think about
 /// how the hash should be calculated when adding a new command-line argument.
 pub(crate) mod dep_tracking {
+    use std::collections::hash_map::DefaultHasher;
+    use std::collections::BTreeMap;
+    use std::hash::Hash;
+    use std::num::NonZeroUsize;
+    use std::path::PathBuf;
+
+    use rustc_errors::LanguageIdentifier;
+    use rustc_feature::UnstableFeatures;
+    use rustc_span::edition::Edition;
+    use rustc_span::RealFileName;
+    use rustc_target::spec::{CodeModel, MergeFunctions, PanicStrategy, RelocModel};
+    use rustc_target::spec::{
+        RelroLevel, SanitizerSet, SplitDebuginfo, StackProtector, TargetTriple, TlsModel,
+    };
+
     use super::{
         BranchProtection, CFGuard, CFProtection, CrateType, DebugInfo, DebugInfoCompression,
         ErrorOutputType, InstrumentCoverage, InstrumentXRay, LdImpl, LinkerPluginLto,
@@ -3159,19 +3172,6 @@ pub(crate) mod dep_tracking {
     use crate::lint;
     use crate::options::WasiExecModel;
     use crate::utils::{NativeLib, NativeLibKind};
-    use rustc_errors::LanguageIdentifier;
-    use rustc_feature::UnstableFeatures;
-    use rustc_span::edition::Edition;
-    use rustc_span::RealFileName;
-    use rustc_target::spec::{CodeModel, MergeFunctions, PanicStrategy, RelocModel};
-    use rustc_target::spec::{
-        RelroLevel, SanitizerSet, SplitDebuginfo, StackProtector, TargetTriple, TlsModel,
-    };
-    use std::collections::hash_map::DefaultHasher;
-    use std::collections::BTreeMap;
-    use std::hash::Hash;
-    use std::num::NonZeroUsize;
-    use std::path::PathBuf;
 
     pub trait DepTrackingHash {
         fn hash(

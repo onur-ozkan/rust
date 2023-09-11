@@ -1,12 +1,13 @@
-use crate::middle::resolve_bound_vars as rbv;
-use crate::mir::interpret::{AllocId, ConstValue, LitToConstInput, Scalar};
-use crate::ty::{self, GenericArgs, ParamEnv, ParamEnvAnd, Ty, TyCtxt, TypeVisitableExt};
 use rustc_data_structures::intern::Interned;
 use rustc_error_messages::MultiSpan;
 use rustc_hir as hir;
 use rustc_hir::def::{DefKind, Res};
 use rustc_hir::def_id::LocalDefId;
 use rustc_macros::HashStable;
+
+use crate::middle::resolve_bound_vars as rbv;
+use crate::mir::interpret::{AllocId, ConstValue, LitToConstInput, Scalar};
+use crate::ty::{self, GenericArgs, ParamEnv, ParamEnvAnd, Ty, TyCtxt, TypeVisitableExt};
 
 mod int;
 mod kind;

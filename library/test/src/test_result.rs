@@ -1,11 +1,10 @@
 use std::any::Any;
 
+pub use self::TestResult::*;
 use super::bench::BenchSamples;
 use super::options::ShouldPanic;
 use super::time;
 use super::types::TestDesc;
-
-pub use self::TestResult::*;
 
 // Return codes for secondary process.
 // Start somewhere other than 0 so we know the return code means what we think

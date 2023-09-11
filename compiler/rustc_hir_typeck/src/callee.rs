@@ -1,8 +1,5 @@
-use super::method::probe::ProbeScope;
-use super::method::MethodCallee;
-use super::{Expectation, FnCtxt, TupleArgumentsFlag};
+use std::{iter, slice};
 
-use crate::type_error_struct;
 use rustc_ast::util::parser::PREC_POSTFIX;
 use rustc_errors::{struct_span_err, Applicability, Diagnostic, ErrorGuaranteed, StashKey};
 use rustc_hir as hir;
@@ -31,7 +28,10 @@ use rustc_trait_selection::infer::InferCtxtExt as _;
 use rustc_trait_selection::traits::error_reporting::DefIdOrName;
 use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt as _;
 
-use std::{iter, slice};
+use super::method::probe::ProbeScope;
+use super::method::MethodCallee;
+use super::{Expectation, FnCtxt, TupleArgumentsFlag};
+use crate::type_error_struct;
 
 /// Checks that it is legal to call methods of the trait corresponding
 /// to `trait_id` (this only cares about the trait, not the specific

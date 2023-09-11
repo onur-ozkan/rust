@@ -1,15 +1,15 @@
 //! Contains utilities for generating suggestions for borrowck errors related to unsatisfied
 //! outlives constraints.
 
+use std::collections::BTreeMap;
+
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_errors::Diagnostic;
 use rustc_middle::ty::RegionVid;
 use smallvec::SmallVec;
-use std::collections::BTreeMap;
-
-use crate::MirBorrowckCtxt;
 
 use super::{ErrorConstraintInfo, RegionName, RegionNameSource};
+use crate::MirBorrowckCtxt;
 
 /// The different things we could suggest.
 enum SuggestedConstraint {

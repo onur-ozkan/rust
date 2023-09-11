@@ -8,12 +8,12 @@ use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
 use std::path::Path;
 
-use super::color;
-use super::Terminal;
-
 use parm::{expand, Param, Variables};
 use parser::compiled::{msys_terminfo, parse};
 use searcher::get_dbpath_for_term;
+
+use super::color;
+use super::Terminal;
 
 /// A parsed terminfo database entry.
 #[allow(unused)]

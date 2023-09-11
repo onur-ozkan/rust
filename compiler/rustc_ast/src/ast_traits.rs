@@ -2,6 +2,11 @@
 //! typically those used in AST fragments during macro expansion.
 //! The traits are not implemented exhaustively, only when actually necessary.
 
+use std::fmt;
+use std::marker::PhantomData;
+
+use rustc_span::Span;
+
 use crate::ptr::P;
 use crate::token::Nonterminal;
 use crate::tokenstream::LazyAttrTokenStream;
@@ -9,11 +14,6 @@ use crate::{Arm, Crate, ExprField, FieldDef, GenericParam, Param, PatField, Vari
 use crate::{AssocItem, Expr, ForeignItem, Item, NodeId};
 use crate::{AttrItem, AttrKind, Block, Pat, Path, Ty, Visibility};
 use crate::{AttrVec, Attribute, Stmt, StmtKind};
-
-use rustc_span::Span;
-
-use std::fmt;
-use std::marker::PhantomData;
 
 /// A utility trait to reduce boilerplate.
 /// Standard `Deref(Mut)` cannot be reused due to coherence.

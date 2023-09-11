@@ -1,10 +1,9 @@
 use rustc_middle::traits::ObligationCause;
 use rustc_middle::ty::{self, Ty};
 
-use crate::traits::{Obligation, PredicateObligation};
-
 use super::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
 use super::InferCtxt;
+use crate::traits::{Obligation, PredicateObligation};
 
 impl<'tcx> InferCtxt<'tcx> {
     /// Instead of normalizing an associated type projection,

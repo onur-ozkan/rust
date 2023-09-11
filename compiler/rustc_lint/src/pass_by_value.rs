@@ -1,10 +1,11 @@
-use crate::lints::PassByValueDiag;
-use crate::{LateContext, LateLintPass, LintContext};
 use rustc_hir as hir;
 use rustc_hir::def::Res;
 use rustc_hir::{GenericArg, PathSegment, QPath, TyKind};
 use rustc_middle::ty;
 use rustc_span::symbol::sym;
+
+use crate::lints::PassByValueDiag;
+use crate::{LateContext, LateLintPass, LintContext};
 
 declare_tool_lint! {
     /// The `rustc_pass_by_value` lint marks a type with `#[rustc_pass_by_value]` requiring it to

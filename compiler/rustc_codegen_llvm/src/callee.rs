@@ -4,14 +4,14 @@
 //! and methods are represented as just a fn ptr and not a full
 //! closure.
 
+use rustc_middle::ty::layout::{FnAbiOf, HasTyCtxt};
+use rustc_middle::ty::{self, Instance, TypeVisitableExt};
+
 use crate::attributes;
 use crate::common;
 use crate::context::CodegenCx;
 use crate::llvm;
 use crate::value::Value;
-
-use rustc_middle::ty::layout::{FnAbiOf, HasTyCtxt};
-use rustc_middle::ty::{self, Instance, TypeVisitableExt};
 
 /// Codegens a reference to a fn/method item, monomorphizing and
 /// inlining as it goes.

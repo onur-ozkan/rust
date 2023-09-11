@@ -18,14 +18,9 @@
 //! - [`Attribute`]: Metadata associated with item.
 //! - [`UnOp`], [`BinOp`], and [`BinOpKind`]: Unary and binary operators.
 
-pub use crate::format::*;
-pub use crate::util::parser::ExprPrecedence;
-pub use GenericArgs::*;
-pub use UnsafeSource::*;
+use std::fmt;
+use std::mem;
 
-use crate::ptr::P;
-use crate::token::{self, CommentKind, Delimiter};
-use crate::tokenstream::{DelimSpan, LazyAttrTokenStream, TokenStream};
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_data_structures::sync::Lrc;
@@ -34,9 +29,15 @@ use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 use rustc_span::source_map::{respan, Spanned};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{Span, DUMMY_SP};
-use std::fmt;
-use std::mem;
 use thin_vec::{thin_vec, ThinVec};
+pub use GenericArgs::*;
+pub use UnsafeSource::*;
+
+pub use crate::format::*;
+use crate::ptr::P;
+use crate::token::{self, CommentKind, Delimiter};
+use crate::tokenstream::{DelimSpan, LazyAttrTokenStream, TokenStream};
+pub use crate::util::parser::ExprPrecedence;
 
 /// A "Label" is an identifier of some point in sources,
 /// e.g. in the following code:
@@ -3167,8 +3168,9 @@ pub type ForeignItem = Item<ForeignItemKind>;
 // Some nodes are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(AssocItem, 88);
     static_assert_size!(AssocItemKind, 16);

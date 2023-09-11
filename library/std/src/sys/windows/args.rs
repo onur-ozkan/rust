@@ -9,6 +9,7 @@ mod tests;
 use crate::ffi::OsString;
 use crate::fmt;
 use crate::io;
+use crate::iter;
 use crate::num::NonZeroU16;
 use crate::os::windows::prelude::*;
 use crate::path::{Path, PathBuf};
@@ -18,8 +19,6 @@ use crate::sys::windows::os::current_exe;
 use crate::sys::{c, to_u16s};
 use crate::sys_common::wstr::WStrUnits;
 use crate::vec;
-
-use crate::iter;
 
 /// This is the const equivalent to `NonZeroU16::new(n).unwrap()`
 ///

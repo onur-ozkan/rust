@@ -1,12 +1,13 @@
-use crate::dep_graph::DepNodeIndex;
+use std::fmt::Debug;
+use std::hash::Hash;
+use std::marker::PhantomData;
 
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::sharded::{self, Sharded};
 use rustc_data_structures::sync::OnceLock;
 use rustc_index::{Idx, IndexVec};
-use std::fmt::Debug;
-use std::hash::Hash;
-use std::marker::PhantomData;
+
+use crate::dep_graph::DepNodeIndex;
 
 pub trait CacheSelector<'tcx, V> {
     type Cache

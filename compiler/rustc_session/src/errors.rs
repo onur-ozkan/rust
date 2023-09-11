@@ -1,13 +1,14 @@
 use std::num::NonZeroU32;
 
-use crate::cgu_reuse_tracker::CguReuse;
-use crate::parse::ParseSess;
 use rustc_ast::token;
 use rustc_ast::util::literal::LitError;
 use rustc_errors::{error_code, DiagnosticMessage, EmissionGuarantee, IntoDiagnostic, MultiSpan};
 use rustc_macros::Diagnostic;
 use rustc_span::{BytePos, Span, Symbol};
 use rustc_target::spec::{SplitDebuginfo, StackProtector, TargetTriple};
+
+use crate::cgu_reuse_tracker::CguReuse;
+use crate::parse::ParseSess;
 
 #[derive(Diagnostic)]
 #[diag(session_incorrect_cgu_reuse_type)]

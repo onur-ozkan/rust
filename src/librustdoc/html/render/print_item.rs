@@ -1,5 +1,11 @@
-use clean::AttributesExt;
+use std::cell::{RefCell, RefMut};
+use std::cmp::Ordering;
+use std::fmt;
+use std::rc::Rc;
 
+use askama::Template;
+use clean::AttributesExt;
+use itertools::Itertools;
 use rustc_data_structures::captures::Captures;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_hir as hir;
@@ -9,10 +15,6 @@ use rustc_middle::middle::stability;
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_span::hygiene::MacroKind;
 use rustc_span::symbol::{kw, sym, Symbol};
-use std::cell::{RefCell, RefMut};
-use std::cmp::Ordering;
-use std::fmt;
-use std::rc::Rc;
 
 use super::type_layout::document_type_layout;
 use super::{
@@ -35,9 +37,6 @@ use crate::html::layout::Page;
 use crate::html::markdown::{HeadingOffset, MarkdownSummaryLine};
 use crate::html::url_parts_builder::UrlPartsBuilder;
 use crate::html::{highlight, static_files};
-
-use askama::Template;
-use itertools::Itertools;
 
 /// Generates an Askama template struct for rendering items with common methods.
 ///

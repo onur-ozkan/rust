@@ -6,8 +6,6 @@ pub mod map;
 pub mod nested_filter;
 pub mod place;
 
-use crate::query::Providers;
-use crate::ty::{EarlyBinder, ImplSubject, TyCtxt};
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
 use rustc_data_structures::sync::{par_for_each_in, DynSend, DynSync};
 use rustc_hir::def::DefKind;
@@ -15,6 +13,9 @@ use rustc_hir::def_id::{DefId, LocalDefId, LocalModDefId};
 use rustc_hir::*;
 use rustc_query_system::ich::StableHashingContext;
 use rustc_span::{ExpnId, DUMMY_SP};
+
+use crate::query::Providers;
+use crate::ty::{EarlyBinder, ImplSubject, TyCtxt};
 
 /// Top-level HIR node for current owner. This only contains the node for which
 /// `HirId::local_id == 0`, and excludes bodies.

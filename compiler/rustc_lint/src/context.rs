@@ -14,14 +14,10 @@
 //! upon. As the ast is traversed, this keeps track of the current lint level
 //! for all lint attributes.
 
-use self::TargetLint::*;
+use std::cell::Cell;
+use std::iter;
+use std::slice;
 
-use crate::errors::{
-    CheckNameDeprecated, CheckNameRemoved, CheckNameRenamed, CheckNameUnknown,
-    CheckNameUnknownTool, RequestedLevel, UnsupportedGroup,
-};
-use crate::levels::LintLevelsBuilder;
-use crate::passes::{EarlyLintPassObject, LateLintPassObject};
 use rustc_ast::util::unicode::TEXT_FLOW_CONTROL_CHARS;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::sync;
@@ -46,9 +42,13 @@ use rustc_span::symbol::{sym, Ident, Symbol};
 use rustc_span::{BytePos, Span};
 use rustc_target::abi;
 
-use std::cell::Cell;
-use std::iter;
-use std::slice;
+use self::TargetLint::*;
+use crate::errors::{
+    CheckNameDeprecated, CheckNameRemoved, CheckNameRenamed, CheckNameUnknown,
+    CheckNameUnknownTool, RequestedLevel, UnsupportedGroup,
+};
+use crate::levels::LintLevelsBuilder;
+use crate::passes::{EarlyLintPassObject, LateLintPassObject};
 
 type EarlyLintPassFactory = dyn Fn() -> EarlyLintPassObject + sync::DynSend + sync::DynSync;
 type LateLintPassFactory =

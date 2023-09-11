@@ -5,7 +5,7 @@
 #[cfg(test)]
 mod tests;
 
-use crate::os::unix::prelude::*;
+use libc::{c_char, c_int, c_void};
 
 use crate::error::Error as StdError;
 use crate::ffi::{CStr, CString, OsStr, OsString};
@@ -13,6 +13,7 @@ use crate::fmt;
 use crate::io;
 use crate::iter;
 use crate::mem;
+use crate::os::unix::prelude::*;
 use crate::path::{self, PathBuf};
 use crate::ptr;
 use crate::slice;
@@ -22,12 +23,9 @@ use crate::sys::common::small_c_string::{run_path_with_cstr, run_with_cstr};
 use crate::sys::cvt;
 use crate::sys::fd;
 use crate::sys::memchr;
-use crate::vec;
-
 #[cfg(all(target_env = "gnu", not(target_os = "vxworks")))]
 use crate::sys::weak::weak;
-
-use libc::{c_char, c_int, c_void};
+use crate::vec;
 
 const TMPBUF_SZ: usize = 128;
 
@@ -473,13 +471,12 @@ pub fn current_exe() -> io::Result<PathBuf> {
 
 #[cfg(target_os = "fuchsia")]
 pub fn current_exe() -> io::Result<PathBuf> {
-    use crate::io::ErrorKind;
-
     #[cfg(test)]
     use realstd::env;
 
     #[cfg(not(test))]
     use crate::env;
+    use crate::io::ErrorKind;
 
     let exe_path = env::args().next().ok_or(io::const_io_error!(
         ErrorKind::Uncategorized,

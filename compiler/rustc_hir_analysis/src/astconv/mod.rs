@@ -8,13 +8,9 @@ pub mod generics;
 mod lint;
 mod object_safety;
 
-use crate::astconv::errors::prohibit_assoc_ty_binding;
-use crate::astconv::generics::{check_generic_arg_count, create_args_for_parent_generic_args};
-use crate::bounds::Bounds;
-use crate::collect::HirPlaceholderCollector;
-use crate::errors::{AmbiguousLifetimeBound, TypeofReservedKeywordUsed};
-use crate::middle::resolve_bound_vars as rbv;
-use crate::require_c_abi_if_c_variadic;
+use std::fmt::Display;
+use std::slice;
+
 use rustc_ast::TraitObjectSyntax;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_errors::{
@@ -42,8 +38,13 @@ use rustc_trait_selection::traits::wf::object_region_bounds;
 use rustc_trait_selection::traits::{self, NormalizeExt, ObligationCtxt};
 use rustc_type_ir::fold::{TypeFoldable, TypeFolder, TypeSuperFoldable};
 
-use std::fmt::Display;
-use std::slice;
+use crate::astconv::errors::prohibit_assoc_ty_binding;
+use crate::astconv::generics::{check_generic_arg_count, create_args_for_parent_generic_args};
+use crate::bounds::Bounds;
+use crate::collect::HirPlaceholderCollector;
+use crate::errors::{AmbiguousLifetimeBound, TypeofReservedKeywordUsed};
+use crate::middle::resolve_bound_vars as rbv;
+use crate::require_c_abi_if_c_variadic;
 
 #[derive(Debug)]
 pub struct PathSeg(pub DefId, pub usize);

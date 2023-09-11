@@ -1,9 +1,5 @@
 use std::any::Any;
-
-use super::write::WriteBackendMethods;
-use super::CodegenObject;
-use crate::back::write::TargetMachineFactoryFn;
-use crate::{CodegenResults, ModuleCodegen};
+use std::fmt;
 
 use rustc_ast::expand::allocator::AllocatorKind;
 use rustc_data_structures::fx::FxIndexMap;
@@ -23,7 +19,10 @@ use rustc_span::symbol::Symbol;
 use rustc_target::abi::call::FnAbi;
 use rustc_target::spec::Target;
 
-use std::fmt;
+use super::write::WriteBackendMethods;
+use super::CodegenObject;
+use crate::back::write::TargetMachineFactoryFn;
+use crate::{CodegenResults, ModuleCodegen};
 
 pub trait BackendTypes {
     type Value: CodegenObject;

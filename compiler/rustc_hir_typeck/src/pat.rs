@@ -1,5 +1,6 @@
-use crate::gather_locals::DeclOrigin;
-use crate::{errors, FnCtxt, RawTy};
+use std::cmp;
+use std::collections::hash_map::Entry::{Occupied, Vacant};
+
 use rustc_ast as ast;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_errors::{
@@ -24,10 +25,9 @@ use rustc_target::abi::FieldIdx;
 use rustc_trait_selection::traits::{ObligationCause, Pattern};
 use ty::VariantDef;
 
-use std::cmp;
-use std::collections::hash_map::Entry::{Occupied, Vacant};
-
 use super::report_unexpected_variant_res;
+use crate::gather_locals::DeclOrigin;
+use crate::{errors, FnCtxt, RawTy};
 
 const CANNOT_IMPLICITLY_DEREF_POINTER_TRAIT_OBJ: &str = "\
 This error indicates that a pointer to a trait type cannot be implicitly dereferenced by a \

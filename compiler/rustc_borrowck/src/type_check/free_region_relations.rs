@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use rustc_data_structures::frozen::Frozen;
 use rustc_data_structures::transitive_relation::{TransitiveRelation, TransitiveRelationBuilder};
 use rustc_infer::infer::canonical::QueryRegionConstraints;
@@ -10,7 +12,6 @@ use rustc_middle::traits::query::OutlivesBound;
 use rustc_middle::ty::{self, RegionVid, Ty};
 use rustc_span::{Span, DUMMY_SP};
 use rustc_trait_selection::traits::query::type_op::{self, TypeOp};
-use std::rc::Rc;
 use type_op::TypeOpOutput;
 
 use crate::{

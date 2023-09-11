@@ -1,3 +1,12 @@
+use std::env;
+use std::io::{self, Write};
+use std::panic;
+use std::path::PathBuf;
+use std::process::{self, Command, Stdio};
+use std::str;
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::{Arc, Mutex};
+
 use rustc_ast as ast;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_data_structures::sync::Lrc;
@@ -19,15 +28,6 @@ use rustc_span::symbol::sym;
 use rustc_span::{BytePos, FileName, Pos, Span, DUMMY_SP};
 use rustc_target::spec::{Target, TargetTriple};
 use tempfile::Builder as TempFileBuilder;
-
-use std::env;
-use std::io::{self, Write};
-use std::panic;
-use std::path::PathBuf;
-use std::process::{self, Command, Stdio};
-use std::str;
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::{Arc, Mutex};
 
 use crate::clean::{types::AttributesExt, Attributes};
 use crate::config::Options as RustdocOptions;

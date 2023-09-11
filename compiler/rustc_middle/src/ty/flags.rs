@@ -1,6 +1,7 @@
+use std::slice;
+
 use crate::ty::{self, InferConst, Ty, TypeFlags};
 use crate::ty::{GenericArg, GenericArgKind};
-use std::slice;
 
 #[derive(Debug)]
 pub struct FlagComputation {

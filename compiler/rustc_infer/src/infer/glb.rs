@@ -1,13 +1,13 @@
 //! Greatest lower bound. See [`lattice`].
 
+use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
+use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitableExt};
+
 use super::combine::{CombineFields, ObligationEmittingRelation};
 use super::lattice::{self, LatticeDir};
 use super::Subtype;
 use super::{DefineOpaqueTypes, InferCtxt};
-
 use crate::traits::{ObligationCause, PredicateObligations};
-use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitableExt};
 
 /// "Greatest lower bound" (common subtype)
 pub struct Glb<'combine, 'infcx, 'tcx> {

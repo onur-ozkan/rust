@@ -4,16 +4,10 @@
 //! [trait-resolution]: https://rustc-dev-guide.rust-lang.org/traits/resolution.html
 //! [trait-specialization]: https://rustc-dev-guide.rust-lang.org/traits/specialization.html
 
-use crate::infer::outlives::env::OutlivesEnvironment;
-use crate::infer::InferOk;
-use crate::traits::outlives_bounds::InferCtxtExt as _;
-use crate::traits::select::{IntercrateAmbiguityCause, TreatInductiveCycleAs};
-use crate::traits::util::impl_subject_and_oblig;
-use crate::traits::SkipLeakCheck;
-use crate::traits::{
-    self, Obligation, ObligationCause, ObligationCtxt, PredicateObligation, PredicateObligations,
-    SelectionContext,
-};
+use std::fmt::Debug;
+use std::iter;
+use std::ops::ControlFlow;
+
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_errors::Diagnostic;
 use rustc_hir::def_id::{DefId, CRATE_DEF_ID, LOCAL_CRATE};
@@ -27,12 +21,19 @@ use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitor};
 use rustc_session::lint::builtin::COINDUCTIVE_OVERLAP_IN_COHERENCE;
 use rustc_span::symbol::sym;
 use rustc_span::DUMMY_SP;
-use std::fmt::Debug;
-use std::iter;
-use std::ops::ControlFlow;
 
 use super::query::evaluate_obligation::InferCtxtExt;
 use super::NormalizeExt;
+use crate::infer::outlives::env::OutlivesEnvironment;
+use crate::infer::InferOk;
+use crate::traits::outlives_bounds::InferCtxtExt as _;
+use crate::traits::select::{IntercrateAmbiguityCause, TreatInductiveCycleAs};
+use crate::traits::util::impl_subject_and_oblig;
+use crate::traits::SkipLeakCheck;
+use crate::traits::{
+    self, Obligation, ObligationCause, ObligationCtxt, PredicateObligation, PredicateObligations,
+    SelectionContext,
+};
 
 /// Whether we do the orphan check relative to this crate or
 /// to some remote crate.

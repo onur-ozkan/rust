@@ -1,3 +1,8 @@
+use std::cell::RefCell;
+use std::mem;
+use std::rc::Rc;
+use std::sync::LazyLock;
+
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_data_structures::sync::Lrc;
 use rustc_data_structures::unord::UnordSet;
@@ -14,23 +19,17 @@ use rustc_lint::{late_lint_mod, MissingDoc};
 use rustc_middle::hir::nested_filter;
 use rustc_middle::ty::{ParamEnv, Ty, TyCtxt};
 use rustc_session::config::{self, CrateType, ErrorOutputType, ResolveDocLinks};
+pub(crate) use rustc_session::config::{Input, Options, UnstableOptions};
 use rustc_session::Session;
 use rustc_session::{lint, EarlyErrorHandler};
 use rustc_span::symbol::sym;
 use rustc_span::{source_map, Span};
-
-use std::cell::RefCell;
-use std::mem;
-use std::rc::Rc;
-use std::sync::LazyLock;
 
 use crate::clean::inline::build_external_trait;
 use crate::clean::{self, ItemId};
 use crate::config::{Options as RustdocOptions, OutputFormat, RenderOptions};
 use crate::formats::cache::Cache;
 use crate::passes::{self, Condition::*};
-
-pub(crate) use rustc_session::config::{Input, Options, UnstableOptions};
 
 pub(crate) struct DocContext<'tcx> {
     pub(crate) tcx: TyCtxt<'tcx>,

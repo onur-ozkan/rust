@@ -3,10 +3,11 @@
  * building is complete.
  */
 
-use crate::mir::*;
-use crate::ty::{self, Ty, TyCtxt};
 use rustc_hir as hir;
 use rustc_target::abi::{FieldIdx, VariantIdx};
+
+use crate::mir::*;
+use crate::ty::{self, Ty, TyCtxt};
 
 #[derive(Copy, Clone, Debug, TypeFoldable, TypeVisitable)]
 pub struct PlaceTy<'tcx> {

@@ -8,14 +8,12 @@ use std::fs;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 
-use crate::util::t;
-
-use crate::dist;
-use crate::tarball::GeneratedTarball;
-use crate::{Compiler, Kind};
-
 use crate::builder::{Builder, RunConfig, ShouldRun, Step};
 use crate::config::{Config, TargetSelection};
+use crate::dist;
+use crate::tarball::GeneratedTarball;
+use crate::util::t;
+use crate::{Compiler, Kind};
 
 #[cfg(target_os = "illumos")]
 const SHELL: &str = "bash";

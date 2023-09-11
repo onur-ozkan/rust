@@ -1,10 +1,10 @@
-use crate::infer::InferCtxt;
-use crate::traits::Obligation;
 use rustc_hir::def_id::DefId;
 use rustc_middle::ty::{self, ToPredicate, Ty};
 
 use super::FulfillmentError;
 use super::{ObligationCause, PredicateObligation};
+use crate::infer::InferCtxt;
+use crate::traits::Obligation;
 
 pub trait TraitEngine<'tcx>: 'tcx {
     /// Requires that `ty` must implement the trait with `def_id` in

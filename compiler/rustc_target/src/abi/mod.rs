@@ -1,11 +1,10 @@
+use std::ops::Deref;
+
+use rustc_macros::HashStable_Generic;
 pub use Integer::*;
 pub use Primitive::*;
 
 use crate::json::{Json, ToJson};
-
-use std::ops::Deref;
-
-use rustc_macros::HashStable_Generic;
 
 pub mod call;
 

@@ -1,5 +1,3 @@
-use crate::coverageinfo::ffi::{Counter, CounterExpression, ExprKind};
-
 use rustc_index::{IndexSlice, IndexVec};
 use rustc_middle::bug;
 use rustc_middle::mir::coverage::{
@@ -7,6 +5,8 @@ use rustc_middle::mir::coverage::{
 };
 use rustc_middle::ty::Instance;
 use rustc_middle::ty::TyCtxt;
+
+use crate::coverageinfo::ffi::{Counter, CounterExpression, ExprKind};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Expression {

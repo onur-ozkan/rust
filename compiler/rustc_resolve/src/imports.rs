@@ -1,18 +1,7 @@
 //! A bunch of methods and structures more or less related to resolving imports.
 
-use crate::diagnostics::{import_candidates, DiagnosticMode, Suggestion};
-use crate::errors::{
-    CannotBeReexportedCratePublic, CannotBeReexportedCratePublicNS, CannotBeReexportedPrivate,
-    CannotBeReexportedPrivateNS, CannotDetermineImportResolution, CannotGlobImportAllCrates,
-    ConsiderAddingMacroExport, ConsiderMarkingAsPub, IsNotDirectlyImportable,
-    ItemsInTraitsAreNotImportable,
-};
-use crate::Determinacy::{self, *};
-use crate::{fluent_generated as fluent, Namespace::*};
-use crate::{module_to_string, names_to_string, ImportSuggestion};
-use crate::{AmbiguityKind, BindingKey, ModuleKind, ResolutionError, Resolver, Segment};
-use crate::{Finalize, Module, ModuleOrUniformRoot, ParentScope, PerNS, ScopeSet};
-use crate::{NameBinding, NameBindingData, NameBindingKind, PathResult};
+use std::cell::Cell;
+use std::mem;
 
 use rustc_ast::NodeId;
 use rustc_data_structures::fx::FxHashSet;
@@ -34,8 +23,19 @@ use rustc_span::symbol::{kw, Ident, Symbol};
 use rustc_span::Span;
 use smallvec::SmallVec;
 
-use std::cell::Cell;
-use std::mem;
+use crate::diagnostics::{import_candidates, DiagnosticMode, Suggestion};
+use crate::errors::{
+    CannotBeReexportedCratePublic, CannotBeReexportedCratePublicNS, CannotBeReexportedPrivate,
+    CannotBeReexportedPrivateNS, CannotDetermineImportResolution, CannotGlobImportAllCrates,
+    ConsiderAddingMacroExport, ConsiderMarkingAsPub, IsNotDirectlyImportable,
+    ItemsInTraitsAreNotImportable,
+};
+use crate::Determinacy::{self, *};
+use crate::{fluent_generated as fluent, Namespace::*};
+use crate::{module_to_string, names_to_string, ImportSuggestion};
+use crate::{AmbiguityKind, BindingKey, ModuleKind, ResolutionError, Resolver, Segment};
+use crate::{Finalize, Module, ModuleOrUniformRoot, ParentScope, PerNS, ScopeSet};
+use crate::{NameBinding, NameBindingData, NameBindingKind, PathResult};
 
 type Res = def::Res<NodeId>;
 

@@ -1,6 +1,3 @@
-use crate::sync::{AtomicBool, ReadGuard, RwLock, WriteGuard};
-#[cfg(parallel_compiler)]
-use crate::sync::{DynSend, DynSync};
 use std::{
     cell::UnsafeCell,
     intrinsics::likely,
@@ -9,6 +6,10 @@ use std::{
     ptr::NonNull,
     sync::atomic::Ordering,
 };
+
+use crate::sync::{AtomicBool, ReadGuard, RwLock, WriteGuard};
+#[cfg(parallel_compiler)]
+use crate::sync::{DynSend, DynSync};
 
 /// A type which allows mutation using a lock until
 /// the value is frozen and can be accessed lock-free.

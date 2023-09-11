@@ -2,7 +2,6 @@
 //! a literal `true` or `false` based on whether the given cfg matches the
 //! current compilation environment.
 
-use crate::errors;
 use rustc_ast as ast;
 use rustc_ast::token;
 use rustc_ast::tokenstream::TokenStream;
@@ -10,6 +9,8 @@ use rustc_attr as attr;
 use rustc_errors::PResult;
 use rustc_expand::base::{self, *};
 use rustc_span::Span;
+
+use crate::errors;
 
 pub fn expand_cfg(
     cx: &mut ExtCtxt<'_>,

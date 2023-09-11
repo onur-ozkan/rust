@@ -5,10 +5,9 @@ use rustc_middle::{mir::*, thir::*, ty};
 use rustc_span::Span;
 use rustc_target::abi::{FieldIdx, VariantIdx};
 
+use super::{parse_by_kind, PResult, ParseCtxt};
 use crate::build::custom::ParseError;
 use crate::build::expr::as_constant::as_constant_inner;
-
-use super::{parse_by_kind, PResult, ParseCtxt};
 
 impl<'tcx, 'body> ParseCtxt<'tcx, 'body> {
     pub fn parse_statement(&self, expr_id: ExprId) -> PResult<StatementKind<'tcx>> {

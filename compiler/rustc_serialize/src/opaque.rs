@@ -1,5 +1,3 @@
-use crate::leb128;
-use crate::serialize::{Decodable, Decoder, Encodable, Encoder};
 use std::fs::File;
 use std::io::{self, Write};
 use std::marker::PhantomData;
@@ -7,6 +5,9 @@ use std::mem::MaybeUninit;
 use std::ops::Range;
 use std::path::Path;
 use std::ptr;
+
+use crate::leb128;
+use crate::serialize::{Decodable, Decoder, Encodable, Encoder};
 
 // -----------------------------------------------------------------------------
 // Encoder

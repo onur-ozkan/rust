@@ -1,4 +1,6 @@
-use crate::FnCtxt;
+use std::cmp::min;
+use std::iter;
+
 use rustc_ast::util::parser::PREC_POSTFIX;
 use rustc_errors::MultiSpan;
 use rustc_errors::{Applicability, Diagnostic, DiagnosticBuilder, ErrorGuaranteed};
@@ -21,9 +23,7 @@ use rustc_trait_selection::infer::InferCtxtExt as _;
 use rustc_trait_selection::traits::ObligationCause;
 
 use super::method::probe;
-
-use std::cmp::min;
-use std::iter;
+use crate::FnCtxt;
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     pub fn emit_type_mismatch_suggestions(

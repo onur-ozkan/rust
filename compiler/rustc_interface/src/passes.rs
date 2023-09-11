@@ -1,7 +1,9 @@
-use crate::errors;
-use crate::interface::{Compiler, Result};
-use crate::proc_macro_decls;
-use crate::util;
+use std::any::Any;
+use std::ffi::OsString;
+use std::io::{self, BufWriter, Write};
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, LazyLock};
+use std::{env, fs, iter};
 
 use rustc_ast::{self as ast, visit};
 use rustc_borrowck as mir_borrowck;
@@ -36,12 +38,10 @@ use rustc_span::FileName;
 use rustc_target::spec::PanicStrategy;
 use rustc_trait_selection::traits;
 
-use std::any::Any;
-use std::ffi::OsString;
-use std::io::{self, BufWriter, Write};
-use std::path::{Path, PathBuf};
-use std::sync::{Arc, LazyLock};
-use std::{env, fs, iter};
+use crate::errors;
+use crate::interface::{Compiler, Result};
+use crate::proc_macro_decls;
+use crate::util;
 
 pub fn parse<'a>(sess: &'a Session) -> PResult<'a, ast::Crate> {
     let krate = sess.time("parse_crate", || match &sess.io.input {

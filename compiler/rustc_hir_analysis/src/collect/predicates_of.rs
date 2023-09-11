@@ -1,7 +1,3 @@
-use crate::astconv::{AstConv, OnlySelfBounds, PredicateFilter};
-use crate::bounds::Bounds;
-use crate::collect::ItemCtxt;
-use crate::constrained_generic_params as cgp;
 use hir::{HirId, Node};
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_hir as hir;
@@ -12,6 +8,11 @@ use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_middle::ty::{GenericPredicates, ImplTraitInTraitData, ToPredicate};
 use rustc_span::symbol::Ident;
 use rustc_span::{Span, DUMMY_SP};
+
+use crate::astconv::{AstConv, OnlySelfBounds, PredicateFilter};
+use crate::bounds::Bounds;
+use crate::collect::ItemCtxt;
+use crate::constrained_generic_params as cgp;
 
 /// Returns a list of all type predicates (explicit and implicit) for the definition with
 /// ID `def_id`. This includes all predicates returned by `predicates_defined_on`, plus

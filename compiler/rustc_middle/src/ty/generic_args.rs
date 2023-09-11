@@ -1,10 +1,11 @@
 // Generic arguments.
 
-use crate::ty::codec::{TyDecoder, TyEncoder};
-use crate::ty::fold::{FallibleTypeFolder, TypeFoldable, TypeFolder, TypeSuperFoldable};
-use crate::ty::sty::{ClosureArgs, GeneratorArgs, InlineConstArgs};
-use crate::ty::visit::{TypeVisitable, TypeVisitableExt, TypeVisitor};
-use crate::ty::{self, Lift, List, ParamConst, Ty, TyCtxt};
+use core::intrinsics;
+use std::cmp::Ordering;
+use std::marker::PhantomData;
+use std::mem;
+use std::num::NonZeroUsize;
+use std::ops::{ControlFlow, Deref};
 
 use rustc_data_structures::intern::Interned;
 use rustc_errors::{DiagnosticArgValue, IntoDiagnosticArg};
@@ -15,12 +16,11 @@ use rustc_span::sym;
 use rustc_type_ir::WithCachedTypeInfo;
 use smallvec::SmallVec;
 
-use core::intrinsics;
-use std::cmp::Ordering;
-use std::marker::PhantomData;
-use std::mem;
-use std::num::NonZeroUsize;
-use std::ops::{ControlFlow, Deref};
+use crate::ty::codec::{TyDecoder, TyEncoder};
+use crate::ty::fold::{FallibleTypeFolder, TypeFoldable, TypeFolder, TypeSuperFoldable};
+use crate::ty::sty::{ClosureArgs, GeneratorArgs, InlineConstArgs};
+use crate::ty::visit::{TypeVisitable, TypeVisitableExt, TypeVisitor};
+use crate::ty::{self, Lift, List, ParamConst, Ty, TyCtxt};
 
 /// An entity in the Rust type system, which can be one of
 /// several kinds (types, lifetimes, and consts).

@@ -1,6 +1,8 @@
 //! Orphan checker: every impl either implements a trait defined in this
 //! crate or pertains to a type defined in this crate.
 
+use std::ops::ControlFlow;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::{struct_span_err, DelayDm};
 use rustc_errors::{Diagnostic, ErrorGuaranteed};
@@ -15,7 +17,6 @@ use rustc_session::lint;
 use rustc_span::def_id::{DefId, LocalDefId};
 use rustc_span::Span;
 use rustc_trait_selection::traits;
-use std::ops::ControlFlow;
 
 #[instrument(skip(tcx), level = "debug")]
 pub(crate) fn orphan_check_impl(

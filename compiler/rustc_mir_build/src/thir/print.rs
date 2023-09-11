@@ -1,7 +1,8 @@
+use std::fmt::{self, Write};
+
 use rustc_middle::thir::*;
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_span::def_id::LocalDefId;
-use std::fmt::{self, Write};
 
 pub(crate) fn thir_tree(tcx: TyCtxt<'_>, owner_def: LocalDefId) -> String {
     match super::cx::thir_body(tcx, owner_def) {

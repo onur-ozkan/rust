@@ -22,13 +22,6 @@
 //! [TypeRelation::a_is_expected], so when dealing with contravariance
 //! this should be correctly updated.
 
-use super::equate::Equate;
-use super::glb::Glb;
-use super::lub::Lub;
-use super::sub::Sub;
-use super::{DefineOpaqueTypes, InferCtxt, TypeTrace};
-use crate::infer::generalize::{self, CombineDelegate, Generalization};
-use crate::traits::{Obligation, PredicateObligations};
 use rustc_middle::infer::canonical::OriginalQueryValues;
 use rustc_middle::infer::unify_key::{ConstVarValue, ConstVariableValue};
 use rustc_middle::infer::unify_key::{ConstVariableOrigin, ConstVariableOriginKind};
@@ -37,6 +30,14 @@ use rustc_middle::ty::relate::{RelateResult, TypeRelation};
 use rustc_middle::ty::{self, InferConst, ToPredicate, Ty, TyCtxt, TypeVisitableExt};
 use rustc_middle::ty::{IntType, UintType};
 use rustc_span::DUMMY_SP;
+
+use super::equate::Equate;
+use super::glb::Glb;
+use super::lub::Lub;
+use super::sub::Sub;
+use super::{DefineOpaqueTypes, InferCtxt, TypeTrace};
+use crate::infer::generalize::{self, CombineDelegate, Generalization};
+use crate::traits::{Obligation, PredicateObligations};
 
 #[derive(Clone)]
 pub struct CombineFields<'infcx, 'tcx> {

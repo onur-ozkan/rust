@@ -1,20 +1,12 @@
-use crate::io::prelude::*;
-
-use crate::env;
-use crate::fs::{self, File, FileTimes, OpenOptions};
-use crate::io::{BorrowedBuf, ErrorKind, SeekFrom};
-use crate::mem::MaybeUninit;
-use crate::path::Path;
-use crate::str;
-use crate::sync::Arc;
-use crate::sys_common::io::test::{tmpdir, TempDir};
-use crate::thread;
-use crate::time::{Duration, Instant, SystemTime};
-
 use rand::RngCore;
 
+use crate::env;
 #[cfg(target_os = "macos")]
 use crate::ffi::{c_char, c_int};
+use crate::fs::{self, File, FileTimes, OpenOptions};
+use crate::io::prelude::*;
+use crate::io::{BorrowedBuf, ErrorKind, SeekFrom};
+use crate::mem::MaybeUninit;
 #[cfg(unix)]
 use crate::os::unix::fs::symlink as symlink_dir;
 #[cfg(unix)]
@@ -23,10 +15,16 @@ use crate::os::unix::fs::symlink as symlink_file;
 use crate::os::unix::fs::symlink as symlink_junction;
 #[cfg(windows)]
 use crate::os::windows::fs::{symlink_dir, symlink_file};
+use crate::path::Path;
+use crate::str;
+use crate::sync::Arc;
 #[cfg(windows)]
 use crate::sys::fs::symlink_junction;
 #[cfg(target_os = "macos")]
 use crate::sys::weak::weak;
+use crate::sys_common::io::test::{tmpdir, TempDir};
+use crate::thread;
+use crate::time::{Duration, Instant, SystemTime};
 
 macro_rules! check {
     ($e:expr) => {

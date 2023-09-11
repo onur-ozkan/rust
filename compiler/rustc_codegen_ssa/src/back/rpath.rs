@@ -1,9 +1,10 @@
-use pathdiff::diff_paths;
-use rustc_data_structures::fx::FxHashSet;
 use std::env;
 use std::ffi::OsString;
 use std::fs;
 use std::path::{Path, PathBuf};
+
+use pathdiff::diff_paths;
+use rustc_data_structures::fx::FxHashSet;
 
 pub struct RPathConfig<'a> {
     pub libs: &'a [&'a Path],

@@ -48,11 +48,11 @@ pub mod token;
 pub mod tokenstream;
 pub mod visit;
 
+use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+
 pub use self::ast::*;
 pub use self::ast_traits::{AstDeref, AstNodeWrapper, HasAttrs, HasNodeId, HasSpan, HasTokens};
 pub use self::format::*;
-
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
 
 /// Requirements for a `StableHashingContext` to be used in this crate.
 /// This is a hack to allow using the `HashStable_Generic` derive macro

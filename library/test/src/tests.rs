@@ -1,5 +1,7 @@
-use super::*;
+use std::sync::mpsc::channel;
+use std::time::Duration;
 
+use super::*;
 use crate::{
     bench::Bencher,
     console::OutputLocation,
@@ -27,8 +29,6 @@ use crate::{
     },
     time::{TestTimeOptions, TimeThreshold},
 };
-use std::sync::mpsc::channel;
-use std::time::Duration;
 
 impl TestOpts {
     fn new() -> TestOpts {
@@ -254,8 +254,9 @@ fn test_should_panic_bad_message() {
 #[cfg(not(target_os = "emscripten"))]
 #[cfg_attr(not(panic = "unwind"), ignore = "test requires unwinding support")]
 fn test_should_panic_non_string_message_type() {
-    use crate::tests::TrFailedMsg;
     use std::any::TypeId;
+
+    use crate::tests::TrFailedMsg;
     fn f() -> Result<(), String> {
         std::panic::panic_any(1i32);
     }

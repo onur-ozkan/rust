@@ -1,11 +1,11 @@
-use super::*;
+use core::hint::black_box;
 
+use super::*;
 use crate::collections::hash_map::DefaultHasher;
 use crate::collections::{BTreeSet, HashSet};
 use crate::hash::Hasher;
 use crate::rc::Rc;
 use crate::sync::Arc;
-use core::hint::black_box;
 
 #[allow(unknown_lints, unused_macro_rules)]
 macro_rules! t (

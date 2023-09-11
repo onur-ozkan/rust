@@ -1,7 +1,5 @@
-use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
-use super::{Parser, Restrictions, TokenType};
-use crate::errors::PathSingleColon;
-use crate::{errors, maybe_whole};
+use std::mem;
+
 use rustc_ast::ptr::P;
 use rustc_ast::token::{self, Delimiter, Token, TokenKind};
 use rustc_ast::{
@@ -12,9 +10,13 @@ use rustc_ast::{
 use rustc_errors::{Applicability, IntoDiagnostic, PResult};
 use rustc_span::source_map::{BytePos, Span};
 use rustc_span::symbol::{kw, sym, Ident};
-use std::mem;
 use thin_vec::ThinVec;
 use tracing::debug;
+
+use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
+use super::{Parser, Restrictions, TokenType};
+use crate::errors::PathSingleColon;
+use crate::{errors, maybe_whole};
 
 /// Specifies how to parse a path.
 #[derive(Copy, Clone, PartialEq)]

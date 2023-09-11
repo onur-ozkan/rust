@@ -1,15 +1,13 @@
-use super::*;
-
-use crate::json::JsonEmitter;
-use rustc_span::source_map::{FilePathMapping, SourceMap};
-
-use crate::emitter::{ColorConfig, HumanReadableErrorType};
-use crate::{Handler, TerminalUrl};
-use rustc_span::{BytePos, Span};
-
 use std::str;
 
+use rustc_span::source_map::{FilePathMapping, SourceMap};
+use rustc_span::{BytePos, Span};
 use serde::Deserialize;
+
+use super::*;
+use crate::emitter::{ColorConfig, HumanReadableErrorType};
+use crate::json::JsonEmitter;
+use crate::{Handler, TerminalUrl};
 
 #[derive(Deserialize, Debug, PartialEq, Eq)]
 struct TestData {

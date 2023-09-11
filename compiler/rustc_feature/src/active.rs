@@ -1,11 +1,11 @@
 //! List of the active feature gates.
 
-use super::{to_nonzero, Feature, State};
-
 use rustc_data_structures::fx::FxHashSet;
 use rustc_span::edition::Edition;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::Span;
+
+use super::{to_nonzero, Feature, State};
 
 macro_rules! set {
     ($field: ident) => {{

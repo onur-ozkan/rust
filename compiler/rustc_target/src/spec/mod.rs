@@ -34,16 +34,6 @@
 //! the target's settings, though `target-feature` and `link-args` will *add*
 //! to the list specified by the target, rather than replace.
 
-use crate::abi::call::Conv;
-use crate::abi::{Endian, Integer, Size, TargetDataLayout, TargetDataLayoutErrors};
-use crate::json::{Json, ToJson};
-use crate::spec::abi::{lookup as lookup_abi, Abi};
-use crate::spec::crt_objects::{CrtObjects, LinkSelfContainedDefault};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_fs_util::try_canonicalize;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-use rustc_span::symbol::{kw, sym, Symbol};
-use serde_json::Value;
 use std::borrow::Cow;
 use std::collections::BTreeMap;
 use std::hash::{Hash, Hasher};
@@ -52,7 +42,18 @@ use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use std::{fmt, io};
 
+use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use rustc_fs_util::try_canonicalize;
 use rustc_macros::HashStable_Generic;
+use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use rustc_span::symbol::{kw, sym, Symbol};
+use serde_json::Value;
+
+use crate::abi::call::Conv;
+use crate::abi::{Endian, Integer, Size, TargetDataLayout, TargetDataLayoutErrors};
+use crate::json::{Json, ToJson};
+use crate::spec::abi::{lookup as lookup_abi, Abi};
+use crate::spec::crt_objects::{CrtObjects, LinkSelfContainedDefault};
 
 pub mod abi;
 pub mod crt_objects;

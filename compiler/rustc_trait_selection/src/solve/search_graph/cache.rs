@@ -8,10 +8,11 @@
 //!
 //! FIXME(@lcnr): Write that section, feel free to ping me if you need help here
 //! before then or if I still haven't done that before January 2023.
-use super::StackDepth;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_index::IndexVec;
 use rustc_middle::traits::solve::{CanonicalInput, QueryResult};
+
+use super::StackDepth;
 
 rustc_index::newtype_index! {
     pub struct EntryIndex {}

@@ -3,6 +3,8 @@
 #[cfg(test)]
 mod tests;
 
+use libc::{c_void, EXIT_FAILURE, EXIT_SUCCESS};
+
 use crate::cmp;
 use crate::collections::BTreeMap;
 use crate::env;
@@ -29,8 +31,6 @@ use crate::sys::pipe::{self, AnonPipe};
 use crate::sys::stdio;
 use crate::sys_common::process::{CommandEnv, CommandEnvs};
 use crate::sys_common::IntoInner;
-
-use libc::{c_void, EXIT_FAILURE, EXIT_SUCCESS};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Command

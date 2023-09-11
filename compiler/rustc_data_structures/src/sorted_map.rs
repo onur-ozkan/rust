@@ -1,8 +1,9 @@
-use crate::stable_hasher::{HashStable, StableHasher, StableOrd};
 use std::borrow::Borrow;
 use std::fmt::Debug;
 use std::mem;
 use std::ops::{Bound, Index, IndexMut, RangeBounds};
+
+use crate::stable_hasher::{HashStable, StableHasher, StableOrd};
 
 mod index_map;
 

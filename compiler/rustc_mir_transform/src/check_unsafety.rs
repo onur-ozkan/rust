@@ -1,3 +1,5 @@
+use std::ops::Bound;
+
 use rustc_data_structures::unord::{ExtendUnord, UnordItems, UnordSet};
 use rustc_hir as hir;
 use rustc_hir::def::DefKind;
@@ -11,8 +13,6 @@ use rustc_middle::query::Providers;
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_session::lint::builtin::{UNSAFE_OP_IN_UNSAFE_FN, UNUSED_UNSAFE};
 use rustc_session::lint::Level;
-
-use std::ops::Bound;
 
 use crate::errors;
 

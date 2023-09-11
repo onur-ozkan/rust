@@ -1,4 +1,5 @@
 use super::{abi, error};
+pub use crate::sys_common::fs::try_exists;
 use crate::{
     ffi::{CStr, CString, OsStr, OsString},
     fmt,
@@ -11,8 +12,6 @@ use crate::{
     sys::time::SystemTime,
     sys::unsupported,
 };
-
-pub use crate::sys_common::fs::try_exists;
 
 /// A file descriptor.
 #[derive(Clone, Copy)]

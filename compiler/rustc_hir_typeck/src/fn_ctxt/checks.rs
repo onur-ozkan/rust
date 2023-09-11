@@ -1,13 +1,6 @@
-use crate::coercion::CoerceMany;
-use crate::errors::SuggestPtrNullMut;
-use crate::fn_ctxt::arg_matrix::{ArgMatrix, Compatibility, Error, ExpectedIdx, ProvidedIdx};
-use crate::gather_locals::Declaration;
-use crate::method::MethodCallee;
-use crate::TupleArgumentsFlag::*;
-use crate::{errors, Expectation::*};
-use crate::{
-    struct_span_err, BreakableCtxt, Diverges, Expectation, FnCtxt, Needs, RawTy, TupleArgumentsFlag,
-};
+use std::iter;
+use std::mem;
+
 use rustc_ast as ast;
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_errors::{
@@ -34,8 +27,16 @@ use rustc_span::symbol::{kw, Ident};
 use rustc_span::{self, sym, BytePos, Span};
 use rustc_trait_selection::traits::{self, ObligationCauseCode, SelectionContext};
 
-use std::iter;
-use std::mem;
+use crate::coercion::CoerceMany;
+use crate::errors::SuggestPtrNullMut;
+use crate::fn_ctxt::arg_matrix::{ArgMatrix, Compatibility, Error, ExpectedIdx, ProvidedIdx};
+use crate::gather_locals::Declaration;
+use crate::method::MethodCallee;
+use crate::TupleArgumentsFlag::*;
+use crate::{errors, Expectation::*};
+use crate::{
+    struct_span_err, BreakableCtxt, Diverges, Expectation, FnCtxt, Needs, RawTy, TupleArgumentsFlag,
+};
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     pub(in super::super) fn check_casts(&mut self) {

@@ -1,18 +1,12 @@
-use crate::back::lto::ThinBuffer;
-use crate::back::profiling::{
-    selfprofile_after_pass_callback, selfprofile_before_pass_callback, LlvmSelfProfiler,
-};
-use crate::base;
-use crate::common;
-use crate::errors::{
-    CopyBitcode, FromLlvmDiag, FromLlvmOptimizationDiag, LlvmError, UnknownCompression,
-    WithLlvmError, WriteBytecode,
-};
-use crate::llvm::{self, DiagnosticInfo, PassManager};
-use crate::llvm_util;
-use crate::type_::Type;
-use crate::LlvmCodegenBackend;
-use crate::ModuleLlvm;
+use std::ffi::CString;
+use std::fs;
+use std::io::{self, Write};
+use std::path::{Path, PathBuf};
+use std::slice;
+use std::str;
+use std::sync::Arc;
+
+use libc::{c_char, c_int, c_uint, c_void, size_t};
 use llvm::{
     LLVMRustLLVMHasZlibCompressionForDebugSymbols, LLVMRustLLVMHasZstdCompressionForDebugSymbols,
 };
@@ -34,15 +28,22 @@ use rustc_span::symbol::sym;
 use rustc_span::InnerSpan;
 use rustc_target::spec::{CodeModel, RelocModel, SanitizerSet, SplitDebuginfo};
 
+use crate::back::lto::ThinBuffer;
+use crate::back::profiling::{
+    selfprofile_after_pass_callback, selfprofile_before_pass_callback, LlvmSelfProfiler,
+};
+use crate::base;
+use crate::common;
+use crate::errors::{
+    CopyBitcode, FromLlvmDiag, FromLlvmOptimizationDiag, LlvmError, UnknownCompression,
+    WithLlvmError, WriteBytecode,
+};
 use crate::llvm::diagnostic::OptimizationDiagnosticKind;
-use libc::{c_char, c_int, c_uint, c_void, size_t};
-use std::ffi::CString;
-use std::fs;
-use std::io::{self, Write};
-use std::path::{Path, PathBuf};
-use std::slice;
-use std::str;
-use std::sync::Arc;
+use crate::llvm::{self, DiagnosticInfo, PassManager};
+use crate::llvm_util;
+use crate::type_::Type;
+use crate::LlvmCodegenBackend;
+use crate::ModuleLlvm;
 
 pub fn llvm_err<'a>(handler: &rustc_errors::Handler, err: LlvmError<'a>) -> FatalError {
     match llvm::last_error() {

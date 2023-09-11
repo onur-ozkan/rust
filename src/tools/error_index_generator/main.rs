@@ -9,7 +9,6 @@ use std::fs::{self, File};
 use std::io::Write;
 use std::path::Path;
 use std::path::PathBuf;
-
 use std::str::FromStr;
 
 use mdbook::book::{parse_summary, BookItem, Chapter};

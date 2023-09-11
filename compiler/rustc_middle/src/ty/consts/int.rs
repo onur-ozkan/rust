@@ -1,10 +1,11 @@
+use std::fmt;
+use std::num::NonZeroU8;
+
 use rustc_apfloat::ieee::{Double, Single};
 use rustc_apfloat::Float;
 use rustc_errors::{DiagnosticArgValue, IntoDiagnosticArg};
 use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 use rustc_target::abi::Size;
-use std::fmt;
-use std::num::NonZeroU8;
 
 use crate::ty::TyCtxt;
 

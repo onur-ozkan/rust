@@ -7,8 +7,24 @@
 //!
 //! The output types are defined in `rustc_session::config::ErrorOutputType`.
 
+use std::borrow::Cow;
+use std::cmp::{max, min, Reverse};
+use std::error::Report;
+use std::io::prelude::*;
+use std::io::{self, IsTerminal};
+use std::iter;
+use std::path::Path;
+
+use derive_setters::Setters;
+use rustc_data_structures::fx::{FxHashMap, FxIndexMap};
+use rustc_data_structures::sync::{DynSend, IntoDynSyncSend, Lrc};
+use rustc_error_messages::{FluentArgs, SpanLabel};
+use rustc_lint_defs::pluralize;
+use rustc_span::hygiene::{ExpnKind, MacroKind};
 use rustc_span::source_map::SourceMap;
 use rustc_span::{FileLines, SourceFile, Span};
+use termcolor::{Ansi, Buffer, BufferWriter, ColorChoice, ColorSpec, StandardStream};
+use termcolor::{Color, WriteColor};
 
 use crate::snippet::{
     Annotation, AnnotationColumn, AnnotationType, Line, MultilineAnnotation, Style, StyledString,
@@ -20,22 +36,6 @@ use crate::{
     FluentBundle, Handler, LazyFallbackBundle, Level, MultiSpan, SubDiagnostic,
     SubstitutionHighlight, SuggestionStyle, TerminalUrl,
 };
-use rustc_lint_defs::pluralize;
-
-use derive_setters::Setters;
-use rustc_data_structures::fx::{FxHashMap, FxIndexMap};
-use rustc_data_structures::sync::{DynSend, IntoDynSyncSend, Lrc};
-use rustc_error_messages::{FluentArgs, SpanLabel};
-use rustc_span::hygiene::{ExpnKind, MacroKind};
-use std::borrow::Cow;
-use std::cmp::{max, min, Reverse};
-use std::error::Report;
-use std::io::prelude::*;
-use std::io::{self, IsTerminal};
-use std::iter;
-use std::path::Path;
-use termcolor::{Ansi, Buffer, BufferWriter, ColorChoice, ColorSpec, StandardStream};
-use termcolor::{Color, WriteColor};
 
 /// Default column width, used in tests and when terminal dimensions cannot be determined.
 const DEFAULT_COLUMN_WIDTH: usize = 140;

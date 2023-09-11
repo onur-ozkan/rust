@@ -3,8 +3,6 @@
 //! is calculated in `rustc_mir_transform::generator` and may be a subset of the
 //! types computed here.
 
-use self::drop_ranges::DropRanges;
-use super::FnCtxt;
 use rustc_data_structures::fx::{FxHashSet, FxIndexSet};
 use rustc_errors::{pluralize, DelayDm};
 use rustc_hir as hir;
@@ -20,6 +18,9 @@ use rustc_middle::ty::{self, BoundVariableKind, RvalueScopes, Ty, TyCtxt, TypeVi
 use rustc_span::symbol::sym;
 use rustc_span::Span;
 use smallvec::{smallvec, SmallVec};
+
+use self::drop_ranges::DropRanges;
+use super::FnCtxt;
 
 mod drop_ranges;
 

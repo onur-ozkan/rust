@@ -10,6 +10,12 @@ mod simplify;
 pub(crate) mod types;
 pub(crate) mod utils;
 
+use std::borrow::Cow;
+use std::collections::hash_map::Entry;
+use std::collections::BTreeMap;
+use std::hash::Hash;
+use std::mem;
+
 use rustc_ast as ast;
 use rustc_ast::token::{Token, TokenKind};
 use rustc_ast::tokenstream::{TokenStream, TokenTree};
@@ -32,22 +38,14 @@ use rustc_span::hygiene::{AstPass, MacroKind};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{self, ExpnKind};
 use rustc_trait_selection::traits::wf::object_region_bounds;
-
-use std::borrow::Cow;
-use std::collections::hash_map::Entry;
-use std::collections::BTreeMap;
-use std::hash::Hash;
-use std::mem;
 use thin_vec::ThinVec;
-
-use crate::core::{self, DocContext, ImplTraitParam};
-use crate::formats::item_type::ItemType;
-use crate::visit_ast::Module as DocModule;
-
 use utils::*;
 
 pub(crate) use self::types::*;
 pub(crate) use self::utils::{get_auto_trait_and_blanket_impls, krate, register_res};
+use crate::core::{self, DocContext, ImplTraitParam};
+use crate::formats::item_type::ItemType;
+use crate::visit_ast::Module as DocModule;
 
 pub(crate) fn clean_doc_module<'tcx>(doc: &DocModule<'tcx>, cx: &mut DocContext<'tcx>) -> Item {
     let mut items: Vec<Item> = vec![];
@@ -1901,9 +1899,10 @@ fn normalize<'tcx>(
         return None;
     }
 
+    use rustc_middle::traits::ObligationCause;
+
     use crate::rustc_trait_selection::infer::TyCtxtInferExt;
     use crate::rustc_trait_selection::traits::query::normalize::QueryNormalizeExt;
-    use rustc_middle::traits::ObligationCause;
 
     // Try to normalize `<X as Y>::T` to a type
     let infcx = cx.tcx.infer_ctxt().build();

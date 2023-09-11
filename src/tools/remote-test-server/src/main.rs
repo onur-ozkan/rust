@@ -10,18 +10,17 @@
 //! themselves having support libraries. All data over the TCP sockets is in a
 //! basically custom format suiting our needs.
 
-#[cfg(not(windows))]
-use std::fs::Permissions;
-use std::net::SocketAddr;
-#[cfg(not(windows))]
-use std::os::unix::prelude::*;
-
 use std::cmp;
 use std::env;
+#[cfg(not(windows))]
+use std::fs::Permissions;
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::io::{self, BufReader};
+use std::net::SocketAddr;
 use std::net::{TcpListener, TcpStream};
+#[cfg(not(windows))]
+use std::os::unix::prelude::*;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitStatus, Stdio};
 use std::str;

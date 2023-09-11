@@ -1,9 +1,10 @@
+use std::collections::BTreeMap;
+
 use rustc_infer::infer::outlives::components::{push_outlives_components, Component};
 use rustc_middle::ty::{self, Region, Ty, TyCtxt};
 use rustc_middle::ty::{GenericArg, GenericArgKind};
 use rustc_span::Span;
 use smallvec::smallvec;
-use std::collections::BTreeMap;
 
 /// Tracks the `T: 'a` or `'a: 'a` predicates that we have inferred
 /// must be added to the struct header.

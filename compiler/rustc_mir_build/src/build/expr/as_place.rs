@@ -1,8 +1,8 @@
 //! See docs in build/expr/mod.rs
 
-use crate::build::expr::category::Category;
-use crate::build::ForGuard::{OutsideGuard, RefWithinGuard};
-use crate::build::{BlockAnd, BlockAndExtension, Builder, Capture, CaptureMap};
+use std::assert_matches::assert_matches;
+use std::iter;
+
 use rustc_hir::def_id::LocalDefId;
 use rustc_middle::hir::place::Projection as HirProjection;
 use rustc_middle::hir::place::ProjectionKind as HirProjectionKind;
@@ -15,8 +15,9 @@ use rustc_middle::ty::{self, CanonicalUserTypeAnnotation, Ty, Variance};
 use rustc_span::Span;
 use rustc_target::abi::{FieldIdx, VariantIdx, FIRST_VARIANT};
 
-use std::assert_matches::assert_matches;
-use std::iter;
+use crate::build::expr::category::Category;
+use crate::build::ForGuard::{OutsideGuard, RefWithinGuard};
+use crate::build::{BlockAnd, BlockAndExtension, Builder, Capture, CaptureMap};
 
 /// The "outermost" place that holds this value.
 #[derive(Copy, Clone, Debug, PartialEq)]

@@ -12,7 +12,6 @@
 //!     will still not cause any further changes.
 //!
 
-use crate::util::is_within_packed;
 use rustc_index::bit_set::BitSet;
 use rustc_middle::mir::visit::Visitor;
 use rustc_middle::mir::*;
@@ -21,6 +20,8 @@ use rustc_mir_dataflow::impls::{
     borrowed_locals, LivenessTransferFunction, MaybeTransitiveLiveLocals,
 };
 use rustc_mir_dataflow::Analysis;
+
+use crate::util::is_within_packed;
 
 /// Performs the optimization on the body
 ///

@@ -1,9 +1,5 @@
-use crate::check::intrinsicck::InlineAsmCtxt;
-use crate::errors::{self, LinkageType};
+use std::ops::ControlFlow;
 
-use super::compare_impl_item::check_type_bounds;
-use super::compare_impl_item::{compare_impl_method, compare_impl_ty};
-use super::*;
 use rustc_attr as attr;
 use rustc_errors::{Applicability, ErrorGuaranteed, MultiSpan};
 use rustc_hir as hir;
@@ -38,7 +34,11 @@ use rustc_trait_selection::traits::outlives_bounds::InferCtxtExt as _;
 use rustc_trait_selection::traits::{self, ObligationCtxt, TraitEngine, TraitEngineExt as _};
 use rustc_type_ir::fold::TypeFoldable;
 
-use std::ops::ControlFlow;
+use super::compare_impl_item::check_type_bounds;
+use super::compare_impl_item::{compare_impl_method, compare_impl_ty};
+use super::*;
+use crate::check::intrinsicck::InlineAsmCtxt;
+use crate::errors::{self, LinkageType};
 
 pub fn check_abi(tcx: TyCtxt<'_>, hir_id: hir::HirId, span: Span, abi: Abi) {
     match tcx.sess.target.is_abi_supported(abi) {

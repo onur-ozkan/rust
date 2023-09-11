@@ -1,5 +1,3 @@
-use super::*;
-
 use std::boxed::Box;
 use std::clone::Clone;
 use std::convert::{From, TryInto};
@@ -14,6 +12,7 @@ use std::sync::mpsc::channel;
 use std::sync::Mutex;
 use std::thread;
 
+use super::*;
 use crate::vec::Vec;
 
 struct Canary(*mut atomic::AtomicUsize);

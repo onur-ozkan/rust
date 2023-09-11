@@ -1,6 +1,7 @@
+use std::path::{Path, PathBuf};
+
 use crate::filesearch::make_target_lib_path;
 use crate::EarlyErrorHandler;
-use std::path::{Path, PathBuf};
 
 #[derive(Clone, Debug)]
 pub struct SearchPath {

@@ -1,10 +1,10 @@
-use parking_lot::Mutex;
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::ops::Deref;
 use std::ptr;
 use std::sync::Arc;
 
+use parking_lot::Mutex;
 #[cfg(parallel_compiler)]
 use {crate::cold_path, crate::sync::CacheAligned};
 

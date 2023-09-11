@@ -1,10 +1,11 @@
+use std::borrow::Cow;
+use std::error::Error;
+use std::fmt;
+
 use rustc_error_messages::{
     fluent_bundle::resolver::errors::{ReferenceKind, ResolverError},
     FluentArgs, FluentError,
 };
-use std::borrow::Cow;
-use std::error::Error;
-use std::fmt;
 
 #[derive(Debug)]
 pub enum TranslateError<'args> {

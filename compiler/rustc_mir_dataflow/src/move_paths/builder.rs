@@ -1,10 +1,10 @@
+use std::mem;
+
 use rustc_index::IndexVec;
 use rustc_middle::mir::tcx::RvalueInitializationState;
 use rustc_middle::mir::*;
 use rustc_middle::ty::{self, TyCtxt};
 use smallvec::{smallvec, SmallVec};
-
-use std::mem;
 
 use super::abs_domain::Lift;
 use super::IllegalMoveOriginKind::*;

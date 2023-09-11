@@ -1,15 +1,15 @@
-use super::NormalizeExt;
-use super::{ObligationCause, PredicateObligation, SelectionContext};
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::Diagnostic;
 use rustc_hir::def_id::DefId;
 use rustc_infer::infer::InferOk;
+pub use rustc_infer::traits::{self, util::*};
 use rustc_middle::ty::GenericArgsRef;
 use rustc_middle::ty::{self, ImplSubject, ToPredicate, Ty, TyCtxt, TypeVisitableExt};
 use rustc_span::Span;
 use smallvec::SmallVec;
 
-pub use rustc_infer::traits::{self, util::*};
+use super::NormalizeExt;
+use super::{ObligationCause, PredicateObligation, SelectionContext};
 
 ///////////////////////////////////////////////////////////////////////////
 // `TraitAliasExpander` iterator

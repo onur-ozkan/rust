@@ -1,10 +1,11 @@
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
-use crate::borrow_set::LocalsStateAtExit;
 use rustc_hir as hir;
 use rustc_middle::mir::ProjectionElem;
 use rustc_middle::mir::{Body, Mutability, Place};
 use rustc_middle::ty::{self, TyCtxt};
+
+use crate::borrow_set::LocalsStateAtExit;
 
 /// Extension methods for the `Place` type.
 pub trait PlaceExt<'tcx> {

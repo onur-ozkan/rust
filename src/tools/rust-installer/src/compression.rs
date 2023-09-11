@@ -1,7 +1,8 @@
+use std::{convert::TryFrom, fmt, io::Read, io::Write, path::Path, str::FromStr};
+
 use anyhow::{Context, Error};
 use flate2::{read::GzDecoder, write::GzEncoder};
 use rayon::prelude::*;
-use std::{convert::TryFrom, fmt, io::Read, io::Write, path::Path, str::FromStr};
 use xz2::{read::XzDecoder, write::XzEncoder};
 
 #[derive(Default, Debug, Copy, Clone)]

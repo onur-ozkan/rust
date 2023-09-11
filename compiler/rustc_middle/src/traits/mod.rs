@@ -9,11 +9,8 @@ pub mod specialization_graph;
 mod structural_impls;
 pub mod util;
 
-use crate::infer::canonical::Canonical;
-use crate::mir::ConstraintCategory;
-use crate::ty::abstract_const::NotConstEvaluatable;
-use crate::ty::GenericArgsRef;
-use crate::ty::{self, AdtKind, Ty, TyCtxt};
+use std::borrow::Cow;
+use std::hash::{Hash, Hasher};
 
 use rustc_data_structures::sync::Lrc;
 use rustc_errors::{Applicability, Diagnostic};
@@ -24,12 +21,13 @@ use rustc_span::symbol::Symbol;
 use rustc_span::{Span, DUMMY_SP};
 use smallvec::SmallVec;
 
-use std::borrow::Cow;
-use std::hash::{Hash, Hasher};
-
 pub use self::select::{EvaluationCache, EvaluationResult, OverflowError, SelectionCache};
-
 pub use self::ObligationCauseCode::*;
+use crate::infer::canonical::Canonical;
+use crate::mir::ConstraintCategory;
+use crate::ty::abstract_const::NotConstEvaluatable;
+use crate::ty::GenericArgsRef;
+use crate::ty::{self, AdtKind, Ty, TyCtxt};
 
 /// Depending on the stage of compilation, we want projection to be
 /// more or less conservative.

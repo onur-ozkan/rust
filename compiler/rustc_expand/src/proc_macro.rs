@@ -1,7 +1,3 @@
-use crate::base::{self, *};
-use crate::errors;
-use crate::proc_macro_server;
-
 use rustc_ast as ast;
 use rustc_ast::ptr::P;
 use rustc_ast::token;
@@ -12,6 +8,10 @@ use rustc_parse::parser::ForceCollect;
 use rustc_session::config::ProcMacroExecutionStrategy;
 use rustc_span::profiling::SpannedEventArgRecorder;
 use rustc_span::{Span, DUMMY_SP};
+
+use crate::base::{self, *};
+use crate::errors;
+use crate::proc_macro_server;
 
 struct CrossbeamMessagePipe<T> {
     tx: crossbeam_channel::Sender<T>,

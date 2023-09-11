@@ -478,8 +478,9 @@ fn bad_pointer_message(msg: CheckInAllocMsg, handler: &Handler) -> String {
 
 impl<'a> ReportErrorExt for UndefinedBehaviorInfo<'a> {
     fn diagnostic_message(&self) -> DiagnosticMessage {
-        use crate::fluent_generated::*;
         use UndefinedBehaviorInfo::*;
+
+        use crate::fluent_generated::*;
         match self {
             Ub(msg) => msg.clone().into(),
             Unreachable => const_eval_unreachable,
@@ -605,8 +606,9 @@ impl<'a> ReportErrorExt for UndefinedBehaviorInfo<'a> {
 
 impl<'tcx> ReportErrorExt for ValidationErrorInfo<'tcx> {
     fn diagnostic_message(&self) -> DiagnosticMessage {
-        use crate::fluent_generated::*;
         use rustc_middle::mir::interpret::ValidationErrorKind::*;
+
+        use crate::fluent_generated::*;
         match self.kind {
             PtrToUninhabited { ptr_kind: PointerKind::Box, .. } => {
                 const_eval_validation_box_to_uninhabited
@@ -678,8 +680,9 @@ impl<'tcx> ReportErrorExt for ValidationErrorInfo<'tcx> {
     }
 
     fn add_args<G: EmissionGuarantee>(self, handler: &Handler, err: &mut DiagnosticBuilder<'_, G>) {
-        use crate::fluent_generated as fluent;
         use rustc_middle::mir::interpret::ValidationErrorKind::*;
+
+        use crate::fluent_generated as fluent;
 
         if let PointerAsInt { .. } | PartialPointer = self.kind {
             err.help(fluent::const_eval_ptr_as_bytes_1);
@@ -804,9 +807,9 @@ impl ReportErrorExt for UnsupportedOpInfo {
         }
     }
     fn add_args<G: EmissionGuarantee>(self, _: &Handler, builder: &mut DiagnosticBuilder<'_, G>) {
-        use crate::fluent_generated::*;
-
         use UnsupportedOpInfo::*;
+
+        use crate::fluent_generated::*;
         if let ReadPointerAsInt(_) | OverwritePartialPointer(_) | ReadPartialPointer(_) = self {
             builder.help(const_eval_ptr_as_bytes_1);
             builder.help(const_eval_ptr_as_bytes_2);

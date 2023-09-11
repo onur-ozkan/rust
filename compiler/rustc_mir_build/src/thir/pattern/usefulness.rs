@@ -305,24 +305,23 @@
 //! stay as a full constant and become an `Opaque` pattern. These `Opaque` patterns do not participate
 //! in exhaustiveness, specialization or overlap checking.
 
-use self::ArmType::*;
-use self::Usefulness::*;
-use super::deconstruct_pat::{Constructor, DeconstructedPat, Fields, SplitWildcard};
-use crate::errors::{NonExhaustiveOmittedPattern, Uncovered};
-
-use rustc_data_structures::captures::Captures;
+use std::fmt;
+use std::iter::once;
 
 use rustc_arena::TypedArena;
+use rustc_data_structures::captures::Captures;
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_hir::def_id::DefId;
 use rustc_hir::HirId;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_session::lint::builtin::NON_EXHAUSTIVE_OMITTED_PATTERNS;
 use rustc_span::{Span, DUMMY_SP};
-
 use smallvec::{smallvec, SmallVec};
-use std::fmt;
-use std::iter::once;
+
+use self::ArmType::*;
+use self::Usefulness::*;
+use super::deconstruct_pat::{Constructor, DeconstructedPat, Fields, SplitWildcard};
+use crate::errors::{NonExhaustiveOmittedPattern, Uncovered};
 
 pub(crate) struct MatchCheckCtxt<'p, 'tcx> {
     pub(crate) tcx: TyCtxt<'tcx>,

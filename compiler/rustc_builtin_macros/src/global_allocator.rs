@@ -1,6 +1,3 @@
-use crate::util::check_builtin_macro_attribute;
-
-use crate::errors;
 use rustc_ast::expand::allocator::{
     global_fn_name, AllocatorMethod, AllocatorMethodInput, AllocatorTy, ALLOCATOR_METHODS,
 };
@@ -11,6 +8,9 @@ use rustc_expand::base::{Annotatable, ExtCtxt};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::Span;
 use thin_vec::{thin_vec, ThinVec};
+
+use crate::errors;
+use crate::util::check_builtin_macro_attribute;
 
 pub fn expand(
     ecx: &mut ExtCtxt<'_>,

@@ -1,13 +1,15 @@
+use std::io::{Read, Write};
+use std::path::Path;
+
+use anyhow::{bail, Context, Result};
+use tar::Archive;
+
 use super::Scripter;
 use super::Tarballer;
 use crate::{
     compression::{CompressionFormat, CompressionFormats, CompressionProfile},
     util::*,
 };
-use anyhow::{bail, Context, Result};
-use std::io::{Read, Write};
-use std::path::Path;
-use tar::Archive;
 
 actor! {
     #[derive(Debug)]

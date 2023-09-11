@@ -1,8 +1,9 @@
-use crate::errors;
 use rustc_ast::tokenstream::{TokenStream, TokenTree};
 use rustc_expand::base::{self, ExtCtxt};
 use rustc_span::symbol::kw;
 use rustc_span::Span;
+
+use crate::errors;
 
 pub fn expand_trace_macros(
     cx: &mut ExtCtxt<'_>,

@@ -1,14 +1,9 @@
 //! A bunch of methods and structures more or less related to resolving macros and
 //! interface provided by `Resolver` to macro expander.
 
-use crate::errors::{
-    self, AddAsNonDerive, CannotDetermineMacroResolution, CannotFindIdentInThisScope,
-    MacroExpectedFound, RemoveSurroundingDerive,
-};
-use crate::Namespace::*;
-use crate::{BuiltinMacroState, Determinacy};
-use crate::{DeriveData, Finalize, ParentScope, ResolutionError, Resolver, ScopeSet};
-use crate::{ModuleKind, ModuleOrUniformRoot, NameBinding, PathResult, Segment, ToNameBinding};
+use std::cell::Cell;
+use std::mem;
+
 use rustc_ast::expand::StrippedCfgItem;
 use rustc_ast::{self as ast, attr, Crate, Inline, ItemKind, ModKind, NodeId};
 use rustc_ast_pretty::pprust;
@@ -36,8 +31,15 @@ use rustc_span::hygiene::{self, ExpnData, ExpnKind, LocalExpnId};
 use rustc_span::hygiene::{AstPass, MacroKind};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{Span, DUMMY_SP};
-use std::cell::Cell;
-use std::mem;
+
+use crate::errors::{
+    self, AddAsNonDerive, CannotDetermineMacroResolution, CannotFindIdentInThisScope,
+    MacroExpectedFound, RemoveSurroundingDerive,
+};
+use crate::Namespace::*;
+use crate::{BuiltinMacroState, Determinacy};
+use crate::{DeriveData, Finalize, ParentScope, ResolutionError, Resolver, ScopeSet};
+use crate::{ModuleKind, ModuleOrUniformRoot, NameBinding, PathResult, Segment, ToNameBinding};
 
 type Res = def::Res<NodeId>;
 

@@ -1,4 +1,5 @@
 use super::unsupported;
+use super::{error, itron, memchr};
 use crate::error::Error as StdError;
 use crate::ffi::{CStr, OsStr, OsString};
 use crate::fmt;
@@ -11,8 +12,6 @@ use crate::path::{self, PathBuf};
 use crate::sync::{PoisonError, RwLock};
 use crate::sys::common::small_c_string::run_with_cstr;
 use crate::vec;
-
-use super::{error, itron, memchr};
 
 // `solid` directly maps `errno`s to μITRON error codes.
 impl itron::error::ItronError {

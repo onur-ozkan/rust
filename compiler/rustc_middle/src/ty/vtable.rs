@@ -1,8 +1,9 @@
 use std::fmt;
 
+use rustc_ast::Mutability;
+
 use crate::mir::interpret::{alloc_range, AllocId, Allocation, Pointer, Scalar};
 use crate::ty::{self, Instance, PolyTraitRef, Ty, TyCtxt};
-use rustc_ast::Mutability;
 
 #[derive(Clone, Copy, PartialEq, HashStable)]
 pub enum VtblEntry<'tcx> {

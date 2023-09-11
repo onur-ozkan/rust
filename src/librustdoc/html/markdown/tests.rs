@@ -1,6 +1,7 @@
+use rustc_span::edition::{Edition, DEFAULT_EDITION};
+
 use super::{find_testable_code, plain_text_summary, short_markdown_summary};
 use super::{ErrorCodes, HeadingOffset, IdMap, Ignore, LangString, Markdown, MarkdownItemInfo};
-use rustc_span::edition::{Edition, DEFAULT_EDITION};
 
 #[test]
 fn test_unique_id() {

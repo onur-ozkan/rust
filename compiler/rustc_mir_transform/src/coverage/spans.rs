@@ -1,4 +1,5 @@
-use super::graph::{BasicCoverageBlock, BasicCoverageBlockData, CoverageGraph, START_BCB};
+use std::cell::OnceCell;
+use std::cmp::Ordering;
 
 use itertools::Itertools;
 use rustc_data_structures::graph::WithNumNodes;
@@ -11,8 +12,7 @@ use rustc_middle::ty::TyCtxt;
 use rustc_span::source_map::original_sp;
 use rustc_span::{BytePos, ExpnKind, MacroKind, Span, Symbol};
 
-use std::cell::OnceCell;
-use std::cmp::Ordering;
+use super::graph::{BasicCoverageBlock, BasicCoverageBlockData, CoverageGraph, START_BCB};
 
 #[derive(Debug, Copy, Clone)]
 pub(super) enum CoverageStatement {

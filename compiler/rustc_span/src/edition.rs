@@ -1,8 +1,9 @@
-use crate::symbol::{sym, Symbol};
 use std::fmt;
 use std::str::FromStr;
 
 use rustc_macros::HashStable_Generic;
+
+use crate::symbol::{sym, Symbol};
 
 /// The edition of the compiler. (See [RFC 2052](https://github.com/rust-lang/rfcs/blob/master/text/2052-epochs.md).)
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Debug, Encodable, Decodable, Eq)]

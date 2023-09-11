@@ -95,10 +95,13 @@ mod outlives;
 pub mod structured_errors;
 mod variance;
 
+use astconv::{AstConv, OnlySelfBounds};
+use bounds::Bounds;
 use rustc_errors::ErrorGuaranteed;
 use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
 use rustc_fluent_macro::fluent_messages;
 use rustc_hir as hir;
+use rustc_hir::def::DefKind;
 use rustc_infer::infer::TyCtxtInferExt;
 use rustc_middle::middle;
 use rustc_middle::query::Providers;
@@ -109,10 +112,6 @@ use rustc_span::{symbol::sym, Span, DUMMY_SP};
 use rustc_target::spec::abi::Abi;
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt as _;
 use rustc_trait_selection::traits::{self, ObligationCause, ObligationCtxt};
-
-use astconv::{AstConv, OnlySelfBounds};
-use bounds::Bounds;
-use rustc_hir::def::DefKind;
 
 fluent_messages! { "../messages.ftl" }
 

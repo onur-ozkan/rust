@@ -2,6 +2,24 @@
 //! generate the actual methods on tcx which find and execute the provider,
 //! manage the caches, and so forth.
 
+use std::cell::Cell;
+use std::collections::hash_map::Entry;
+use std::fmt::Debug;
+use std::hash::Hash;
+use std::mem;
+
+use rustc_data_structures::fingerprint::Fingerprint;
+use rustc_data_structures::fx::FxHashMap;
+use rustc_data_structures::sharded::Sharded;
+use rustc_data_structures::stack::ensure_sufficient_stack;
+use rustc_data_structures::sync::Lock;
+#[cfg(parallel_compiler)]
+use rustc_data_structures::{cold_path, sync};
+use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed, FatalError};
+use rustc_span::{Span, DUMMY_SP};
+use thin_vec::ThinVec;
+
+use super::QueryConfig;
 use crate::dep_graph::{DepContext, DepKind, DepNode, DepNodeIndex, DepNodeParams};
 use crate::dep_graph::{DepGraphData, HasDepContext};
 use crate::ich::StableHashingContext;
@@ -12,23 +30,6 @@ use crate::query::job::{report_cycle, QueryInfo, QueryJob, QueryJobId, QueryJobI
 use crate::query::SerializedDepNodeIndex;
 use crate::query::{QueryContext, QueryMap, QuerySideEffects, QueryStackFrame};
 use crate::HandleCycleError;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sharded::Sharded;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_data_structures::sync::Lock;
-#[cfg(parallel_compiler)]
-use rustc_data_structures::{cold_path, sync};
-use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed, FatalError};
-use rustc_span::{Span, DUMMY_SP};
-use std::cell::Cell;
-use std::collections::hash_map::Entry;
-use std::fmt::Debug;
-use std::hash::Hash;
-use std::mem;
-use thin_vec::ThinVec;
-
-use super::QueryConfig;
 
 pub struct QueryState<K, D: DepKind> {
     active: Sharded<FxHashMap<K, QueryResult<D>>>,

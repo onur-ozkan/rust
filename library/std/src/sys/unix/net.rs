@@ -1,3 +1,5 @@
+use libc::{c_int, c_void, size_t, sockaddr, socklen_t, MSG_PEEK};
+
 use crate::cmp;
 use crate::ffi::CStr;
 use crate::io::{self, BorrowedBuf, BorrowedCursor, IoSlice, IoSliceMut};
@@ -9,8 +11,6 @@ use crate::sys::fd::FileDesc;
 use crate::sys_common::net::{getsockopt, setsockopt, sockaddr_to_addr};
 use crate::sys_common::{AsInner, FromInner, IntoInner};
 use crate::time::{Duration, Instant};
-
-use libc::{c_int, c_void, size_t, sockaddr, socklen_t, MSG_PEEK};
 
 cfg_if::cfg_if! {
     if #[cfg(target_vendor = "apple")] {

@@ -1,10 +1,8 @@
-use super::suggest;
-use super::CandidateSource;
-use super::MethodError;
-use super::NoMatchData;
+use std::cell::RefCell;
+use std::cmp::max;
+use std::iter;
+use std::ops::Deref;
 
-use crate::errors::MethodCallOnUnknownRawPointee;
-use crate::FnCtxt;
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::Applicability;
 use rustc_hir as hir;
@@ -39,15 +37,16 @@ use rustc_trait_selection::traits::query::method_autoderef::{
 use rustc_trait_selection::traits::query::CanonicalTyGoal;
 use rustc_trait_selection::traits::NormalizeExt;
 use rustc_trait_selection::traits::{self, ObligationCause};
-use std::cell::RefCell;
-use std::cmp::max;
-use std::iter;
-use std::ops::Deref;
-
 use smallvec::{smallvec, SmallVec};
 
 use self::CandidateKind::*;
 pub use self::PickKind::*;
+use super::suggest;
+use super::CandidateSource;
+use super::MethodError;
+use super::NoMatchData;
+use crate::errors::MethodCallOnUnknownRawPointee;
+use crate::FnCtxt;
 
 /// Boolean flag used to indicate if this search is for a suggestion
 /// or not. If true, we can allow ambiguity and so forth.

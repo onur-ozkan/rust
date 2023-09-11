@@ -50,12 +50,8 @@
 //! For generators with state 1 (returned) and state 2 (poisoned) it does nothing.
 //! Otherwise it drops all the values in scope at the last suspension point.
 
-use crate::abort_unwinding_calls;
-use crate::deref_separator::deref_finder;
-use crate::errors;
-use crate::pass_manager as pm;
-use crate::simplify;
-use crate::MirPass;
+use std::{iter, ops};
+
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use rustc_errors::pluralize;
 use rustc_hir as hir;
@@ -79,7 +75,13 @@ use rustc_span::symbol::sym;
 use rustc_span::Span;
 use rustc_target::abi::{FieldIdx, VariantIdx};
 use rustc_target::spec::PanicStrategy;
-use std::{iter, ops};
+
+use crate::abort_unwinding_calls;
+use crate::deref_separator::deref_finder;
+use crate::errors;
+use crate::pass_manager as pm;
+use crate::simplify;
+use crate::MirPass;
 
 pub struct StateTransform;
 
@@ -1053,9 +1055,10 @@ fn insert_switch<'tcx>(
 }
 
 fn elaborate_generator_drops<'tcx>(tcx: TyCtxt<'tcx>, body: &mut Body<'tcx>) {
-    use crate::shim::DropShimElaborator;
     use rustc_middle::mir::patch::MirPatch;
     use rustc_mir_dataflow::elaborate_drops::{elaborate_drop, Unwind};
+
+    use crate::shim::DropShimElaborator;
 
     // Note that `elaborate_drops` only drops the upvars of a generator, and
     // this is ok because `open_drop` can only be reached within that own

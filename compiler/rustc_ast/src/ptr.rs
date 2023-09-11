@@ -25,9 +25,8 @@ use std::fmt::{self, Debug, Display};
 use std::ops::{Deref, DerefMut};
 use std::{slice, vec};
 
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-
 use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 /// An owned smart pointer.
 pub struct P<T: ?Sized> {
     ptr: Box<T>,

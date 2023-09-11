@@ -103,7 +103,12 @@
 //! unsupported file system and emit a warning in that case. This is not yet
 //! implemented.
 
-use crate::errors;
+use std::fs as std_fs;
+use std::io::{self, ErrorKind};
+use std::path::{Path, PathBuf};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
+
+use rand::{thread_rng, RngCore};
 use rustc_data_structures::fx::{FxHashSet, FxIndexSet};
 use rustc_data_structures::svh::Svh;
 use rustc_data_structures::unord::{UnordMap, UnordSet};
@@ -113,12 +118,7 @@ use rustc_fs_util::{link_or_copy, try_canonicalize, LinkOrCopy};
 use rustc_session::{Session, StableCrateId};
 use rustc_span::Symbol;
 
-use std::fs as std_fs;
-use std::io::{self, ErrorKind};
-use std::path::{Path, PathBuf};
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
-
-use rand::{thread_rng, RngCore};
+use crate::errors;
 
 #[cfg(test)]
 mod tests;

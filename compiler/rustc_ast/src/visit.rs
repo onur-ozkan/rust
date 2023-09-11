@@ -13,10 +13,10 @@
 //! instance, a walker looking for item names in a module will miss all of
 //! those that are created by the expansion of a macro.
 
-use crate::{ast::*, StaticItem};
-
 use rustc_span::symbol::Ident;
 use rustc_span::Span;
+
+use crate::{ast::*, StaticItem};
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum AssocCtxt {

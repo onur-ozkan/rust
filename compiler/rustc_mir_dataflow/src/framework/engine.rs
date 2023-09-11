@@ -1,10 +1,5 @@
 //! A solver for dataflow problems.
 
-use crate::errors::{
-    DuplicateValuesFor, PathMustEndInFilename, RequiresAnArgument, UnknownFormatter,
-};
-use crate::framework::BitSetExt;
-
 use std::borrow::Borrow;
 use std::ffi::OsString;
 use std::marker::PhantomData;
@@ -28,6 +23,10 @@ use super::{
     GenKillSet, JoinSemiLattice, ResultsClonedCursor, ResultsCursor, ResultsRefCursor,
     ResultsVisitor,
 };
+use crate::errors::{
+    DuplicateValuesFor, PathMustEndInFilename, RequiresAnArgument, UnknownFormatter,
+};
+use crate::framework::BitSetExt;
 
 pub type EntrySets<'tcx, A> = IndexVec<BasicBlock, <A as AnalysisDomain<'tcx>>::Domain>;
 

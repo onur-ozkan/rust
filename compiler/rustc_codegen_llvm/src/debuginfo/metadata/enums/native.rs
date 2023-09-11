@@ -1,5 +1,20 @@
 use std::borrow::Cow;
 
+use libc::c_uint;
+use rustc_codegen_ssa::{
+    debuginfo::{type_names::compute_debuginfo_type_name, wants_c_like_enum_debuginfo},
+    traits::ConstMethods,
+};
+use rustc_middle::{
+    bug,
+    ty::{
+        self,
+        layout::{LayoutOf, TyAndLayout},
+    },
+};
+use rustc_target::abi::{Size, TagEncoding, VariantIdx, Variants};
+use smallvec::smallvec;
+
 use crate::{
     common::CodegenCx,
     debuginfo::{
@@ -17,20 +32,6 @@ use crate::{
         debuginfo::{DIFile, DIFlags, DIType},
     },
 };
-use libc::c_uint;
-use rustc_codegen_ssa::{
-    debuginfo::{type_names::compute_debuginfo_type_name, wants_c_like_enum_debuginfo},
-    traits::ConstMethods,
-};
-use rustc_middle::{
-    bug,
-    ty::{
-        self,
-        layout::{LayoutOf, TyAndLayout},
-    },
-};
-use rustc_target::abi::{Size, TagEncoding, VariantIdx, Variants};
-use smallvec::smallvec;
 
 /// Build the debuginfo node for an enum type. The listing below shows how such a
 /// type looks like at the LLVM IR/DWARF level. It is a `DW_TAG_structure_type`

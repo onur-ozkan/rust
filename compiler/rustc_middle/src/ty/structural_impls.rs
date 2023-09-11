@@ -3,22 +3,22 @@
 //! written by hand, though we've recently added some macros and proc-macros
 //! to help with the tedium.
 
-use crate::mir::interpret;
-use crate::ty::fold::{FallibleTypeFolder, TypeFoldable, TypeSuperFoldable};
-use crate::ty::print::{with_no_trimmed_paths, FmtPrinter, Printer};
-use crate::ty::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitor};
-use crate::ty::{self, AliasTy, InferConst, Lift, Term, TermKind, Ty, TyCtxt};
-use rustc_hir::def::Namespace;
-use rustc_index::{Idx, IndexVec};
-use rustc_target::abi::TyAndLayout;
-use rustc_type_ir::{ConstKind, DebugWithInfcx, InferCtxtLike, OptWithInfcx};
-
 use std::fmt::{self, Debug};
 use std::ops::ControlFlow;
 use std::rc::Rc;
 use std::sync::Arc;
 
+use rustc_hir::def::Namespace;
+use rustc_index::{Idx, IndexVec};
+use rustc_target::abi::TyAndLayout;
+use rustc_type_ir::{ConstKind, DebugWithInfcx, InferCtxtLike, OptWithInfcx};
+
 use super::{GenericArg, GenericArgKind, Region};
+use crate::mir::interpret;
+use crate::ty::fold::{FallibleTypeFolder, TypeFoldable, TypeSuperFoldable};
+use crate::ty::print::{with_no_trimmed_paths, FmtPrinter, Printer};
+use crate::ty::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitor};
+use crate::ty::{self, AliasTy, InferConst, Lift, Term, TermKind, Ty, TyCtxt};
 
 impl fmt::Debug for ty::TraitDef {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

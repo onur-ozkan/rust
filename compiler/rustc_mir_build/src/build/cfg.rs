@@ -1,8 +1,9 @@
 //! Routines for manipulating the control-flow graph.
 
-use crate::build::CFG;
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
+
+use crate::build::CFG;
 
 impl<'tcx> CFG<'tcx> {
     pub(crate) fn block_data(&self, blk: BasicBlock) -> &BasicBlockData<'tcx> {

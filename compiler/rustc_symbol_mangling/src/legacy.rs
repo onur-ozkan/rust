@@ -1,3 +1,6 @@
+use std::fmt::{self, Write};
+use std::mem::{self, discriminant};
+
 use rustc_data_structures::stable_hasher::{Hash64, HashStable, StableHasher};
 use rustc_hir::def_id::CrateNum;
 use rustc_hir::definitions::{DefPathData, DisambiguatedDefPathData};
@@ -5,9 +8,6 @@ use rustc_middle::ty::print::{PrettyPrinter, Print, Printer};
 use rustc_middle::ty::{self, Instance, Ty, TyCtxt, TypeVisitableExt};
 use rustc_middle::ty::{GenericArg, GenericArgKind};
 use rustc_middle::util::common::record_time;
-
-use std::fmt::{self, Write};
-use std::mem::{self, discriminant};
 
 pub(super) fn mangle<'tcx>(
     tcx: TyCtxt<'tcx>,

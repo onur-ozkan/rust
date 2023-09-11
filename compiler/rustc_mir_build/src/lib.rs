@@ -22,10 +22,9 @@ mod errors;
 pub mod lints;
 pub mod thir;
 
-use rustc_middle::query::Providers;
-
 use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
 use rustc_fluent_macro::fluent_messages;
+use rustc_middle::query::Providers;
 
 fluent_messages! { "../messages.ftl" }
 

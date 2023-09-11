@@ -1,14 +1,9 @@
-use crate::attributes;
-use crate::back::write::to_llvm_code_model;
-use crate::callee::get_fn;
-use crate::coverageinfo;
-use crate::debuginfo;
-use crate::llvm;
-use crate::llvm_util;
-use crate::type_::Type;
-use crate::value::Value;
+use std::cell::{Cell, RefCell};
+use std::ffi::CStr;
+use std::str;
 
 use cstr::cstr;
+use libc::c_uint;
 use rustc_codegen_ssa::base::{wants_msvc_seh, wants_wasm_eh};
 use rustc_codegen_ssa::errors as ssa_errors;
 use rustc_codegen_ssa::traits::*;
@@ -34,10 +29,15 @@ use rustc_target::abi::{
 use rustc_target::spec::{HasTargetSpec, RelocModel, Target, TlsModel};
 use smallvec::SmallVec;
 
-use libc::c_uint;
-use std::cell::{Cell, RefCell};
-use std::ffi::CStr;
-use std::str;
+use crate::attributes;
+use crate::back::write::to_llvm_code_model;
+use crate::callee::get_fn;
+use crate::coverageinfo;
+use crate::debuginfo;
+use crate::llvm;
+use crate::llvm_util;
+use crate::type_::Type;
+use crate::value::Value;
 
 /// There is one `CodegenCx` per compilation unit. Each one has its own LLVM
 /// `llvm::Context` so that several compilation units may be optimized in parallel.

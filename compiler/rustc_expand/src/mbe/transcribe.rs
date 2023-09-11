@@ -1,10 +1,5 @@
-use crate::base::ExtCtxt;
-use crate::errors::{
-    CountRepetitionMisplaced, MetaVarExprUnrecognizedVar, MetaVarsDifSeqMatchers, MustRepeatOnce,
-    NoSyntaxVarsExprRepeat, VarStillRepeating,
-};
-use crate::mbe::macro_parser::{MatchedNonterminal, MatchedSeq, MatchedTokenTree, NamedMatch};
-use crate::mbe::{self, MetaVarExpr};
+use std::mem;
+
 use rustc_ast::mut_visit::{self, MutVisitor};
 use rustc_ast::token::{self, Delimiter, Token, TokenKind};
 use rustc_ast::tokenstream::{DelimSpan, Spacing, TokenStream, TokenTree};
@@ -14,9 +9,15 @@ use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed};
 use rustc_span::hygiene::{LocalExpnId, Transparency};
 use rustc_span::symbol::{sym, Ident, MacroRulesNormalizedIdent};
 use rustc_span::Span;
-
 use smallvec::{smallvec, SmallVec};
-use std::mem;
+
+use crate::base::ExtCtxt;
+use crate::errors::{
+    CountRepetitionMisplaced, MetaVarExprUnrecognizedVar, MetaVarsDifSeqMatchers, MustRepeatOnce,
+    NoSyntaxVarsExprRepeat, VarStillRepeating,
+};
+use crate::mbe::macro_parser::{MatchedNonterminal, MatchedSeq, MatchedTokenTree, NamedMatch};
+use crate::mbe::{self, MetaVarExpr};
 
 // A Marker adds the given mark to the syntax context.
 struct Marker(LocalExpnId, Transparency);

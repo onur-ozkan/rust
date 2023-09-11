@@ -1,3 +1,27 @@
+use std::mem::take;
+use std::ops::{Deref, DerefMut};
+
+use rustc_ast as ast;
+use rustc_ast::ptr::P;
+use rustc_ast::token::{self, Delimiter, Lit, LitKind, TokenKind};
+use rustc_ast::util::parser::AssocOp;
+use rustc_ast::{
+    AngleBracketedArg, AngleBracketedArgs, AnonConst, AttrVec, BinOpKind, BindingAnnotation, Block,
+    BlockCheckMode, Expr, ExprKind, GenericArg, Generics, Item, ItemKind, Param, Pat, PatKind,
+    Path, PathSegment, QSelf, Ty, TyKind,
+};
+use rustc_ast_pretty::pprust;
+use rustc_data_structures::fx::FxHashSet;
+use rustc_errors::{
+    pluralize, AddToDiagnostic, Applicability, Diagnostic, DiagnosticBuilder, DiagnosticMessage,
+    ErrorGuaranteed, FatalError, Handler, IntoDiagnostic, MultiSpan, PResult,
+};
+use rustc_session::errors::ExprParenthesesNeeded;
+use rustc_span::source_map::Spanned;
+use rustc_span::symbol::{kw, sym, Ident};
+use rustc_span::{Span, SpanSnippetError, Symbol, DUMMY_SP};
+use thin_vec::{thin_vec, ThinVec};
+
 use super::pat::Expected;
 use super::{
     BlockMode, CommaRecoveryMode, Parser, PathStyle, Restrictions, SemiColonMode, SeqSep,
@@ -18,31 +42,8 @@ use crate::errors::{
     TernaryOperator, UnexpectedConstInGenericParam, UnexpectedConstParamDeclaration,
     UnexpectedConstParamDeclarationSugg, UnmatchedAngleBrackets, UseEqInstead,
 };
-
 use crate::fluent_generated as fluent;
 use crate::parser;
-use rustc_ast as ast;
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, Delimiter, Lit, LitKind, TokenKind};
-use rustc_ast::util::parser::AssocOp;
-use rustc_ast::{
-    AngleBracketedArg, AngleBracketedArgs, AnonConst, AttrVec, BinOpKind, BindingAnnotation, Block,
-    BlockCheckMode, Expr, ExprKind, GenericArg, Generics, Item, ItemKind, Param, Pat, PatKind,
-    Path, PathSegment, QSelf, Ty, TyKind,
-};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{
-    pluralize, AddToDiagnostic, Applicability, Diagnostic, DiagnosticBuilder, DiagnosticMessage,
-    ErrorGuaranteed, FatalError, Handler, IntoDiagnostic, MultiSpan, PResult,
-};
-use rustc_session::errors::ExprParenthesesNeeded;
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{kw, sym, Ident};
-use rustc_span::{Span, SpanSnippetError, Symbol, DUMMY_SP};
-use std::mem::take;
-use std::ops::{Deref, DerefMut};
-use thin_vec::{thin_vec, ThinVec};
 
 /// Creates a placeholder argument.
 pub(super) fn dummy_arg(ident: Ident) -> Param {

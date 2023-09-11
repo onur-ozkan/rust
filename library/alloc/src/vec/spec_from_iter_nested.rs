@@ -2,9 +2,8 @@ use core::cmp;
 use core::iter::TrustedLen;
 use core::ptr;
 
-use crate::raw_vec::RawVec;
-
 use super::{SpecExtend, Vec};
+use crate::raw_vec::RawVec;
 
 /// Another specialization trait for Vec::from_iter
 /// necessary to manually prioritize overlapping specializations

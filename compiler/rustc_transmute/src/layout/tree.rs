@@ -1,5 +1,6 @@
-use super::{Byte, Def, Ref};
 use std::ops::ControlFlow;
+
+use super::{Byte, Def, Ref};
 
 #[cfg(test)]
 mod tests;
@@ -169,8 +170,7 @@ where
 
 #[cfg(feature = "rustc")]
 pub(crate) mod rustc {
-    use super::Tree;
-    use crate::layout::rustc::{Def, Ref};
+    use std::alloc;
 
     use rustc_middle::ty::layout::LayoutError;
     use rustc_middle::ty::util::Discr;
@@ -181,7 +181,9 @@ pub(crate) mod rustc {
     use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitableExt};
     use rustc_span::ErrorGuaranteed;
     use rustc_target::abi::Align;
-    use std::alloc;
+
+    use super::Tree;
+    use crate::layout::rustc::{Def, Ref};
 
     #[derive(Debug, Copy, Clone)]
     pub(crate) enum Err {

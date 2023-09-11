@@ -1,9 +1,9 @@
+use rustc_data_structures::fx::FxIndexSet;
+
 use crate::def_id::{DefIndex, LocalDefId};
 use crate::hygiene::SyntaxContext;
 use crate::SPAN_TRACK;
 use crate::{BytePos, SpanData};
-
-use rustc_data_structures::fx::FxIndexSet;
 
 /// A compressed span.
 ///

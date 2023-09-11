@@ -2,6 +2,31 @@
 //!
 //! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/mir/index.html
 
+use std::borrow::Cow;
+use std::fmt::{self, Debug, Display, Formatter, Write};
+use std::ops::{Index, IndexMut};
+use std::{iter, mem};
+
+pub use basic_blocks::BasicBlocks;
+use either::Either;
+use polonius_engine::Atom;
+pub use rustc_ast::Mutability;
+use rustc_data_structures::captures::Captures;
+use rustc_data_structures::fx::FxHashSet;
+use rustc_data_structures::graph::dominators::Dominators;
+use rustc_errors::{DiagnosticArgValue, DiagnosticMessage, ErrorGuaranteed, IntoDiagnosticArg};
+use rustc_hir::def::{CtorKind, Namespace};
+use rustc_hir::def_id::{DefId, LocalDefId, CRATE_DEF_ID};
+use rustc_hir::{self, GeneratorKind, ImplicitSelfKind};
+use rustc_hir::{self as hir, HirId};
+use rustc_index::{Idx, IndexSlice, IndexVec};
+use rustc_serialize::{Decodable, Encodable};
+use rustc_session::Session;
+use rustc_span::symbol::Symbol;
+use rustc_span::{Span, DUMMY_SP};
+use rustc_target::abi::{FieldIdx, Size, VariantIdx};
+
+pub use self::query::*;
 use crate::mir::interpret::{
     AllocRange, ConstAllocation, ConstValue, ErrorHandled, GlobalAlloc, Scalar,
 };
@@ -13,34 +38,6 @@ use crate::ty::visit::TypeVisitableExt;
 use crate::ty::{self, List, Ty, TyCtxt};
 use crate::ty::{AdtDef, InstanceDef, ScalarInt, UserTypeAnnotationIndex};
 use crate::ty::{GenericArg, GenericArgs, GenericArgsRef};
-
-use rustc_data_structures::captures::Captures;
-use rustc_errors::{DiagnosticArgValue, DiagnosticMessage, ErrorGuaranteed, IntoDiagnosticArg};
-use rustc_hir::def::{CtorKind, Namespace};
-use rustc_hir::def_id::{DefId, LocalDefId, CRATE_DEF_ID};
-use rustc_hir::{self, GeneratorKind, ImplicitSelfKind};
-use rustc_hir::{self as hir, HirId};
-use rustc_session::Session;
-use rustc_target::abi::{FieldIdx, Size, VariantIdx};
-
-use polonius_engine::Atom;
-pub use rustc_ast::Mutability;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::graph::dominators::Dominators;
-use rustc_index::{Idx, IndexSlice, IndexVec};
-use rustc_serialize::{Decodable, Encodable};
-use rustc_span::symbol::Symbol;
-use rustc_span::{Span, DUMMY_SP};
-
-use either::Either;
-
-use std::borrow::Cow;
-use std::fmt::{self, Debug, Display, Formatter, Write};
-use std::ops::{Index, IndexMut};
-use std::{iter, mem};
-
-pub use self::query::*;
-pub use basic_blocks::BasicBlocks;
 
 mod basic_blocks;
 pub mod coverage;
@@ -1358,8 +1355,9 @@ impl<O> AssertKind<O> {
     /// Note that we deliberately show more details here than we do at runtime, such as the actual
     /// numbers that overflowed -- it is much easier to do so here than at runtime.
     pub fn diagnostic_message(&self) -> DiagnosticMessage {
-        use crate::fluent_generated::*;
         use AssertKind::*;
+
+        use crate::fluent_generated::*;
 
         match self {
             BoundsCheck { .. } => middle_bounds_check,
@@ -3053,8 +3051,9 @@ impl Location {
 // Some nodes are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(BasicBlockData<'_>, 136);
     static_assert_size!(LocalDecl<'_>, 40);

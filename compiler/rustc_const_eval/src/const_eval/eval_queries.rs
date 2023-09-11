@@ -1,8 +1,4 @@
-use crate::const_eval::CheckAlignment;
-use crate::errors::ConstEvalError;
-
 use either::{Left, Right};
-
 use rustc_hir::def::DefKind;
 use rustc_middle::mir;
 use rustc_middle::mir::interpret::{ErrorHandled, InterpErrorInfo};
@@ -15,7 +11,9 @@ use rustc_span::source_map::Span;
 use rustc_target::abi::{self, Abi};
 
 use super::{CanAccessStatics, CompileTimeEvalContext, CompileTimeInterpreter};
+use crate::const_eval::CheckAlignment;
 use crate::errors;
+use crate::errors::ConstEvalError;
 use crate::interpret::eval_nullary_intrinsic;
 use crate::interpret::{
     intern_const_alloc_recursive, Allocation, ConstAlloc, ConstValue, CtfeValidationMode, GlobalId,

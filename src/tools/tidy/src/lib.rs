@@ -37,6 +37,7 @@ macro_rules! tidy_error {
 
 fn tidy_error(bad: &mut bool, args: impl Display) -> std::io::Result<()> {
     use std::io::Write;
+
     use termcolor::{Color, ColorChoice, ColorSpec, StandardStream};
 
     *bad = true;

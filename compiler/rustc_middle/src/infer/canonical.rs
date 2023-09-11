@@ -21,13 +21,15 @@
 //!
 //! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
+use std::ops::Index;
+
+use rustc_macros::HashStable;
+use smallvec::SmallVec;
+
 use crate::infer::MemberConstraint;
 use crate::mir::ConstraintCategory;
 use crate::ty::GenericArg;
 use crate::ty::{self, BoundVar, List, Region, Ty, TyCtxt};
-use rustc_macros::HashStable;
-use smallvec::SmallVec;
-use std::ops::Index;
 
 /// A "canonicalized" type `V` is one where all free inference
 /// variables have been rewritten to "canonical vars". These are

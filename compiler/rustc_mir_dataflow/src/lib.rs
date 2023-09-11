@@ -32,7 +32,6 @@ pub use self::framework::{
     MaybeReachable, Results, ResultsCloned, ResultsClonedCursor, ResultsCursor, ResultsRefCursor,
     ResultsVisitable, ResultsVisitor, SwitchIntEdgeEffects,
 };
-
 use self::move_paths::MoveData;
 
 pub mod drop_flag_effects;

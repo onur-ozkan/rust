@@ -5,11 +5,13 @@
 //! https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm)
 //! that completes in *O*(*n*) time.
 
+use std::ops::Range;
+
+use rustc_index::{Idx, IndexSlice, IndexVec};
+
 use crate::fx::FxHashSet;
 use crate::graph::vec_graph::VecGraph;
 use crate::graph::{DirectedGraph, GraphSuccessors, WithNumEdges, WithNumNodes, WithSuccessors};
-use rustc_index::{Idx, IndexSlice, IndexVec};
-use std::ops::Range;
 
 #[cfg(test)]
 mod tests;

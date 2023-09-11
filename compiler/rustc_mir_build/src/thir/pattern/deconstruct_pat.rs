@@ -48,8 +48,6 @@ use std::fmt;
 use std::iter::once;
 use std::ops::RangeInclusive;
 
-use smallvec::{smallvec, SmallVec};
-
 use rustc_data_structures::captures::Captures;
 use rustc_hir::{HirId, RangeEnd};
 use rustc_index::Idx;
@@ -61,10 +59,10 @@ use rustc_middle::ty::{self, Ty, TyCtxt, VariantDef};
 use rustc_session::lint;
 use rustc_span::{Span, DUMMY_SP};
 use rustc_target::abi::{FieldIdx, Integer, Size, VariantIdx, FIRST_VARIANT};
+use smallvec::{smallvec, SmallVec};
 
 use self::Constructor::*;
 use self::SliceKind::*;
-
 use super::compare_const_vals;
 use super::usefulness::{MatchCheckCtxt, PatCtxt};
 use crate::errors::{Overlap, OverlappingRangeEndpoints};

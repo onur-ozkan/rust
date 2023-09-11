@@ -1,12 +1,13 @@
-use crate::build::expr::as_place::PlaceBase;
-use crate::build::expr::as_place::PlaceBuilder;
-use crate::build::matches::MatchPair;
-use crate::build::Builder;
 use rustc_middle::mir::*;
 use rustc_middle::thir::*;
 use rustc_middle::ty;
 use rustc_middle::ty::TypeVisitableExt;
 use smallvec::SmallVec;
+
+use crate::build::expr::as_place::PlaceBase;
+use crate::build::expr::as_place::PlaceBuilder;
+use crate::build::matches::MatchPair;
+use crate::build::Builder;
 
 impl<'a, 'tcx> Builder<'a, 'tcx> {
     pub(crate) fn field_match_pairs<'pat>(

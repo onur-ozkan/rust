@@ -1,8 +1,3 @@
-use super::errors::{InvalidAbi, InvalidAbiReason, InvalidAbiSuggestion, MisplacedRelaxTraitBound};
-use super::ResolverAstLoweringExt;
-use super::{AstOwner, ImplTraitContext, ImplTraitPosition};
-use super::{FnDeclKind, LoweringContext, ParamMode};
-
 use hir::definitions::DefPathData;
 use rustc_ast::ptr::P;
 use rustc_ast::visit::AssocCtxt;
@@ -22,6 +17,11 @@ use rustc_span::{Span, Symbol};
 use rustc_target::spec::abi;
 use smallvec::{smallvec, SmallVec};
 use thin_vec::ThinVec;
+
+use super::errors::{InvalidAbi, InvalidAbiReason, InvalidAbiSuggestion, MisplacedRelaxTraitBound};
+use super::ResolverAstLoweringExt;
+use super::{AstOwner, ImplTraitContext, ImplTraitPosition};
+use super::{FnDeclKind, LoweringContext, ParamMode};
 
 pub(super) struct ItemLowerer<'a, 'hir> {
     pub(super) tcx: TyCtxt<'hir>,

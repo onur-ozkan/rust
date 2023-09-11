@@ -1,12 +1,6 @@
 #[cfg(test)]
 mod tests;
 
-use crate::borrow::{Cow, ToOwned};
-use crate::boxed::Box;
-use crate::rc::Rc;
-use crate::slice::hack::into_vec;
-use crate::string::String;
-use crate::vec::Vec;
 use core::borrow::Borrow;
 use core::ffi::{c_char, CStr};
 use core::fmt;
@@ -18,8 +12,14 @@ use core::slice;
 use core::slice::memchr;
 use core::str::{self, Utf8Error};
 
+use crate::borrow::{Cow, ToOwned};
+use crate::boxed::Box;
+use crate::rc::Rc;
+use crate::slice::hack::into_vec;
+use crate::string::String;
 #[cfg(target_has_atomic = "ptr")]
 use crate::sync::Arc;
+use crate::vec::Vec;
 
 /// A type representing an owned, C-compatible, nul-terminated string with no nul bytes in the
 /// middle.

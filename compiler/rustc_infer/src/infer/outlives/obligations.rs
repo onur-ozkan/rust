@@ -59,13 +59,6 @@
 //! might later infer `?U` to something like `&'b u32`, which would
 //! imply that `'b: 'a`.
 
-use crate::infer::outlives::components::{push_outlives_components, Component};
-use crate::infer::outlives::env::RegionBoundPairs;
-use crate::infer::outlives::verify::VerifyBoundCx;
-use crate::infer::{
-    self, GenericKind, InferCtxt, RegionObligation, SubregionOrigin, UndoLog, VerifyBound,
-};
-use crate::traits::{ObligationCause, ObligationCauseCode};
 use rustc_data_structures::undo_log::UndoLogs;
 use rustc_middle::mir::ConstraintCategory;
 use rustc_middle::ty::GenericArgKind;
@@ -73,6 +66,13 @@ use rustc_middle::ty::{self, GenericArgsRef, Region, Ty, TyCtxt, TypeVisitableEx
 use smallvec::smallvec;
 
 use super::env::OutlivesEnvironment;
+use crate::infer::outlives::components::{push_outlives_components, Component};
+use crate::infer::outlives::env::RegionBoundPairs;
+use crate::infer::outlives::verify::VerifyBoundCx;
+use crate::infer::{
+    self, GenericKind, InferCtxt, RegionObligation, SubregionOrigin, UndoLog, VerifyBound,
+};
+use crate::traits::{ObligationCause, ObligationCauseCode};
 
 impl<'tcx> InferCtxt<'tcx> {
     /// Registers that the given region obligation must be resolved

@@ -1,18 +1,20 @@
-use crate::snippet::Style;
-use crate::{
-    CodeSuggestion, DiagnosticBuilder, DiagnosticMessage, EmissionGuarantee, Level, MultiSpan,
-    SubdiagnosticMessage, Substitution, SubstitutionPart, SuggestionStyle,
-};
+use std::borrow::Cow;
+use std::fmt::{self, Debug};
+use std::hash::{Hash, Hasher};
+use std::panic::Location;
+
 use rustc_data_structures::fx::FxHashMap;
 use rustc_error_messages::fluent_value_from_str_list_sep_by_and;
 use rustc_error_messages::FluentValue;
 use rustc_lint_defs::{Applicability, LintExpectationId};
 use rustc_span::symbol::Symbol;
 use rustc_span::{Span, DUMMY_SP};
-use std::borrow::Cow;
-use std::fmt::{self, Debug};
-use std::hash::{Hash, Hasher};
-use std::panic::Location;
+
+use crate::snippet::Style;
+use crate::{
+    CodeSuggestion, DiagnosticBuilder, DiagnosticMessage, EmissionGuarantee, Level, MultiSpan,
+    SubdiagnosticMessage, Substitution, SubstitutionPart, SuggestionStyle,
+};
 
 /// Error type for `Diagnostic`'s `suggestions` field, indicating that
 /// `.disable_suggestions()` was called on the `Diagnostic`.

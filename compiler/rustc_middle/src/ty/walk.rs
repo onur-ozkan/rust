@@ -1,10 +1,11 @@
 //! An iterator over the type substructure.
 //! WARNING: this does not keep track of the region depth.
 
-use crate::ty::{self, Ty};
-use crate::ty::{GenericArg, GenericArgKind};
 use rustc_data_structures::sso::SsoHashSet;
 use smallvec::SmallVec;
+
+use crate::ty::{self, Ty};
+use crate::ty::{GenericArg, GenericArgKind};
 
 // The TypeWalker's stack is hot enough that it's worth going to some effort to
 // avoid heap allocations.

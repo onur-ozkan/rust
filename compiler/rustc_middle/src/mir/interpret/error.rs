@@ -1,8 +1,5 @@
-use super::{AllocId, AllocRange, ConstAlloc, Pointer, Scalar};
-
-use crate::mir::interpret::ConstValue;
-use crate::query::TyCtxtAt;
-use crate::ty::{layout, tls, Ty, ValTree};
+use std::borrow::Cow;
+use std::{any::Any, backtrace::Backtrace, fmt};
 
 use rustc_data_structures::sync::Lock;
 use rustc_errors::{
@@ -14,8 +11,10 @@ use rustc_session::CtfeBacktrace;
 use rustc_span::def_id::DefId;
 use rustc_target::abi::{call, Align, Size, VariantIdx, WrappingRange};
 
-use std::borrow::Cow;
-use std::{any::Any, backtrace::Backtrace, fmt};
+use super::{AllocId, AllocRange, ConstAlloc, Pointer, Scalar};
+use crate::mir::interpret::ConstValue;
+use crate::query::TyCtxtAt;
+use crate::ty::{layout, tls, Ty, ValTree};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, HashStable, TyEncodable, TyDecodable)]
 pub enum ErrorHandled {

@@ -1,9 +1,10 @@
+use std::borrow::Cow;
+use std::{env, fmt, fs};
+
 use jsonpath_lib::select;
 use once_cell::sync::Lazy;
 use regex::{Regex, RegexBuilder};
 use serde_json::Value;
-use std::borrow::Cow;
-use std::{env, fmt, fs};
 
 mod cache;
 mod config;

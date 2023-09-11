@@ -1,7 +1,9 @@
-use crate::errors::{FailCreateFileEncoder, FailSeekFile, FailWriteFile};
-use crate::rmeta::def_path_hash_map::DefPathHashMapRef;
-use crate::rmeta::table::TableBuilder;
-use crate::rmeta::*;
+use std::borrow::Borrow;
+use std::collections::hash_map::Entry;
+use std::hash::Hash;
+use std::io::{Read, Seek, Write};
+use std::num::NonZeroUsize;
+use std::path::{Path, PathBuf};
 
 use rustc_ast::expand::StrippedCfgItem;
 use rustc_ast::Attribute;
@@ -40,12 +42,11 @@ use rustc_session::cstore::{ForeignModule, LinkagePreference, NativeLib};
 use rustc_span::hygiene::{ExpnIndex, HygieneEncodeContext, MacroKind};
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::{self, ExternalSource, FileName, SourceFile, Span, SpanData, SyntaxContext};
-use std::borrow::Borrow;
-use std::collections::hash_map::Entry;
-use std::hash::Hash;
-use std::io::{Read, Seek, Write};
-use std::num::NonZeroUsize;
-use std::path::{Path, PathBuf};
+
+use crate::errors::{FailCreateFileEncoder, FailSeekFile, FailWriteFile};
+use crate::rmeta::def_path_hash_map::DefPathHashMapRef;
+use crate::rmeta::table::TableBuilder;
+use crate::rmeta::*;
 
 pub(super) struct EncodeContext<'a, 'tcx> {
     opaque: opaque::FileEncoder,

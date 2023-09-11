@@ -1,5 +1,3 @@
-use self::WhichLine::*;
-
 use std::fmt;
 use std::fs::File;
 use std::io::prelude::*;
@@ -10,6 +8,8 @@ use std::str::FromStr;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use tracing::*;
+
+use self::WhichLine::*;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum ErrorKind {

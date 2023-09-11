@@ -1,5 +1,7 @@
 #![allow(rustc::bad_opt_access)]
-use crate::interface::parse_cfgspecs;
+use std::collections::{BTreeMap, BTreeSet};
+use std::num::NonZeroUsize;
+use std::path::{Path, PathBuf};
 
 use rustc_data_structures::fx::FxHashSet;
 use rustc_data_structures::profiling::TimePassesFormat;
@@ -31,9 +33,7 @@ use rustc_span::SourceFileHashAlgorithm;
 use rustc_target::spec::{CodeModel, LinkerFlavorCli, MergeFunctions, PanicStrategy, RelocModel};
 use rustc_target::spec::{RelroLevel, SanitizerSet, SplitDebuginfo, StackProtector, TlsModel};
 
-use std::collections::{BTreeMap, BTreeSet};
-use std::num::NonZeroUsize;
-use std::path::{Path, PathBuf};
+use crate::interface::parse_cfgspecs;
 
 type CfgSpecs = FxHashSet<(String, Option<String>)>;
 

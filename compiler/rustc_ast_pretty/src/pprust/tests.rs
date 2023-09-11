@@ -1,9 +1,9 @@
-use super::*;
-
 use rustc_ast as ast;
 use rustc_span::create_default_session_globals_then;
 use rustc_span::symbol::Ident;
 use thin_vec::ThinVec;
+
+use super::*;
 
 fn fun_to_string(
     decl: &ast::FnDecl,

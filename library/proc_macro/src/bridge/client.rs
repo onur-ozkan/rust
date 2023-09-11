@@ -1,8 +1,8 @@
 //! Client-side types.
 
-use super::*;
-
 use std::marker::PhantomData;
+
+use super::*;
 
 macro_rules! define_handles {
     (

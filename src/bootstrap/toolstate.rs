@@ -1,6 +1,3 @@
-use crate::builder::{Builder, RunConfig, ShouldRun, Step};
-use crate::util::t;
-use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::env;
 use std::fmt;
@@ -9,6 +6,11 @@ use std::io::{Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time;
+
+use serde_derive::{Deserialize, Serialize};
+
+use crate::builder::{Builder, RunConfig, ShouldRun, Step};
+use crate::util::t;
 
 // Each cycle is 42 days long (6 weeks); the last week is 35..=42 then.
 const BETA_WEEK_START: u64 = 35;

@@ -1,9 +1,10 @@
-use crate::fmt;
-use crate::iter::{adapters::SourceIter, FusedIterator, InPlaceIterable};
-use crate::ops::Try;
 use core::array;
 use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::ControlFlow;
+
+use crate::fmt;
+use crate::iter::{adapters::SourceIter, FusedIterator, InPlaceIterable};
+use crate::ops::Try;
 
 /// An iterator that filters the elements of `iter` with `predicate`.
 ///

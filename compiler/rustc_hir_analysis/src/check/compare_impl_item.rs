@@ -1,5 +1,6 @@
-use super::potentially_plural_count;
-use crate::errors::LifetimesOrBoundsMismatchOnTrait;
+use std::borrow::Cow;
+use std::iter;
+
 use hir::def_id::{DefId, LocalDefId};
 use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
 use rustc_errors::{
@@ -25,8 +26,9 @@ use rustc_trait_selection::traits::outlives_bounds::InferCtxtExt as _;
 use rustc_trait_selection::traits::{
     self, ObligationCause, ObligationCauseCode, ObligationCtxt, Reveal,
 };
-use std::borrow::Cow;
-use std::iter;
+
+use super::potentially_plural_count;
+use crate::errors::LifetimesOrBoundsMismatchOnTrait;
 
 mod refine;
 

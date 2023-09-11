@@ -1,7 +1,3 @@
-use crate::errors;
-use crate::thir::cx::region::Scope;
-use crate::thir::cx::Cx;
-use crate::thir::util::UserAnnotatedTyHelpers;
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_hir as hir;
 use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
@@ -21,6 +17,11 @@ use rustc_middle::ty::{
 };
 use rustc_span::{sym, Span};
 use rustc_target::abi::{FieldIdx, FIRST_VARIANT};
+
+use crate::errors;
+use crate::thir::cx::region::Scope;
+use crate::thir::cx::Cx;
+use crate::thir::util::UserAnnotatedTyHelpers;
 
 impl<'tcx> Cx<'tcx> {
     pub(crate) fn mirror_expr(&mut self, expr: &'tcx hir::Expr<'tcx>) -> ExprId {

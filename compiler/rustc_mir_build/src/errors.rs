@@ -1,7 +1,3 @@
-use crate::{
-    fluent_generated as fluent,
-    thir::pattern::{deconstruct_pat::DeconstructedPat, MatchCheckCtxt},
-};
 use rustc_errors::{
     error_code, AddToDiagnostic, Applicability, Diagnostic, DiagnosticBuilder, ErrorGuaranteed,
     Handler, IntoDiagnostic, MultiSpan, SubdiagnosticMessage,
@@ -11,6 +7,11 @@ use rustc_middle::thir::Pat;
 use rustc_middle::ty::{self, Ty};
 use rustc_span::symbol::Symbol;
 use rustc_span::Span;
+
+use crate::{
+    fluent_generated as fluent,
+    thir::pattern::{deconstruct_pat::DeconstructedPat, MatchCheckCtxt},
+};
 
 #[derive(LintDiagnostic)]
 #[diag(mir_build_unconditional_recursion)]

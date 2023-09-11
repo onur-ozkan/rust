@@ -1,14 +1,5 @@
 //! Iterators for `str` methods.
 
-use crate::char as char_mod;
-use crate::fmt::{self, Write};
-use crate::iter::{Chain, FlatMap, Flatten};
-use crate::iter::{Copied, Filter, FusedIterator, Map, TrustedLen};
-use crate::iter::{TrustedRandomAccess, TrustedRandomAccessNoCoerce};
-use crate::ops::Try;
-use crate::option;
-use crate::slice::{self, Split as SliceSplit};
-
 use super::from_utf8_unchecked;
 use super::pattern::Pattern;
 use super::pattern::{DoubleEndedSearcher, ReverseSearcher, Searcher};
@@ -17,6 +8,14 @@ use super::LinesMap;
 use super::{BytesIsNotEmpty, UnsafeBytesToStr};
 use super::{CharEscapeDebugContinue, CharEscapeDefault, CharEscapeUnicode};
 use super::{IsAsciiWhitespace, IsNotEmpty, IsWhitespace};
+use crate::char as char_mod;
+use crate::fmt::{self, Write};
+use crate::iter::{Chain, FlatMap, Flatten};
+use crate::iter::{Copied, Filter, FusedIterator, Map, TrustedLen};
+use crate::iter::{TrustedRandomAccess, TrustedRandomAccessNoCoerce};
+use crate::ops::Try;
+use crate::option;
+use crate::slice::{self, Split as SliceSplit};
 
 /// An iterator over the [`char`]s of a string slice.
 ///

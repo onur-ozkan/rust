@@ -1,13 +1,7 @@
 // ignore-tidy-filelength
 
-use super::{
-    DefIdOrName, FindExprBySpan, ImplCandidate, Obligation, ObligationCause, ObligationCauseCode,
-    PredicateObligation,
-};
-
-use crate::errors;
-use crate::infer::InferCtxt;
-use crate::traits::{NormalizeExt, ObligationCtxt};
+use std::borrow::Cow;
+use std::iter;
 
 use hir::def::CtorOf;
 use rustc_data_structures::fx::FxHashSet;
@@ -29,6 +23,7 @@ use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKi
 use rustc_infer::infer::{DefineOpaqueTypes, InferOk, LateBoundRegionConversionTime};
 use rustc_middle::hir::map;
 use rustc_middle::ty::error::TypeError::{self, Sorts};
+use rustc_middle::ty::print::{with_forced_trimmed_paths, with_no_trimmed_paths};
 use rustc_middle::ty::{
     self, suggest_arbitrary_trait_bound, suggest_constraining_type_param, AdtKind,
     GeneratorDiagnosticData, GeneratorInteriorTypeCause, GenericArgs, InferTy, IsSuggestable,
@@ -39,13 +34,17 @@ use rustc_span::def_id::LocalDefId;
 use rustc_span::symbol::{sym, Ident, Symbol};
 use rustc_span::{BytePos, DesugaringKind, ExpnKind, MacroKind, Span, DUMMY_SP};
 use rustc_target::spec::abi;
-use std::borrow::Cow;
-use std::iter;
 
 use super::InferCtxtPrivExt;
+use super::{
+    DefIdOrName, FindExprBySpan, ImplCandidate, Obligation, ObligationCause, ObligationCauseCode,
+    PredicateObligation,
+};
+use crate::errors;
+use crate::infer::InferCtxt;
 use crate::infer::InferCtxtExt as _;
 use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
-use rustc_middle::ty::print::{with_forced_trimmed_paths, with_no_trimmed_paths};
+use crate::traits::{NormalizeExt, ObligationCtxt};
 
 #[derive(Debug)]
 pub enum GeneratorInteriorOrUpvar {

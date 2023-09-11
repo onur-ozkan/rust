@@ -1,7 +1,9 @@
-use super::{InlineAsmArch, InlineAsmType};
+use std::fmt;
+
 use rustc_macros::HashStable_Generic;
 use rustc_span::Symbol;
-use std::fmt;
+
+use super::{InlineAsmArch, InlineAsmType};
 
 def_reg_class! {
     Msp430 Msp430InlineAsmRegClass {

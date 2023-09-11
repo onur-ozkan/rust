@@ -87,11 +87,12 @@ mod job {
     pub unsafe fn setup(_build: &mut crate::Build) {}
 }
 
+use termcolor::{ColorChoice, StandardStream, WriteColor};
+
 pub use crate::builder::PathSet;
 use crate::cache::{Interned, INTERNER};
 pub use crate::config::Config;
 pub use crate::flags::Subcommand;
-use termcolor::{ColorChoice, StandardStream, WriteColor};
 
 const LLVM_TOOLS: &[&str] = &[
     "llvm-cov",      // used to generate coverage report

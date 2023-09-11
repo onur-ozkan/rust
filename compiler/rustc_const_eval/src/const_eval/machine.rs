@@ -1,33 +1,31 @@
-use rustc_hir::def::DefKind;
-use rustc_hir::{LangItem, CRATE_HIR_ID};
-use rustc_middle::mir;
-use rustc_middle::mir::interpret::PointerArithmetic;
-use rustc_middle::ty::layout::{FnAbiOf, TyAndLayout};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_session::lint::builtin::INVALID_ALIGNMENT;
 use std::borrow::Borrow;
+use std::fmt;
 use std::hash::Hash;
 use std::ops::ControlFlow;
 
+use rustc_ast::Mutability;
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_data_structures::fx::IndexEntry;
-use std::fmt;
-
-use rustc_ast::Mutability;
+use rustc_hir::def::DefKind;
 use rustc_hir::def_id::DefId;
+use rustc_hir::{LangItem, CRATE_HIR_ID};
+use rustc_middle::mir;
+use rustc_middle::mir::interpret::PointerArithmetic;
 use rustc_middle::mir::AssertMessage;
+use rustc_middle::ty::layout::{FnAbiOf, TyAndLayout};
+use rustc_middle::ty::{self, Ty, TyCtxt};
+use rustc_session::lint::builtin::INVALID_ALIGNMENT;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_target::abi::{Align, Size};
 use rustc_target::spec::abi::Abi as CallAbi;
 
+use super::error::*;
 use crate::errors::{LongRunning, LongRunningWarn};
 use crate::interpret::{
     self, compile_time_machine, AllocId, ConstAllocation, FnArg, FnVal, Frame, ImmTy, InterpCx,
     InterpResult, OpTy, PlaceTy, Pointer, Scalar,
 };
 use crate::{errors, fluent_generated as fluent};
-
-use super::error::*;
 
 /// When hitting this many interpreted terminators we emit a deny by default lint
 /// that notfies the user that their constant takes a long time to evaluate. If that's

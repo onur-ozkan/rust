@@ -1,10 +1,6 @@
-use crate::errors::{
-    AmbiguousImpl, AmbiguousReturn, AnnotationRequired, InferenceBadError, NeedTypeInfoInGenerator,
-    SourceKindMultiSuggestion, SourceKindSubdiag,
-};
-use crate::infer::error_reporting::TypeErrCtxt;
-use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use crate::infer::InferCtxt;
+use std::borrow::Cow;
+use std::iter;
+
 use rustc_errors::IntoDiagnostic;
 use rustc_errors::{DiagnosticBuilder, ErrorGuaranteed, IntoDiagnosticArg};
 use rustc_hir as hir;
@@ -22,8 +18,14 @@ use rustc_middle::ty::{GenericArg, GenericArgKind, GenericArgsRef};
 use rustc_middle::ty::{IsSuggestable, Ty, TyCtxt, TypeckResults};
 use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::{BytePos, Span};
-use std::borrow::Cow;
-use std::iter;
+
+use crate::errors::{
+    AmbiguousImpl, AmbiguousReturn, AnnotationRequired, InferenceBadError, NeedTypeInfoInGenerator,
+    SourceKindMultiSuggestion, SourceKindSubdiag,
+};
+use crate::infer::error_reporting::TypeErrCtxt;
+use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use crate::infer::InferCtxt;
 
 pub enum TypeAnnotationNeeded {
     /// ```compile_fail,E0282

@@ -1,6 +1,8 @@
 //! The underlying OsString/OsStr implementation on Unix and many other
 //! systems: just a `Vec<u8>`/`[u8]`.
 
+use core::str::Utf8Chunks;
+
 use crate::borrow::Cow;
 use crate::collections::TryReserveError;
 use crate::fmt;
@@ -10,8 +12,6 @@ use crate::rc::Rc;
 use crate::str;
 use crate::sync::Arc;
 use crate::sys_common::{AsInner, IntoInner};
-
-use core::str::Utf8Chunks;
 
 #[cfg(test)]
 #[path = "../unix/os_str/tests.rs"]

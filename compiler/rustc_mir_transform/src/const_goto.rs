@@ -17,12 +17,12 @@
 //! }
 //! ```
 
-use crate::MirPass;
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
 use rustc_middle::{mir::visit::Visitor, ty::ParamEnv};
 
 use super::simplify::{simplify_cfg, simplify_locals};
+use crate::MirPass;
 
 pub struct ConstGoto;
 

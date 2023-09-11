@@ -1,3 +1,5 @@
+use std::iter;
+
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir::def::DefKind;
 use rustc_hir::def_id::LocalDefId;
@@ -10,8 +12,6 @@ use rustc_middle::ty::{self, Expr, TyCtxt, TypeVisitableExt};
 use rustc_middle::{mir, thir};
 use rustc_span::Span;
 use rustc_target::abi::{VariantIdx, FIRST_VARIANT};
-
-use std::iter;
 
 use crate::errors::{GenericConstantTooComplex, GenericConstantTooComplexSub};
 

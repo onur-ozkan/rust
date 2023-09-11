@@ -1,5 +1,3 @@
-use super::*;
-
 use std::boxed::Box;
 use std::cell::RefCell;
 use std::clone::Clone;
@@ -7,6 +5,8 @@ use std::convert::{From, TryInto};
 use std::mem::drop;
 use std::option::Option::{self, None, Some};
 use std::result::Result::{Err, Ok};
+
+use super::*;
 
 #[test]
 fn test_clone() {

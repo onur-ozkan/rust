@@ -1,9 +1,10 @@
 //! Checks that all Flunt files have messages in alphabetical order
 
-use crate::walk::{filter_dirs, walk};
 use std::{fs::OpenOptions, io::Write, path::Path};
 
 use regex::Regex;
+
+use crate::walk::{filter_dirs, walk};
 
 lazy_static::lazy_static! {
     static ref MESSAGE: Regex = Regex::new(r#"(?m)^([a-zA-Z0-9_]+)\s*=\s*"#).unwrap();

@@ -1,5 +1,4 @@
 use super::*;
-
 use crate::ffi::OsStr;
 use crate::mem;
 use crate::ptr;

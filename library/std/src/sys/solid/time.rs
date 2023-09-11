@@ -1,7 +1,6 @@
+pub use super::itron::time::Instant;
 use super::{abi, error::expect_success};
 use crate::{mem::MaybeUninit, time::Duration};
-
-pub use super::itron::time::Instant;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, Hash)]
 pub struct SystemTime(abi::time_t);

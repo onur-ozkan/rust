@@ -1,5 +1,6 @@
-pub use jobserver_crate::Client;
 use std::sync::LazyLock;
+
+pub use jobserver_crate::Client;
 
 // We can only call `from_env` once per process
 

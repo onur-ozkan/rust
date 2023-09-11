@@ -1,5 +1,6 @@
-use crate::errors::DumpVTableEntries;
-use crate::traits::{impossible_predicates, is_vtable_safe_method};
+use std::fmt::Debug;
+use std::ops::ControlFlow;
+
 use rustc_hir::def_id::DefId;
 use rustc_hir::lang_items::LangItem;
 use rustc_infer::traits::util::PredicateSet;
@@ -12,8 +13,8 @@ use rustc_middle::ty::{self, GenericParamDefKind, ToPredicate, Ty, TyCtxt, VtblE
 use rustc_span::{sym, Span};
 use smallvec::SmallVec;
 
-use std::fmt::Debug;
-use std::ops::ControlFlow;
+use crate::errors::DumpVTableEntries;
+use crate::traits::{impossible_predicates, is_vtable_safe_method};
 
 #[derive(Clone, Debug)]
 pub enum VtblSegment<'tcx> {

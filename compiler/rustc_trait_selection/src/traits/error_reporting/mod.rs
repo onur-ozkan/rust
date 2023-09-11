@@ -2,19 +2,12 @@ mod ambiguity;
 pub mod on_unimplemented;
 pub mod suggestions;
 
-use super::{
-    FulfillmentError, FulfillmentErrorCode, MismatchedProjectionTypes, Obligation, ObligationCause,
-    ObligationCauseCode, ObligationCtxt, OutputTypeParameterMismatch, Overflow,
-    PredicateObligation, SelectionError, TraitNotObjectSafe,
-};
-use crate::errors::{ClosureFnMutLabel, ClosureFnOnceLabel, ClosureKindMismatch};
-use crate::infer::error_reporting::{TyCategory, TypeAnnotationNeeded as ErrorCode};
-use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use crate::infer::{self, InferCtxt};
-use crate::solve::{GenerateProofTree, InferCtxtEvalExt, UseGlobalCache};
-use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
-use crate::traits::specialize::to_pretty_impl_header;
-use crate::traits::NormalizeExt;
+use std::borrow::Cow;
+use std::fmt;
+use std::io::Write;
+use std::iter;
+use std::ops::ControlFlow;
+
 use on_unimplemented::{AppendConstMessage, OnUnimplementedNote, TypeErrCtxtExt as _};
 use rustc_data_structures::fx::{FxHashMap, FxIndexMap};
 use rustc_errors::{
@@ -28,6 +21,7 @@ use rustc_hir::intravisit::Visitor;
 use rustc_hir::{GenericParam, Item, Node};
 use rustc_infer::infer::error_reporting::TypeErrCtxt;
 use rustc_infer::infer::{InferOk, TypeTrace};
+pub use rustc_infer::traits::error_reporting::*;
 use rustc_middle::traits::select::OverflowError;
 use rustc_middle::traits::solve::Goal;
 use rustc_middle::traits::{DefiningAnchor, SelectionOutputTypeParameterMismatch};
@@ -44,14 +38,21 @@ use rustc_session::Limit;
 use rustc_span::def_id::LOCAL_CRATE;
 use rustc_span::symbol::sym;
 use rustc_span::{ExpnKind, Span, DUMMY_SP};
-use std::borrow::Cow;
-use std::fmt;
-use std::io::Write;
-use std::iter;
-use std::ops::ControlFlow;
 use suggestions::TypeErrCtxtExt as _;
 
-pub use rustc_infer::traits::error_reporting::*;
+use super::{
+    FulfillmentError, FulfillmentErrorCode, MismatchedProjectionTypes, Obligation, ObligationCause,
+    ObligationCauseCode, ObligationCtxt, OutputTypeParameterMismatch, Overflow,
+    PredicateObligation, SelectionError, TraitNotObjectSafe,
+};
+use crate::errors::{ClosureFnMutLabel, ClosureFnOnceLabel, ClosureKindMismatch};
+use crate::infer::error_reporting::{TyCategory, TypeAnnotationNeeded as ErrorCode};
+use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use crate::infer::{self, InferCtxt};
+use crate::solve::{GenerateProofTree, InferCtxtEvalExt, UseGlobalCache};
+use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
+use crate::traits::specialize::to_pretty_impl_header;
+use crate::traits::NormalizeExt;
 
 // When outputting impl candidates, prefer showing those that are more similar.
 //

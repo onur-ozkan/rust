@@ -1,14 +1,14 @@
-use super::{ErrorHandled, EvalToConstValueResult, EvalToValTreeResult, GlobalId};
+use rustc_hir::def::DefKind;
+use rustc_hir::def_id::DefId;
+use rustc_session::lint;
+use rustc_span::{Span, DUMMY_SP};
 
+use super::{ErrorHandled, EvalToConstValueResult, EvalToValTreeResult, GlobalId};
 use crate::mir;
 use crate::query::{TyCtxtAt, TyCtxtEnsure};
 use crate::ty::visit::TypeVisitableExt;
 use crate::ty::GenericArgs;
 use crate::ty::{self, TyCtxt};
-use rustc_hir::def::DefKind;
-use rustc_hir::def_id::DefId;
-use rustc_session::lint;
-use rustc_span::{Span, DUMMY_SP};
 
 impl<'tcx> TyCtxt<'tcx> {
     /// Evaluates a constant without providing any substitutions. This is useful to evaluate consts

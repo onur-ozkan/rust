@@ -1,6 +1,7 @@
+use std::borrow::Cow;
+
 use crate::spec::crt_objects::{self, LinkSelfContainedDefault};
 use crate::spec::{cvs, Cc, DebuginfoKind, LinkerFlavor, Lld, SplitDebuginfo, TargetOptions};
-use std::borrow::Cow;
 
 pub fn opts() -> TargetOptions {
     let mut pre_link_args = TargetOptions::link_args(

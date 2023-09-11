@@ -108,10 +108,9 @@ mod unreachable_prop;
 use rustc_const_eval::transform::check_consts::{self, ConstCx};
 use rustc_const_eval::transform::promote_consts;
 use rustc_const_eval::transform::validate;
-use rustc_mir_dataflow::rustc_peek;
-
 use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
 use rustc_fluent_macro::fluent_messages;
+use rustc_mir_dataflow::rustc_peek;
 
 fluent_messages! { "../messages.ftl" }
 

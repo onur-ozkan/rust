@@ -1,7 +1,9 @@
-use super::{DirectedGraph, WithNumNodes, WithStartNode, WithSuccessors};
+use std::ops::ControlFlow;
+
 use rustc_index::bit_set::BitSet;
 use rustc_index::{IndexSlice, IndexVec};
-use std::ops::ControlFlow;
+
+use super::{DirectedGraph, WithNumNodes, WithStartNode, WithSuccessors};
 
 #[cfg(test)]
 mod tests;

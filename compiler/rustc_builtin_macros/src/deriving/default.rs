@@ -1,6 +1,3 @@
-use crate::deriving::generic::ty::*;
-use crate::deriving::generic::*;
-use crate::errors;
 use rustc_ast as ast;
 use rustc_ast::{attr, walk_list, EnumDef, VariantData};
 use rustc_expand::base::{Annotatable, DummyResult, ExtCtxt};
@@ -9,6 +6,10 @@ use rustc_span::symbol::{kw, sym};
 use rustc_span::Span;
 use smallvec::SmallVec;
 use thin_vec::{thin_vec, ThinVec};
+
+use crate::deriving::generic::ty::*;
+use crate::deriving::generic::*;
+use crate::errors;
 
 pub fn expand_deriving_default(
     cx: &mut ExtCtxt<'_>,

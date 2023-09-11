@@ -1,3 +1,16 @@
+use std::cell::OnceCell;
+use std::collections::BTreeSet;
+use std::ffi::OsString;
+use std::fs::{read, File, OpenOptions};
+use std::io::{BufWriter, Write};
+use std::ops::Deref;
+use std::path::{Path, PathBuf};
+use std::process::{ExitStatus, Output, Stdio};
+use std::{env, fmt, fs, io, mem, str};
+
+use cc::windows_registry;
+use itertools::Itertools;
+use regex::Regex;
 use rustc_arena::TypedArena;
 use rustc_ast::CRATE_NODE_ID;
 use rustc_data_structures::fx::FxHashSet;
@@ -25,6 +38,7 @@ use rustc_span::symbol::Symbol;
 use rustc_target::spec::crt_objects::{CrtObjects, LinkSelfContainedDefault};
 use rustc_target::spec::{Cc, LinkOutputKind, LinkerFlavor, Lld, PanicStrategy};
 use rustc_target::spec::{RelocModel, RelroLevel, SanitizerSet, SplitDebuginfo};
+use tempfile::Builder as TempFileBuilder;
 
 use super::archive::{ArchiveBuilder, ArchiveBuilderBuilder};
 use super::command::Command;
@@ -34,21 +48,6 @@ use super::rpath::{self, RPathConfig};
 use crate::{
     errors, looks_like_rust_object_file, CodegenResults, CompiledModule, CrateInfo, NativeLib,
 };
-
-use cc::windows_registry;
-use regex::Regex;
-use tempfile::Builder as TempFileBuilder;
-
-use itertools::Itertools;
-use std::cell::OnceCell;
-use std::collections::BTreeSet;
-use std::ffi::OsString;
-use std::fs::{read, File, OpenOptions};
-use std::io::{BufWriter, Write};
-use std::ops::Deref;
-use std::path::{Path, PathBuf};
-use std::process::{ExitStatus, Output, Stdio};
-use std::{env, fmt, fs, io, mem, str};
 
 pub fn ensure_removed(diag_handler: &Handler, path: &Path) {
     if let Err(e) = fs::remove_file(path) {

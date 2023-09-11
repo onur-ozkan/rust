@@ -1,12 +1,13 @@
-use super::combine::CombineFields;
-use super::{DefineOpaqueTypes, ObligationEmittingRelation, SubregionOrigin};
+use std::mem;
 
-use crate::traits::{Obligation, PredicateObligations};
 use rustc_middle::ty::relate::{Cause, Relate, RelateResult, TypeRelation};
 use rustc_middle::ty::visit::TypeVisitableExt;
 use rustc_middle::ty::TyVar;
 use rustc_middle::ty::{self, Ty, TyCtxt};
-use std::mem;
+
+use super::combine::CombineFields;
+use super::{DefineOpaqueTypes, ObligationEmittingRelation, SubregionOrigin};
+use crate::traits::{Obligation, PredicateObligations};
 
 /// Ensures `a` is made a subtype of `b`. Returns `a` on success.
 pub struct Sub<'combine, 'a, 'tcx> {

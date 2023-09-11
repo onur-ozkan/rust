@@ -1,13 +1,14 @@
 //! A module for searching for libraries
 
-use rustc_fs_util::try_canonicalize;
-use smallvec::{smallvec, SmallVec};
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use crate::search_paths::{PathKind, SearchPath};
 use rustc_fs_util::fix_windows_verbatim_for_gcc;
+use rustc_fs_util::try_canonicalize;
+use smallvec::{smallvec, SmallVec};
+
+use crate::search_paths::{PathKind, SearchPath};
 
 #[derive(Copy, Clone)]
 pub enum FileMatch {

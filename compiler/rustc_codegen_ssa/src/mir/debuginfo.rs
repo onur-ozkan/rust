@@ -1,4 +1,5 @@
-use crate::traits::*;
+use std::ops::Range;
+
 use rustc_data_structures::fx::FxHashMap;
 use rustc_index::IndexVec;
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
@@ -16,8 +17,7 @@ use rustc_target::abi::{Abi, FieldIdx, FieldsShape, Size, VariantIdx};
 use super::operand::{OperandRef, OperandValue};
 use super::place::PlaceRef;
 use super::{FunctionCx, LocalRef};
-
-use std::ops::Range;
+use crate::traits::*;
 
 pub struct FunctionDebugContext<'tcx, S, L> {
     /// Maps from source code to the corresponding debug info scope.

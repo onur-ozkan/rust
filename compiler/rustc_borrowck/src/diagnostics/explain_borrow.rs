@@ -15,13 +15,12 @@ use rustc_span::symbol::{kw, Symbol};
 use rustc_span::{sym, DesugaringKind, Span};
 use rustc_trait_selection::traits::error_reporting::FindExprBySpan;
 
+use super::{find_use, RegionName, UseSpans};
 use crate::region_infer::{BlameConstraint, ExtraConstraintInfo};
 use crate::{
     borrow_set::BorrowData, nll::ConstraintDescription, region_infer::Cause, MirBorrowckCtxt,
     WriteKind,
 };
-
-use super::{find_use, RegionName, UseSpans};
 
 #[derive(Debug)]
 pub(crate) enum BorrowExplanation<'tcx> {

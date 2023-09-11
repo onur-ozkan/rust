@@ -12,16 +12,17 @@
 //! sort of test: for example, testing which variant an enum is, or
 //! testing a value against a constant.
 
-use crate::build::expr::as_place::PlaceBuilder;
-use crate::build::matches::{Ascription, Binding, Candidate, MatchPair};
-use crate::build::Builder;
+use std::mem;
+
 use rustc_hir::RangeEnd;
 use rustc_middle::thir::{self, *};
 use rustc_middle::ty;
 use rustc_middle::ty::layout::IntegerExt;
 use rustc_target::abi::{Integer, Size};
 
-use std::mem;
+use crate::build::expr::as_place::PlaceBuilder;
+use crate::build::matches::{Ascription, Binding, Candidate, MatchPair};
+use crate::build::Builder;
 
 impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// Simplify a candidate so that all match pairs require a test.

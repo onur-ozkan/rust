@@ -1,11 +1,12 @@
+use rustc_ast as ast;
+use rustc_data_structures::fx::FxHashMap;
+use rustc_span::symbol::Symbol;
+
 use crate::lints::{
     ConfusableIdentifierPair, IdentifierNonAsciiChar, IdentifierUncommonCodepoints,
     MixedScriptConfusables,
 };
 use crate::{EarlyContext, EarlyLintPass, LintContext};
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_span::symbol::Symbol;
 
 declare_lint! {
     /// The `non_ascii_idents` lint detects non-ASCII identifiers.
@@ -149,9 +150,10 @@ declare_lint_pass!(NonAsciiIdents => [NON_ASCII_IDENTS, UNCOMMON_CODEPOINTS, CON
 
 impl EarlyLintPass for NonAsciiIdents {
     fn check_crate(&mut self, cx: &EarlyContext<'_>, _: &ast::Crate) {
+        use std::collections::BTreeMap;
+
         use rustc_session::lint::Level;
         use rustc_span::Span;
-        use std::collections::BTreeMap;
         use unicode_security::GeneralSecurityProfile;
 
         let check_non_ascii_idents = cx.builder.lint_level(NON_ASCII_IDENTS).0 != Level::Allow;

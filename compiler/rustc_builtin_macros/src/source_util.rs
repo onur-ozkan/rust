@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use rustc_ast as ast;
 use rustc_ast::ptr::P;
 use rustc_ast::token;
@@ -10,9 +12,7 @@ use rustc_parse::{self, new_parser_from_file};
 use rustc_session::lint::builtin::INCOMPLETE_INCLUDE;
 use rustc_span::symbol::Symbol;
 use rustc_span::{self, Pos, Span};
-
 use smallvec::SmallVec;
-use std::rc::Rc;
 
 // These macros all relate to the file system; they either return
 // the column/row/filename of the expression, or they include

@@ -13,7 +13,6 @@ use rustc_type_ir::sty::TyKind::*;
 use super::{
     util::ensure_monomorphic_enough, FnVal, ImmTy, Immediate, InterpCx, Machine, OpTy, PlaceTy,
 };
-
 use crate::fluent_generated as fluent;
 
 impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {

@@ -1,10 +1,11 @@
-use crate::FnCtxt;
 use rustc_data_structures::{
     graph::WithSuccessors,
     graph::{iterate::DepthFirstSearch, vec_graph::VecGraph},
     unord::{UnordBag, UnordMap, UnordSet},
 };
 use rustc_middle::ty::{self, Ty};
+
+use crate::FnCtxt;
 
 impl<'tcx> FnCtxt<'_, 'tcx> {
     /// Performs type inference fallback, setting `FnCtxt::fallback_has_occurred`

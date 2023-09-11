@@ -22,9 +22,10 @@
 //! cargo expand > /tmp/rustc_span.rs   # it's a big file
 //! ```
 
+use std::collections::HashMap;
+
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
-use std::collections::HashMap;
 use syn::parse::{Parse, ParseStream, Result};
 use syn::{braced, punctuated::Punctuated, Ident, LitStr, Token};
 

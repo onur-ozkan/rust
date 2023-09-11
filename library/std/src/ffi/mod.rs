@@ -156,23 +156,17 @@
 
 #[stable(feature = "alloc_c_string", since = "1.64.0")]
 pub use alloc::ffi::{CString, FromVecWithNulError, IntoStringError, NulError};
+#[stable(feature = "core_c_void", since = "1.30.0")]
+pub use core::ffi::c_void;
 #[stable(feature = "cstr_from_bytes_until_nul", since = "1.73.0")]
 pub use core::ffi::FromBytesUntilNulError;
-#[stable(feature = "core_c_str", since = "1.64.0")]
-pub use core::ffi::{CStr, FromBytesWithNulError};
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use self::os_str::{OsStr, OsString};
-
 #[stable(feature = "core_ffi_c", since = "1.64.0")]
 pub use core::ffi::{
     c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint,
     c_ulong, c_ulonglong, c_ushort,
 };
-
-#[stable(feature = "core_c_void", since = "1.30.0")]
-pub use core::ffi::c_void;
-
+#[stable(feature = "core_c_str", since = "1.64.0")]
+pub use core::ffi::{CStr, FromBytesWithNulError};
 #[unstable(
     feature = "c_variadic",
     reason = "the `c_variadic` feature has not been properly tested on \
@@ -180,5 +174,8 @@ pub use core::ffi::c_void;
     issue = "44930"
 )]
 pub use core::ffi::{VaList, VaListImpl};
+
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use self::os_str::{OsStr, OsString};
 
 mod os_str;

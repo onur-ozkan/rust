@@ -1,5 +1,8 @@
 //! The various pretty-printing routines.
 
+use std::cell::Cell;
+use std::fmt::Write;
+
 use rustc_ast as ast;
 use rustc_ast_pretty::pprust;
 use rustc_errors::ErrorGuaranteed;
@@ -12,9 +15,6 @@ use rustc_session::config::{OutFileName, PpAstTreeMode, PpHirMode, PpMode, PpSou
 use rustc_session::Session;
 use rustc_span::symbol::Ident;
 use rustc_span::FileName;
-
-use std::cell::Cell;
-use std::fmt::Write;
 
 pub use self::PpMode::*;
 pub use self::PpSourceMode::*;

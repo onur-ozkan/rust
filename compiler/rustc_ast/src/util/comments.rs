@@ -1,6 +1,7 @@
-use crate::token::CommentKind;
 use rustc_span::source_map::SourceMap;
 use rustc_span::{BytePos, CharPos, FileName, Pos, Symbol};
+
+use crate::token::CommentKind;
 
 #[cfg(test)]
 mod tests;

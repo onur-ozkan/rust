@@ -1,11 +1,12 @@
+use core::ffi::NonZero_c_int;
+
+use libc::{c_int, pid_t};
+
 use crate::fmt;
 use crate::io;
 use crate::num::NonZeroI32;
 use crate::sys::process::process_common::*;
 use crate::sys::unix::unsupported::*;
-use core::ffi::NonZero_c_int;
-
-use libc::{c_int, pid_t};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Command

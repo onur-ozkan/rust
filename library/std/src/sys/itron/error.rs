@@ -1,6 +1,5 @@
-use crate::{fmt, io::ErrorKind};
-
 use super::abi;
+use crate::{fmt, io::ErrorKind};
 
 /// Wraps a μITRON error code.
 #[derive(Debug, Copy, Clone)]

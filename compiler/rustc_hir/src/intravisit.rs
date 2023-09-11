@@ -64,12 +64,13 @@
 //! This order consistency is required in a few places in rustc, for
 //! example generator inference, and possibly also HIR borrowck.
 
-use crate::hir::*;
 use rustc_ast::walk_list;
 use rustc_ast::{Attribute, Label};
 use rustc_span::def_id::LocalDefId;
 use rustc_span::symbol::{Ident, Symbol};
 use rustc_span::Span;
+
+use crate::hir::*;
 
 pub trait IntoVisitor<'hir> {
     type Visitor: Visitor<'hir>;

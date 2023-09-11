@@ -1,6 +1,8 @@
-use super::{DropRangesBuilder, PostOrderId};
-use rustc_index::{bit_set::BitSet, IndexVec};
 use std::collections::BTreeMap;
+
+use rustc_index::{bit_set::BitSet, IndexVec};
+
+use super::{DropRangesBuilder, PostOrderId};
 
 impl DropRangesBuilder {
     pub fn propagate_to_fixpoint(&mut self) {

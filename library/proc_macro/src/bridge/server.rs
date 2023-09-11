@@ -1,12 +1,11 @@
 //! Server-side traits.
 
-use super::*;
-
 use std::cell::Cell;
 use std::marker::PhantomData;
 
 // FIXME(eddyb) generate the definition of `HandleStore` in `server.rs`.
 use super::client::HandleStore;
+use super::*;
 
 pub trait Types {
     type FreeFunctions: 'static;

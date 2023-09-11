@@ -1,5 +1,6 @@
-use crate::dep_graph::{DepNode, WorkProduct, WorkProductId};
-use crate::ty::{GenericArgs, Instance, InstanceDef, SymbolName, TyCtxt};
+use std::fmt;
+use std::hash::Hash;
+
 use rustc_attr::InlineAttr;
 use rustc_data_structures::base_n;
 use rustc_data_structures::fingerprint::Fingerprint;
@@ -12,8 +13,9 @@ use rustc_query_system::ich::StableHashingContext;
 use rustc_session::config::OptLevel;
 use rustc_span::source_map::Span;
 use rustc_span::symbol::Symbol;
-use std::fmt;
-use std::hash::Hash;
+
+use crate::dep_graph::{DepNode, WorkProduct, WorkProductId};
+use crate::ty::{GenericArgs, Instance, InstanceDef, SymbolName, TyCtxt};
 
 /// Describes how a monomorphization will be instantiated in object files.
 #[derive(PartialEq)]

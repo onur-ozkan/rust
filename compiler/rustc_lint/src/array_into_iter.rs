@@ -1,7 +1,3 @@
-use crate::{
-    lints::{ArrayIntoIterDiag, ArrayIntoIterDiagSub},
-    LateContext, LateLintPass, LintContext,
-};
 use rustc_hir as hir;
 use rustc_middle::ty;
 use rustc_middle::ty::adjustment::{Adjust, Adjustment};
@@ -9,6 +5,11 @@ use rustc_session::lint::FutureIncompatibilityReason;
 use rustc_span::edition::Edition;
 use rustc_span::symbol::sym;
 use rustc_span::Span;
+
+use crate::{
+    lints::{ArrayIntoIterDiag, ArrayIntoIterDiagSub},
+    LateContext, LateLintPass, LintContext,
+};
 
 declare_lint! {
     /// The `array_into_iter` lint detects calling `into_iter` on arrays.

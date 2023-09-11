@@ -1,3 +1,5 @@
+use std::ops::Not;
+
 use rustc_hir as hir;
 use rustc_hir::Node;
 use rustc_infer::infer::TyCtxtInferExt;
@@ -8,8 +10,6 @@ use rustc_span::{symbol::sym, Span};
 use rustc_target::spec::abi::Abi;
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt as _;
 use rustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode};
-
-use std::ops::Not;
 
 use crate::errors;
 use crate::require_same_types;

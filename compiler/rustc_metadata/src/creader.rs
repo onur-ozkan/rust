@@ -1,9 +1,12 @@
 //! Validates all used crates and extern libraries and loads their metadata
 
-use crate::errors;
-use crate::locator::{CrateError, CrateLocator, CratePaths};
-use crate::rmeta::{CrateDep, CrateMetadata, CrateNumMap, CrateRoot, MetadataBlob};
+use std::error::Error;
+use std::ops::Fn;
+use std::path::Path;
+use std::time::Duration;
+use std::{cmp, env, iter};
 
+use proc_macro::bridge::client::ProcMacro;
 use rustc_ast::expand::allocator::{alloc_error_handler_name, global_fn_name, AllocatorKind};
 use rustc_ast::{self as ast, *};
 use rustc_data_structures::fx::FxHashSet;
@@ -26,12 +29,9 @@ use rustc_span::symbol::{sym, Symbol};
 use rustc_span::{Span, DUMMY_SP};
 use rustc_target::spec::{PanicStrategy, TargetTriple};
 
-use proc_macro::bridge::client::ProcMacro;
-use std::error::Error;
-use std::ops::Fn;
-use std::path::Path;
-use std::time::Duration;
-use std::{cmp, env, iter};
+use crate::errors;
+use crate::locator::{CrateError, CrateLocator, CratePaths};
+use crate::rmeta::{CrateDep, CrateMetadata, CrateNumMap, CrateRoot, MetadataBlob};
 
 pub struct CStore {
     metadata_loader: Box<MetadataLoaderDyn>,

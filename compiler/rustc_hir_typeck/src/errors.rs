@@ -1,7 +1,6 @@
 //! Errors emitted by `rustc_hir_typeck`.
 use std::borrow::Cow;
 
-use crate::fluent_generated as fluent;
 use rustc_errors::{
     AddToDiagnostic, Applicability, Diagnostic, DiagnosticArgValue, IntoDiagnosticArg, MultiSpan,
     SubdiagnosticMessage,
@@ -13,6 +12,8 @@ use rustc_span::{
     symbol::Ident,
     Span,
 };
+
+use crate::fluent_generated as fluent;
 
 #[derive(Diagnostic)]
 #[diag(hir_typeck_field_multiply_specified_in_initializer, code = "E0062")]

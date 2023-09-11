@@ -1,10 +1,11 @@
 //! Removes operations on ZST places, and convert ZST operands to constants.
 
-use crate::MirPass;
 use rustc_middle::mir::interpret::ConstValue;
 use rustc_middle::mir::visit::*;
 use rustc_middle::mir::*;
 use rustc_middle::ty::{self, Ty, TyCtxt};
+
+use crate::MirPass;
 
 pub struct RemoveZsts;
 

@@ -2,25 +2,24 @@
 //! which folds deeply, invoking the underlying
 //! `normalize_projection_ty` query when it encounters projections.
 
+use std::ops::ControlFlow;
+
+use rustc_data_structures::sso::SsoHashMap;
+use rustc_data_structures::stack::ensure_sufficient_stack;
+use rustc_infer::traits::Normalized;
+pub use rustc_middle::traits::query::NormalizationResult;
+use rustc_middle::ty::fold::{FallibleTypeFolder, TypeFoldable, TypeSuperFoldable};
+use rustc_middle::ty::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitableExt};
+use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitor};
+use rustc_span::DUMMY_SP;
+
+use super::NoSolution;
 use crate::infer::at::At;
 use crate::infer::canonical::OriginalQueryValues;
 use crate::infer::{InferCtxt, InferOk};
 use crate::traits::error_reporting::TypeErrCtxtExt;
 use crate::traits::project::{needs_normalization, BoundVarReplacer, PlaceholderReplacer};
 use crate::traits::{ObligationCause, PredicateObligation, Reveal};
-use rustc_data_structures::sso::SsoHashMap;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_infer::traits::Normalized;
-use rustc_middle::ty::fold::{FallibleTypeFolder, TypeFoldable, TypeSuperFoldable};
-use rustc_middle::ty::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitableExt};
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitor};
-use rustc_span::DUMMY_SP;
-
-use std::ops::ControlFlow;
-
-use super::NoSolution;
-
-pub use rustc_middle::traits::query::NormalizationResult;
 
 pub trait QueryNormalizeExt<'tcx> {
     /// Normalize a value using the `QueryNormalizer`.

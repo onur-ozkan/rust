@@ -1,11 +1,12 @@
 // Not in interpret to make sure we do not use private implementation details
 
-use crate::errors::MaxNumNodesInConstErr;
-use crate::interpret::{intern_const_alloc_recursive, ConstValue, InternKind, InterpCx, Scalar};
 use rustc_middle::mir;
 use rustc_middle::mir::interpret::{EvalToValTreeResult, GlobalId};
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_span::{source_map::DUMMY_SP, symbol::Symbol};
+
+use crate::errors::MaxNumNodesInConstErr;
+use crate::interpret::{intern_const_alloc_recursive, ConstValue, InternKind, InterpCx, Scalar};
 
 mod error;
 mod eval_queries;

@@ -1,5 +1,6 @@
-use askama::Template;
+use std::fmt;
 
+use askama::Template;
 use rustc_data_structures::captures::Captures;
 use rustc_hir::def_id::DefId;
 use rustc_middle::span_bug;
@@ -7,8 +8,6 @@ use rustc_middle::ty::layout::LayoutError;
 use rustc_middle::ty::Adt;
 use rustc_span::symbol::Symbol;
 use rustc_target::abi::{Primitive, TagEncoding, Variants};
-
-use std::fmt;
 
 use crate::html::format::display_fn;
 use crate::html::render::Context;

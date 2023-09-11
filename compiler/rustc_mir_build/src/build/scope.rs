@@ -83,7 +83,6 @@ that contains only loops and breakable blocks. It tracks where a `break`,
 
 use std::mem;
 
-use crate::build::{BlockAnd, BlockAndExtension, BlockFrame, Builder, CFG};
 use rustc_data_structures::fx::FxHashMap;
 use rustc_hir::HirId;
 use rustc_index::{IndexSlice, IndexVec};
@@ -93,6 +92,8 @@ use rustc_middle::thir::{Expr, LintLevel};
 use rustc_middle::ty::Ty;
 use rustc_session::lint::Level;
 use rustc_span::{Span, DUMMY_SP};
+
+use crate::build::{BlockAnd, BlockAndExtension, BlockFrame, Builder, CFG};
 
 #[derive(Debug)]
 pub struct Scopes<'tcx> {

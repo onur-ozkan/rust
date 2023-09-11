@@ -1,4 +1,5 @@
-use super::LoweringContext;
+use std::borrow::Cow;
+
 use rustc_ast as ast;
 use rustc_ast::visit::{self, Visitor};
 use rustc_ast::*;
@@ -9,7 +10,8 @@ use rustc_span::{
     symbol::{kw, Ident},
     Span, Symbol,
 };
-use std::borrow::Cow;
+
+use super::LoweringContext;
 
 impl<'hir> LoweringContext<'_, 'hir> {
     pub(crate) fn lower_format_args(&mut self, sp: Span, fmt: &FormatArgs) -> hir::ExprKind<'hir> {

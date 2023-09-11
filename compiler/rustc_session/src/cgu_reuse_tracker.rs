@@ -2,14 +2,16 @@
 //! compilation. This is used for incremental compilation tests and debug
 //! output.
 
-use crate::errors::{CguNotRecorded, IncorrectCguReuseType};
-use crate::Session;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{DiagnosticArgValue, IntoDiagnosticArg};
-use rustc_span::{Span, Symbol};
 use std::borrow::Cow;
 use std::fmt::{self};
 use std::sync::{Arc, Mutex};
+
+use rustc_data_structures::fx::FxHashMap;
+use rustc_errors::{DiagnosticArgValue, IntoDiagnosticArg};
+use rustc_span::{Span, Symbol};
+
+use crate::errors::{CguNotRecorded, IncorrectCguReuseType};
+use crate::Session;
 
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub enum CguReuse {

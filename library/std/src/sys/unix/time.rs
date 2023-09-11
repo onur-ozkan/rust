@@ -1,7 +1,6 @@
+pub use self::inner::Instant;
 use crate::fmt;
 use crate::time::Duration;
-
-pub use self::inner::Instant;
 
 const NSEC_PER_SEC: u64 = 1_000_000_000;
 pub const UNIX_EPOCH: SystemTime = SystemTime { t: Timespec::zero() };
@@ -223,12 +222,11 @@ impl From<__timespec64> for Timespec {
     target_os = "tvos"
 ))]
 mod inner {
+    use super::{SystemTime, Timespec, NSEC_PER_SEC};
     use crate::sync::atomic::{AtomicU64, Ordering};
     use crate::sys::cvt;
     use crate::sys_common::mul_div_u64;
     use crate::time::Duration;
-
-    use super::{SystemTime, Timespec, NSEC_PER_SEC};
 
     #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, Hash)]
     pub struct Instant {
@@ -344,12 +342,11 @@ mod inner {
     target_os = "tvos"
 )))]
 mod inner {
+    use super::{SystemTime, Timespec};
     use crate::fmt;
     use crate::mem::MaybeUninit;
     use crate::sys::cvt;
     use crate::time::Duration;
-
-    use super::{SystemTime, Timespec};
 
     #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct Instant {

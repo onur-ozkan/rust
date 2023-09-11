@@ -1,8 +1,9 @@
+use std::ops::ControlFlow;
+
 use rustc_middle::mir::interpret::InterpResult;
 use rustc_middle::ty::{
     self, Ty, TyCtxt, TypeSuperVisitable, TypeVisitable, TypeVisitableExt, TypeVisitor,
 };
-use std::ops::ControlFlow;
 
 /// Checks whether a type contains generic parameters which require substitution.
 ///

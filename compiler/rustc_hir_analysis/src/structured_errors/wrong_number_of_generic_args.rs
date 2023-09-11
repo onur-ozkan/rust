@@ -1,4 +1,5 @@
-use crate::structured_errors::StructuredDiagnostic;
+use std::iter;
+
 use rustc_errors::{
     pluralize, Applicability, Diagnostic, DiagnosticBuilder, DiagnosticId, ErrorGuaranteed,
     MultiSpan,
@@ -7,9 +8,9 @@ use rustc_hir as hir;
 use rustc_middle::ty::{self as ty, AssocItems, AssocKind, TyCtxt};
 use rustc_session::Session;
 use rustc_span::def_id::DefId;
-use std::iter;
-
 use GenericArgsInfo::*;
+
+use crate::structured_errors::StructuredDiagnostic;
 
 /// Handles the `wrong number of type / lifetime / ... arguments` family of error messages.
 pub struct WrongNumberOfGenericArgs<'a, 'tcx> {

@@ -1,18 +1,16 @@
-use crate::ImplTraitPosition;
-
-use super::errors::{GenericTypeWithParentheses, UseAngleBrackets};
-use super::ResolverAstLoweringExt;
-use super::{GenericArgsCtor, LifetimeRes, ParenthesizedGenericArgs};
-use super::{ImplTraitContext, LoweringContext, ParamMode};
-
 use rustc_ast::{self as ast, *};
 use rustc_hir as hir;
 use rustc_hir::def::{DefKind, PartialRes, Res};
 use rustc_hir::GenericArg;
 use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::{BytePos, Span, DUMMY_SP};
-
 use smallvec::{smallvec, SmallVec};
+
+use super::errors::{GenericTypeWithParentheses, UseAngleBrackets};
+use super::ResolverAstLoweringExt;
+use super::{GenericArgsCtor, LifetimeRes, ParenthesizedGenericArgs};
+use super::{ImplTraitContext, LoweringContext, ParamMode};
+use crate::ImplTraitPosition;
 
 impl<'a, 'hir> LoweringContext<'a, 'hir> {
     #[instrument(level = "trace", skip(self))]

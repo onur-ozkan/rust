@@ -9,12 +9,11 @@ use rustc_ast::{
 use rustc_data_structures::fx::FxHashSet;
 use rustc_errors::{Applicability, MultiSpan, PResult, SingleLabelManySpans};
 use rustc_expand::base::{self, *};
+use rustc_lint_defs::builtin::NAMED_ARGUMENTS_USED_POSITIONALLY;
+use rustc_lint_defs::{BufferedEarlyLint, BuiltinLintDiagnostics, LintId};
 use rustc_parse_format as parse;
 use rustc_span::symbol::{Ident, Symbol};
 use rustc_span::{BytePos, InnerSpan, Span};
-
-use rustc_lint_defs::builtin::NAMED_ARGUMENTS_USED_POSITIONALLY;
-use rustc_lint_defs::{BufferedEarlyLint, BuiltinLintDiagnostics, LintId};
 
 // The format_args!() macro is expanded in three steps:
 //  1. First, `parse_args` will parse the `(literal, arg, arg, name=arg, name=arg)` syntax,

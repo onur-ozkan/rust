@@ -7,6 +7,20 @@
 //!
 //! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
+use std::fmt::Debug;
+use std::iter;
+
+use rustc_data_structures::captures::Captures;
+use rustc_index::Idx;
+use rustc_index::IndexVec;
+use rustc_middle::arena::ArenaAllocatable;
+use rustc_middle::mir::ConstraintCategory;
+use rustc_middle::ty::fold::TypeFoldable;
+use rustc_middle::ty::relate::TypeRelation;
+use rustc_middle::ty::{self, BoundVar, ToPredicate, Ty, TyCtxt};
+use rustc_middle::ty::{GenericArg, GenericArgKind};
+use rustc_span::{Span, Symbol};
+
 use crate::infer::canonical::substitute::{substitute_value, CanonicalExt};
 use crate::infer::canonical::{
     Canonical, CanonicalQueryResponse, CanonicalVarValues, Certainty, OriginalQueryValues,
@@ -18,18 +32,6 @@ use crate::infer::{DefineOpaqueTypes, InferCtxt, InferOk, InferResult, NllRegion
 use crate::traits::query::NoSolution;
 use crate::traits::{Obligation, ObligationCause, PredicateObligation};
 use crate::traits::{PredicateObligations, TraitEngine, TraitEngineExt};
-use rustc_data_structures::captures::Captures;
-use rustc_index::Idx;
-use rustc_index::IndexVec;
-use rustc_middle::arena::ArenaAllocatable;
-use rustc_middle::mir::ConstraintCategory;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::relate::TypeRelation;
-use rustc_middle::ty::{self, BoundVar, ToPredicate, Ty, TyCtxt};
-use rustc_middle::ty::{GenericArg, GenericArgKind};
-use rustc_span::{Span, Symbol};
-use std::fmt::Debug;
-use std::iter;
 
 impl<'tcx> InferCtxt<'tcx> {
     /// This method is meant to be invoked as the final step of a canonical query

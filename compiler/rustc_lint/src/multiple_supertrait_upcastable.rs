@@ -1,7 +1,7 @@
-use crate::{LateContext, LateLintPass, LintContext};
-
 use rustc_hir as hir;
 use rustc_span::sym;
+
+use crate::{LateContext, LateLintPass, LintContext};
 
 declare_lint! {
     /// The `multiple_supertrait_upcastable` lint detects when an object-safe trait has multiple

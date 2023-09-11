@@ -1,4 +1,5 @@
-use crate::{NameBinding, NameBindingKind, Resolver};
+use std::mem;
+
 use rustc_ast::ast;
 use rustc_ast::visit;
 use rustc_ast::visit::Visitor;
@@ -10,7 +11,8 @@ use rustc_hir::def_id::CRATE_DEF_ID;
 use rustc_middle::middle::privacy::Level;
 use rustc_middle::middle::privacy::{EffectiveVisibilities, EffectiveVisibility};
 use rustc_middle::ty::Visibility;
-use std::mem;
+
+use crate::{NameBinding, NameBindingKind, Resolver};
 
 #[derive(Clone, Copy)]
 enum ParentId<'a> {

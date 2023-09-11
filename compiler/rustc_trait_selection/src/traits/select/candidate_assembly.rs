@@ -14,13 +14,12 @@ use rustc_infer::traits::{Obligation, PolyTraitObligation, SelectionError};
 use rustc_middle::ty::fast_reject::{DeepRejectCtxt, TreatParams};
 use rustc_middle::ty::{self, Ty, TypeVisitableExt};
 
-use crate::traits;
-use crate::traits::query::evaluate_obligation::InferCtxtExt;
-use crate::traits::util;
-
 use super::BuiltinImplConditions;
 use super::SelectionCandidate::*;
 use super::{SelectionCandidateSet, SelectionContext, TraitObligationStack};
+use crate::traits;
+use crate::traits::query::evaluate_obligation::InferCtxtExt;
+use crate::traits::util;
 
 impl<'cx, 'tcx> SelectionContext<'cx, 'tcx> {
     #[instrument(skip(self, stack), level = "debug")]

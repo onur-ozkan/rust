@@ -1,5 +1,6 @@
-use super::{RUST_ANALYZER_SETTINGS, SETTINGS_HASHES};
 use sha2::Digest;
+
+use super::{RUST_ANALYZER_SETTINGS, SETTINGS_HASHES};
 
 #[test]
 fn check_matching_settings_hash() {

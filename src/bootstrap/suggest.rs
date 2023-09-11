@@ -1,8 +1,7 @@
 #![cfg_attr(feature = "build-metrics", allow(unused))]
 
-use std::str::FromStr;
-
 use std::path::PathBuf;
+use std::str::FromStr;
 
 use clap::Parser;
 

@@ -1,7 +1,3 @@
-use crate::arena::Arena;
-use rustc_data_structures::aligned::{align_of, Aligned};
-use rustc_serialize::{Encodable, Encoder};
-use rustc_type_ir::{InferCtxtLike, OptWithInfcx};
 use std::alloc::Layout;
 use std::cmp::Ordering;
 use std::fmt;
@@ -11,6 +7,12 @@ use std::mem;
 use std::ops::Deref;
 use std::ptr;
 use std::slice;
+
+use rustc_data_structures::aligned::{align_of, Aligned};
+use rustc_serialize::{Encodable, Encoder};
+use rustc_type_ir::{InferCtxtLike, OptWithInfcx};
+
+use crate::arena::Arena;
 
 /// `List<T>` is a bit like `&[T]`, but with some critical differences.
 /// - IMPORTANT: Every `List<T>` is *required* to have unique contents. The

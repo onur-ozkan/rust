@@ -27,8 +27,6 @@
 #![allow(internal_features)]
 #![allow(clippy::mut_from_ref)] // Arena allocators are one of the places where this pattern is fine.
 
-use smallvec::SmallVec;
-
 use std::alloc::Layout;
 use std::cell::{Cell, RefCell};
 use std::marker::PhantomData;
@@ -36,6 +34,8 @@ use std::mem::{self, MaybeUninit};
 use std::ptr::{self, NonNull};
 use std::slice;
 use std::{cmp, intrinsics};
+
+use smallvec::SmallVec;
 
 #[inline(never)]
 #[cold]

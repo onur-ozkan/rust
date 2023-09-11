@@ -1,14 +1,11 @@
-use crate::cgu_reuse_tracker::CguReuseTracker;
-use crate::code_stats::CodeStats;
-pub use crate::code_stats::{DataTypeKind, FieldInfo, FieldKind, SizeKind, VariantInfo};
-use crate::config::{
-    self, CrateType, InstrumentCoverage, OptLevel, OutFileName, OutputType, SwitchWithOptPath,
-};
-use crate::config::{ErrorOutputType, Input};
-use crate::errors;
-use crate::parse::{add_feature_diagnostics, ParseSess};
-use crate::search_paths::{PathKind, SearchPath};
-use crate::{filesearch, lint};
+use std::cell::{self, RefCell};
+use std::env;
+use std::fmt;
+use std::ops::{Div, Mul};
+use std::path::{Path, PathBuf};
+use std::str::FromStr;
+use std::sync::Arc;
+use std::time::Duration;
 
 pub use rustc_ast::attr::MarkedAttrs;
 pub use rustc_ast::Attribute;
@@ -39,14 +36,17 @@ use rustc_target::spec::{
     DebuginfoKind, SanitizerSet, SplitDebuginfo, StackProtector, Target, TargetTriple, TlsModel,
 };
 
-use std::cell::{self, RefCell};
-use std::env;
-use std::fmt;
-use std::ops::{Div, Mul};
-use std::path::{Path, PathBuf};
-use std::str::FromStr;
-use std::sync::Arc;
-use std::time::Duration;
+use crate::cgu_reuse_tracker::CguReuseTracker;
+use crate::code_stats::CodeStats;
+pub use crate::code_stats::{DataTypeKind, FieldInfo, FieldKind, SizeKind, VariantInfo};
+use crate::config::{
+    self, CrateType, InstrumentCoverage, OptLevel, OutFileName, OutputType, SwitchWithOptPath,
+};
+use crate::config::{ErrorOutputType, Input};
+use crate::errors;
+use crate::parse::{add_feature_diagnostics, ParseSess};
+use crate::search_paths::{PathKind, SearchPath};
+use crate::{filesearch, lint};
 
 pub struct OptimizationFuel {
     /// If `-zfuel=crate=n` is specified, initially set to `n`, otherwise `0`.

@@ -375,7 +375,6 @@ use crate::intrinsics::{
     self, assert_unsafe_precondition, is_aligned_and_not_null, is_nonoverlapping,
 };
 use crate::marker::FnPtr;
-
 use crate::mem::{self, MaybeUninit};
 
 mod alignment;
@@ -384,12 +383,10 @@ pub use alignment::Alignment;
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[doc(inline)]
-pub use crate::intrinsics::copy_nonoverlapping;
-
+pub use crate::intrinsics::copy;
 #[stable(feature = "rust1", since = "1.0.0")]
 #[doc(inline)]
-pub use crate::intrinsics::copy;
-
+pub use crate::intrinsics::copy_nonoverlapping;
 #[stable(feature = "rust1", since = "1.0.0")]
 #[doc(inline)]
 pub use crate::intrinsics::write_bytes;

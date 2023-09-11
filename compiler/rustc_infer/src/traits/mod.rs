@@ -13,14 +13,10 @@ use std::hash::{Hash, Hasher};
 
 use hir::def_id::LocalDefId;
 use rustc_hir as hir;
+pub use rustc_middle::traits::*;
 use rustc_middle::ty::error::{ExpectedFound, TypeError};
 use rustc_middle::ty::{self, Const, ToPredicate, Ty, TyCtxt};
 use rustc_span::Span;
-
-pub use self::FulfillmentErrorCode::*;
-pub use self::ImplSource::*;
-pub use self::ObligationCauseCode::*;
-pub use self::SelectionError::*;
 
 pub use self::engine::{TraitEngine, TraitEngineExt};
 pub use self::project::MismatchedProjectionTypes;
@@ -29,7 +25,10 @@ pub use self::project::{
     Normalized, NormalizedTy, ProjectionCache, ProjectionCacheEntry, ProjectionCacheKey,
     ProjectionCacheStorage, Reveal,
 };
-pub use rustc_middle::traits::*;
+pub use self::FulfillmentErrorCode::*;
+pub use self::ImplSource::*;
+pub use self::ObligationCauseCode::*;
+pub use self::SelectionError::*;
 
 /// An `Obligation` represents some trait reference (e.g., `i32: Eq`) for
 /// which the "impl_source" must be found. The process of finding an "impl_source" is

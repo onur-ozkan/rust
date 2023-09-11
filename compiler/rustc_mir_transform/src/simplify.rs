@@ -27,7 +27,6 @@
 //! naively generate still contains the `_a = ()` write in the unreachable block "after" the
 //! return.
 
-use crate::MirPass;
 use rustc_data_structures::fx::{FxHashSet, FxIndexSet};
 use rustc_index::{Idx, IndexSlice, IndexVec};
 use rustc_middle::mir::coverage::*;
@@ -35,6 +34,8 @@ use rustc_middle::mir::visit::{MutVisitor, MutatingUseContext, PlaceContext, Vis
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
 use smallvec::SmallVec;
+
+use crate::MirPass;
 
 pub enum SimplifyCfg {
     Initial,

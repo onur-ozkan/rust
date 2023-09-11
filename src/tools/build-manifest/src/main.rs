@@ -4,13 +4,14 @@ mod checksum;
 mod manifest;
 mod versions;
 
-use crate::checksum::Checksums;
-use crate::manifest::{Component, Manifest, Package, Rename, Target};
-use crate::versions::{PkgType, Versions};
 use std::collections::{BTreeMap, HashSet};
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
+
+use crate::checksum::Checksums;
+use crate::manifest::{Component, Manifest, Package, Rename, Target};
+use crate::versions::{PkgType, Versions};
 
 static HOSTS: &[&str] = &[
     "aarch64-apple-darwin",

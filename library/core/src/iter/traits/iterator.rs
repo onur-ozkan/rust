@@ -1,8 +1,3 @@
-use crate::array;
-use crate::cmp::{self, Ordering};
-use crate::num::NonZeroUsize;
-use crate::ops::{ChangeOutputType, ControlFlow, FromResidual, Residual, Try};
-
 use super::super::try_process;
 use super::super::ByRefSized;
 use super::super::TrustedRandomAccessNoCoerce;
@@ -13,6 +8,10 @@ use super::super::{
     Inspect, Map, MapWhile, MapWindows, Peekable, Rev, Scan, Skip, SkipWhile, StepBy, Take,
     TakeWhile,
 };
+use crate::array;
+use crate::cmp::{self, Ordering};
+use crate::num::NonZeroUsize;
+use crate::ops::{ChangeOutputType, ControlFlow, FromResidual, Residual, Try};
 
 fn _assert_is_object_safe(_: &dyn Iterator<Item = ()>) {}
 

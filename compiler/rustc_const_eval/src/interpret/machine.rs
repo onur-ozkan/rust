@@ -14,12 +14,11 @@ use rustc_span::def_id::DefId;
 use rustc_target::abi::{Align, Size};
 use rustc_target::spec::abi::Abi as CallAbi;
 
-use crate::const_eval::CheckAlignment;
-
 use super::{
     AllocBytes, AllocId, AllocRange, Allocation, ConstAllocation, FnArg, Frame, ImmTy, InterpCx,
     InterpResult, MPlaceTy, MemoryKind, OpTy, PlaceTy, Pointer, Provenance, Scalar,
 };
+use crate::const_eval::CheckAlignment;
 
 /// Data returned by Machine::stack_pop,
 /// to provide further control over the popping of the stack frame

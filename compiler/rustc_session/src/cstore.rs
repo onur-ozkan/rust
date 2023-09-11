@@ -2,9 +2,9 @@
 //! are *mostly* used as a part of that interface, but these should
 //! probably get a better home if someone can find one.
 
-use crate::search_paths::PathKind;
-use crate::utils::NativeLibKind;
-use crate::Session;
+use std::any::Any;
+use std::path::{Path, PathBuf};
+
 use rustc_ast as ast;
 use rustc_data_structures::owned_slice::OwnedSlice;
 use rustc_data_structures::sync::{self, AppendOnlyIndexVec, FreezeLock};
@@ -16,8 +16,9 @@ use rustc_span::Span;
 use rustc_target::spec::abi::Abi;
 use rustc_target::spec::Target;
 
-use std::any::Any;
-use std::path::{Path, PathBuf};
+use crate::search_paths::PathKind;
+use crate::utils::NativeLibKind;
+use crate::Session;
 
 // lonely orphan structs and enums looking for a better home
 

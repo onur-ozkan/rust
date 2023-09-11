@@ -1,4 +1,5 @@
-use crate::infer::{InferCtxt, TyOrConstInferVar};
+use std::marker::PhantomData;
+
 use rustc_data_structures::obligation_forest::ProcessResult;
 use rustc_data_structures::obligation_forest::{Error, ForestObligation, Outcome};
 use rustc_data_structures::obligation_forest::{ObligationForest, ObligationProcessor};
@@ -10,7 +11,6 @@ use rustc_middle::ty::abstract_const::NotConstEvaluatable;
 use rustc_middle::ty::error::{ExpectedFound, TypeError};
 use rustc_middle::ty::GenericArgsRef;
 use rustc_middle::ty::{self, Binder, Const, TypeVisitableExt};
-use std::marker::PhantomData;
 
 use super::const_evaluatable;
 use super::project::{self, ProjectAndUnifyResult};
@@ -23,7 +23,7 @@ use super::EvaluationResult;
 use super::PredicateObligation;
 use super::Unimplemented;
 use super::{FulfillmentError, FulfillmentErrorCode};
-
+use crate::infer::{InferCtxt, TyOrConstInferVar};
 use crate::traits::project::PolyProjectionObligation;
 use crate::traits::project::ProjectionCacheKeyExt as _;
 use crate::traits::query::evaluate_obligation::InferCtxtExt;

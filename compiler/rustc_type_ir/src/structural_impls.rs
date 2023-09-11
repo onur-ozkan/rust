@@ -2,16 +2,17 @@
 //! traits for various types in the Rust compiler. Most are written by hand, though
 //! we've recently added some macros and proc-macros to help with the tedium.
 
-use crate::fold::{FallibleTypeFolder, TypeFoldable};
-use crate::visit::{TypeVisitable, TypeVisitor};
-use crate::{ConstKind, FloatTy, InferTy, IntTy, Interner, UintTy, UniverseIndex};
+use core::fmt;
+use std::marker::PhantomData;
+use std::ops::ControlFlow;
+
 use rustc_data_structures::functor::IdFunctor;
 use rustc_data_structures::sync::Lrc;
 use rustc_index::{Idx, IndexVec};
 
-use core::fmt;
-use std::marker::PhantomData;
-use std::ops::ControlFlow;
+use crate::fold::{FallibleTypeFolder, TypeFoldable};
+use crate::visit::{TypeVisitable, TypeVisitor};
+use crate::{ConstKind, FloatTy, InferTy, IntTy, Interner, UintTy, UniverseIndex};
 
 ///////////////////////////////////////////////////////////////////////////
 // Atomic structs

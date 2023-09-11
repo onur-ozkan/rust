@@ -6,9 +6,6 @@ use std::slice::from_ref;
 
 use hir::def::DefKind;
 use hir::Expr;
-// Export these here so that Clippy can use them.
-pub use rustc_middle::hir::place::{Place, PlaceBase, PlaceWithHirId, Projection};
-
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_hir as hir;
 use rustc_hir::def::Res;
@@ -16,6 +13,8 @@ use rustc_hir::def_id::LocalDefId;
 use rustc_hir::PatKind;
 use rustc_infer::infer::InferCtxt;
 use rustc_middle::hir::place::ProjectionKind;
+// Export these here so that Clippy can use them.
+pub use rustc_middle::hir::place::{Place, PlaceBase, PlaceWithHirId, Projection};
 use rustc_middle::mir::FakeReadCause;
 use rustc_middle::ty::{self, adjustment, AdtKind, Ty, TyCtxt};
 use rustc_target::abi::FIRST_VARIANT;

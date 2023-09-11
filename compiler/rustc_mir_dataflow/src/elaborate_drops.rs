@@ -1,3 +1,5 @@
+use std::{fmt, iter};
+
 use rustc_hir as hir;
 use rustc_hir::lang_items::LangItem;
 use rustc_index::Idx;
@@ -8,7 +10,6 @@ use rustc_middle::ty::util::IntTypeExt;
 use rustc_middle::ty::GenericArgsRef;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_target::abi::{FieldIdx, VariantIdx, FIRST_VARIANT};
-use std::{fmt, iter};
 
 /// The value of an inserted drop flag.
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]

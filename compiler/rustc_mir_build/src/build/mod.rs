@@ -1,5 +1,3 @@
-use crate::build::expr::as_place::PlaceBuilder;
-use crate::build::scope::DropKind;
 use rustc_apfloat::ieee::{Double, Single};
 use rustc_apfloat::Float;
 use rustc_ast::attr;
@@ -29,6 +27,8 @@ use rustc_target::abi::FieldIdx;
 use rustc_target::spec::abi::Abi;
 
 use super::lints;
+use crate::build::expr::as_place::PlaceBuilder;
+use crate::build::scope::DropKind;
 
 pub(crate) fn mir_built(
     tcx: TyCtxt<'_>,

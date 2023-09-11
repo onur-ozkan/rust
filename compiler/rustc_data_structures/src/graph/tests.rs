@@ -1,9 +1,9 @@
-use crate::fx::FxHashMap;
 use std::cmp::max;
 use std::iter;
 use std::slice;
 
 use super::*;
+use crate::fx::FxHashMap;
 
 pub struct TestGraph {
     num_nodes: usize,

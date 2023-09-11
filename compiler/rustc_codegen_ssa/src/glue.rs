@@ -2,11 +2,12 @@
 //
 // Code relating to drop glue.
 
+use rustc_middle::ty::{self, Ty};
+use rustc_target::abi::WrappingRange;
+
 use crate::common::IntPredicate;
 use crate::meth;
 use crate::traits::*;
-use rustc_middle::ty::{self, Ty};
-use rustc_target::abi::WrappingRange;
 
 pub fn size_and_align_of_dst<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>>(
     bx: &mut Bx,

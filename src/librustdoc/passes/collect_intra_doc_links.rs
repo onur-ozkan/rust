@@ -2,6 +2,11 @@
 //!
 //! [RFC 1946]: https://github.com/rust-lang/rfcs/blob/master/text/1946-intra-rustdoc-links.md
 
+use std::borrow::Cow;
+use std::fmt::Display;
+use std::mem;
+use std::ops::Range;
+
 use pulldown_cmark::LinkType;
 use rustc_ast::util::comments::may_have_doc_links;
 use rustc_data_structures::{
@@ -22,11 +27,6 @@ use rustc_span::hygiene::MacroKind;
 use rustc_span::symbol::{sym, Ident, Symbol};
 use rustc_span::BytePos;
 use smallvec::{smallvec, SmallVec};
-
-use std::borrow::Cow;
-use std::fmt::Display;
-use std::mem;
-use std::ops::Range;
 
 use crate::clean::{self, utils::find_nearest_parent_module};
 use crate::clean::{Crate, Item, ItemLink, PrimitiveType};

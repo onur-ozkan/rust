@@ -1,3 +1,5 @@
+use std::fmt::Write as _;
+
 /// Type metadata identifiers (using Itanium C++ ABI mangling for encoding) for LLVM Control Flow
 /// Integrity (CFI) and cross-language LLVM CFI support.
 ///
@@ -21,7 +23,6 @@ use rustc_span::sym;
 use rustc_target::abi::call::{Conv, FnAbi};
 use rustc_target::abi::Integer;
 use rustc_target::spec::abi::Abi;
-use std::fmt::Write as _;
 
 use crate::typeid::TypeIdOptions;
 

@@ -1,11 +1,13 @@
+use std::io::Cursor;
+use std::time::Duration;
+
+use camino::Utf8PathBuf;
+use zip::ZipArchive;
+
 use crate::environment::Environment;
 use crate::exec::cmd;
 use crate::utils::io::move_directory;
 use crate::utils::retry_action;
-use camino::Utf8PathBuf;
-use std::io::Cursor;
-use std::time::Duration;
-use zip::ZipArchive;
 
 pub(super) struct WindowsEnvironment {
     checkout_dir: Utf8PathBuf,

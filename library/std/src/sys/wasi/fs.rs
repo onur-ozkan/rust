@@ -15,9 +15,8 @@ use crate::sync::Arc;
 use crate::sys::common::small_c_string::run_path_with_cstr;
 use crate::sys::time::SystemTime;
 use crate::sys::unsupported;
-use crate::sys_common::{AsInner, FromInner, IntoInner};
-
 pub use crate::sys_common::fs::try_exists;
+use crate::sys_common::{AsInner, FromInner, IntoInner};
 
 pub struct File {
     fd: WasiFd,

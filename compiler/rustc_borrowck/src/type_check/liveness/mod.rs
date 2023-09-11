@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use itertools::{Either, Itertools};
 use rustc_data_structures::fx::FxHashSet;
 use rustc_middle::mir::{Body, Local};
@@ -5,8 +7,8 @@ use rustc_middle::ty::{RegionVid, TyCtxt};
 use rustc_mir_dataflow::impls::MaybeInitializedPlaces;
 use rustc_mir_dataflow::move_paths::MoveData;
 use rustc_mir_dataflow::ResultsCursor;
-use std::rc::Rc;
 
+use super::TypeChecker;
 use crate::{
     constraints::OutlivesConstraintSet,
     facts::{AllFacts, AllFactsExt},
@@ -14,8 +16,6 @@ use crate::{
     region_infer::values::RegionValueElements,
     universal_regions::UniversalRegions,
 };
-
-use super::TypeChecker;
 
 mod local_use_map;
 mod polonius;

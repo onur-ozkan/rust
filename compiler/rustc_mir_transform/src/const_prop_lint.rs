@@ -4,7 +4,6 @@
 use std::fmt::Debug;
 
 use either::Left;
-
 use rustc_const_eval::interpret::Immediate;
 use rustc_const_eval::interpret::{
     InterpCx, InterpResult, MemoryKind, OpTy, Scalar, StackPopCleanup,

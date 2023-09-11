@@ -1,10 +1,9 @@
+use super::from_utf8_unchecked;
+use super::validations::utf8_char_width;
 use crate::fmt;
 use crate::fmt::Formatter;
 use crate::fmt::Write;
 use crate::iter::FusedIterator;
-
-use super::from_utf8_unchecked;
-use super::validations::utf8_char_width;
 
 /// An item returned by the [`Utf8Chunks`] iterator.
 ///

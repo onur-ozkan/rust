@@ -2,6 +2,13 @@
 #![deny(rustc::diagnostic_outside_of_impl)]
 //! The entry point of the NLL borrow checker.
 
+use std::env;
+use std::io;
+use std::path::PathBuf;
+use std::rc::Rc;
+use std::str::FromStr;
+
+use polonius_engine::{Algorithm, Output};
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_hir::def_id::LocalDefId;
 use rustc_index::IndexSlice;
@@ -11,18 +18,10 @@ use rustc_middle::mir::{
     START_BLOCK,
 };
 use rustc_middle::ty::{self, OpaqueHiddenType, TyCtxt};
-use rustc_span::symbol::sym;
-use std::env;
-use std::io;
-use std::path::PathBuf;
-use std::rc::Rc;
-use std::str::FromStr;
-
-use polonius_engine::{Algorithm, Output};
-
 use rustc_mir_dataflow::impls::MaybeInitializedPlaces;
 use rustc_mir_dataflow::move_paths::{InitKind, InitLocation, MoveData};
 use rustc_mir_dataflow::ResultsCursor;
+use rustc_span::symbol::sym;
 
 use crate::{
     borrow_set::BorrowSet,

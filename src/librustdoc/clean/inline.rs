@@ -3,8 +3,6 @@
 use std::iter::once;
 use std::sync::Arc;
 
-use thin_vec::{thin_vec, ThinVec};
-
 use rustc_ast as ast;
 use rustc_data_structures::fx::FxHashSet;
 use rustc_hir as hir;
@@ -16,6 +14,7 @@ use rustc_middle::ty::fast_reject::SimplifiedType;
 use rustc_middle::ty::{self, TyCtxt};
 use rustc_span::hygiene::MacroKind;
 use rustc_span::symbol::{kw, sym, Symbol};
+use thin_vec::{thin_vec, ThinVec};
 
 use crate::clean::{
     self, clean_fn_decl_from_did_and_sig, clean_generics, clean_impl_item, clean_middle_assoc_item,

@@ -1,11 +1,9 @@
-use crate::abi::FnAbiLlvmExt;
-use crate::attributes;
-use crate::common::Funclet;
-use crate::context::CodegenCx;
-use crate::llvm::{self, AtomicOrdering, AtomicRmwBinOp, BasicBlock, False, True};
-use crate::type_::Type;
-use crate::type_of::LayoutLlvmExt;
-use crate::value::Value;
+use std::borrow::Cow;
+use std::ffi::CStr;
+use std::iter;
+use std::ops::Deref;
+use std::ptr;
+
 use cstr::cstr;
 use libc::{c_char, c_uint};
 use rustc_codegen_ssa::common::{IntPredicate, RealPredicate, SynchronizationScope, TypeKind};
@@ -25,11 +23,15 @@ use rustc_symbol_mangling::typeid::{kcfi_typeid_for_fnabi, typeid_for_fnabi, Typ
 use rustc_target::abi::{self, call::FnAbi, Align, Size, WrappingRange};
 use rustc_target::spec::{HasTargetSpec, SanitizerSet, Target};
 use smallvec::SmallVec;
-use std::borrow::Cow;
-use std::ffi::CStr;
-use std::iter;
-use std::ops::Deref;
-use std::ptr;
+
+use crate::abi::FnAbiLlvmExt;
+use crate::attributes;
+use crate::common::Funclet;
+use crate::context::CodegenCx;
+use crate::llvm::{self, AtomicOrdering, AtomicRmwBinOp, BasicBlock, False, True};
+use crate::type_::Type;
+use crate::type_of::LayoutLlvmExt;
+use crate::value::Value;
 
 // All Builders must have an llfn associated with them
 #[must_use]

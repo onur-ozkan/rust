@@ -1,13 +1,11 @@
-use crate::diagnostics::error::{
-    span_err, throw_invalid_attr, throw_span_err, DiagnosticDeriveError,
-};
-use proc_macro::Span;
-use proc_macro2::{Ident, TokenStream};
-use quote::{format_ident, quote, ToTokens};
 use std::cell::RefCell;
 use std::collections::{BTreeSet, HashMap};
 use std::fmt;
 use std::str::FromStr;
+
+use proc_macro::Span;
+use proc_macro2::{Ident, TokenStream};
+use quote::{format_ident, quote, ToTokens};
 use syn::meta::ParseNestedMeta;
 use syn::punctuated::Punctuated;
 use syn::{parenthesized, LitStr, Path, Token};
@@ -15,6 +13,9 @@ use syn::{spanned::Spanned, Attribute, Field, Meta, Type, TypeTuple};
 use synstructure::{BindingInfo, VariantInfo};
 
 use super::error::invalid_attr;
+use crate::diagnostics::error::{
+    span_err, throw_invalid_attr, throw_span_err, DiagnosticDeriveError,
+};
 
 thread_local! {
     pub static CODE_IDENT_COUNT: RefCell<u32> = RefCell::new(0);

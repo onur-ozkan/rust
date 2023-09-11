@@ -10,13 +10,14 @@ mod path;
 mod stmt;
 mod ty;
 
-use crate::lexer::UnmatchedDelim;
+use std::ops::Range;
+use std::{mem, slice};
+
 pub use attr_wrapper::AttrWrapper;
 pub use diagnostics::AttemptLocalParseRecovery;
 pub(crate) use item::FnParseMode;
 pub use pat::{CommaRecoveryMode, RecoverColon, RecoverComma};
 pub use path::PathStyle;
-
 use rustc_ast::ptr::P;
 use rustc_ast::token::{self, Delimiter, Nonterminal, Token, TokenKind};
 use rustc_ast::tokenstream::{AttributesData, DelimSpan, Spacing};
@@ -36,14 +37,13 @@ use rustc_errors::{
 use rustc_session::parse::ParseSess;
 use rustc_span::source_map::{Span, DUMMY_SP};
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use std::ops::Range;
-use std::{mem, slice};
 use thin_vec::ThinVec;
 use tracing::debug;
 
 use crate::errors::{
     self, IncorrectVisibilityRestriction, MismatchedClosingDelimiter, NonStringAbiLiteral,
 };
+use crate::lexer::UnmatchedDelim;
 
 bitflags::bitflags! {
     struct Restrictions: u8 {

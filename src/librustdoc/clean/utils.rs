@@ -1,13 +1,6 @@
-use crate::clean::auto_trait::AutoTraitFinder;
-use crate::clean::blanket_impl::BlanketImplFinder;
-use crate::clean::render_macro_matchers::render_macro_matcher;
-use crate::clean::{
-    clean_doc_module, clean_middle_const, clean_middle_region, clean_middle_ty, inline, Crate,
-    ExternalCrate, Generic, GenericArg, GenericArgs, ImportSource, Item, ItemKind, Lifetime, Path,
-    PathSegment, Primitive, PrimitiveType, Term, Type, TypeBinding, TypeBindingKind,
-};
-use crate::core::DocContext;
-use crate::html::format::visibility_to_src_with_space;
+use std::fmt::Write as _;
+use std::mem;
+use std::sync::LazyLock as Lazy;
 
 use rustc_ast as ast;
 use rustc_ast::tokenstream::TokenTree;
@@ -19,10 +12,18 @@ use rustc_middle::mir;
 use rustc_middle::mir::interpret::ConstValue;
 use rustc_middle::ty::{self, GenericArgKind, GenericArgsRef, TyCtxt};
 use rustc_span::symbol::{kw, sym, Symbol};
-use std::fmt::Write as _;
-use std::mem;
-use std::sync::LazyLock as Lazy;
 use thin_vec::{thin_vec, ThinVec};
+
+use crate::clean::auto_trait::AutoTraitFinder;
+use crate::clean::blanket_impl::BlanketImplFinder;
+use crate::clean::render_macro_matchers::render_macro_matcher;
+use crate::clean::{
+    clean_doc_module, clean_middle_const, clean_middle_region, clean_middle_ty, inline, Crate,
+    ExternalCrate, Generic, GenericArg, GenericArgs, ImportSource, Item, ItemKind, Lifetime, Path,
+    PathSegment, Primitive, PrimitiveType, Term, Type, TypeBinding, TypeBindingKind,
+};
+use crate::core::DocContext;
+use crate::html::format::visibility_to_src_with_space;
 
 #[cfg(test)]
 mod tests;

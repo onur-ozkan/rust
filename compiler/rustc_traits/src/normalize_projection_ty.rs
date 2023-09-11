@@ -1,3 +1,5 @@
+use std::sync::atomic::Ordering;
+
 use rustc_infer::infer::canonical::{Canonical, QueryResponse};
 use rustc_infer::infer::TyCtxtInferExt;
 use rustc_middle::query::Providers;
@@ -7,7 +9,6 @@ use rustc_trait_selection::traits::query::{
     normalize::NormalizationResult, CanonicalProjectionGoal, NoSolution,
 };
 use rustc_trait_selection::traits::{self, ObligationCause, SelectionContext};
-use std::sync::atomic::Ordering;
 
 pub(crate) fn provide(p: &mut Providers) {
     *p = Providers {

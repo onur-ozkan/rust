@@ -1,7 +1,6 @@
 use std::fmt;
 
 use either::{Either, Left, Right};
-
 use rustc_apfloat::{
     ieee::{Double, Single},
     Float,
@@ -9,12 +8,11 @@ use rustc_apfloat::{
 use rustc_macros::HashStable;
 use rustc_target::abi::{HasDataLayout, Size};
 
-use crate::ty::{ParamEnv, ScalarInt, Ty, TyCtxt};
-
 use super::{
     AllocId, AllocRange, ConstAllocation, InterpResult, Pointer, PointerArithmetic, Provenance,
     ScalarSizeMismatch,
 };
+use crate::ty::{ParamEnv, ScalarInt, Ty, TyCtxt};
 
 /// Represents the result of const evaluation via the `eval_to_allocation` query.
 #[derive(Copy, Clone, HashStable, TyEncodable, TyDecodable, Debug, Hash, Eq, PartialEq)]

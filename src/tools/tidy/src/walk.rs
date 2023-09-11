@@ -1,6 +1,6 @@
-use ignore::DirEntry;
-
 use std::{ffi::OsStr, fs::File, io::Read, path::Path};
+
+use ignore::DirEntry;
 
 /// The default directory filter.
 pub fn filter_dirs(path: &Path) -> bool {

@@ -1,16 +1,6 @@
-use super::attr::InnerAttrForbiddenReason;
-use super::diagnostics::AttemptLocalParseRecovery;
-use super::expr::LhsExpr;
-use super::pat::{PatternLocation, RecoverComma};
-use super::path::PathStyle;
-use super::TrailingToken;
-use super::{
-    AttrWrapper, BlockMode, FnParseMode, ForceCollect, Parser, Restrictions, SemiColonMode,
-};
-use crate::errors;
-use crate::maybe_whole;
+use std::borrow::Cow;
+use std::mem;
 
-use crate::errors::MalformedLoopLabel;
 use ast::Label;
 use rustc_ast as ast;
 use rustc_ast::ptr::P;
@@ -22,10 +12,20 @@ use rustc_ast::{StmtKind, DUMMY_NODE_ID};
 use rustc_errors::{Applicability, DiagnosticBuilder, ErrorGuaranteed, PResult};
 use rustc_span::source_map::{BytePos, Span};
 use rustc_span::symbol::{kw, sym, Ident};
-
-use std::borrow::Cow;
-use std::mem;
 use thin_vec::{thin_vec, ThinVec};
+
+use super::attr::InnerAttrForbiddenReason;
+use super::diagnostics::AttemptLocalParseRecovery;
+use super::expr::LhsExpr;
+use super::pat::{PatternLocation, RecoverComma};
+use super::path::PathStyle;
+use super::TrailingToken;
+use super::{
+    AttrWrapper, BlockMode, FnParseMode, ForceCollect, Parser, Restrictions, SemiColonMode,
+};
+use crate::errors;
+use crate::errors::MalformedLoopLabel;
+use crate::maybe_whole;
 
 impl<'a> Parser<'a> {
     /// Parses a statement. This stops just before trailing semicolons on everything but items.

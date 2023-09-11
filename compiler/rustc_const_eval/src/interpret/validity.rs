@@ -5,10 +5,10 @@
 //! to be const-safe.
 
 use std::fmt::Write;
+use std::hash::Hash;
 use std::num::NonZeroUsize;
 
 use either::{Left, Right};
-
 use rustc_ast::Mutability;
 use rustc_data_structures::fx::FxHashSet;
 use rustc_hir as hir;
@@ -23,18 +23,15 @@ use rustc_target::abi::{
     Abi, FieldIdx, Scalar as ScalarAbi, Size, VariantIdx, Variants, WrappingRange,
 };
 
-use std::hash::Hash;
-
-use super::{
-    AllocId, CheckInAllocMsg, GlobalAlloc, ImmTy, Immediate, InterpCx, InterpResult, MPlaceTy,
-    Machine, MemPlaceMeta, OpTy, Pointer, Projectable, Scalar, ValueVisitor,
-};
-
 // for the validation errors
 use super::InterpError::UndefinedBehavior as Ub;
 use super::InterpError::Unsupported as Unsup;
 use super::UndefinedBehaviorInfo::*;
 use super::UnsupportedOpInfo::*;
+use super::{
+    AllocId, CheckInAllocMsg, GlobalAlloc, ImmTy, Immediate, InterpCx, InterpResult, MPlaceTy,
+    Machine, MemPlaceMeta, OpTy, Pointer, Projectable, Scalar, ValueVisitor,
+};
 
 macro_rules! throw_validation_failure {
     ($where:expr, $kind: expr) => {{

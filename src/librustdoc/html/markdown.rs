@@ -25,6 +25,16 @@
 //! // ... something using html
 //! ```
 
+use std::borrow::Cow;
+use std::collections::VecDeque;
+use std::fmt::Write;
+use std::ops::{ControlFlow, Range};
+use std::str;
+
+use once_cell::sync::Lazy;
+use pulldown_cmark::{
+    html, BrokenLink, CodeBlockKind, CowStr, Event, LinkType, OffsetIter, Options, Parser, Tag,
+};
 use rustc_data_structures::fx::FxHashMap;
 use rustc_hir::def_id::DefId;
 use rustc_middle::ty::TyCtxt;
@@ -32,13 +42,6 @@ pub(crate) use rustc_resolve::rustdoc::main_body_opts;
 use rustc_resolve::rustdoc::may_be_doc_link;
 use rustc_span::edition::Edition;
 use rustc_span::{Span, Symbol};
-
-use once_cell::sync::Lazy;
-use std::borrow::Cow;
-use std::collections::VecDeque;
-use std::fmt::Write;
-use std::ops::{ControlFlow, Range};
-use std::str;
 
 use crate::clean::RenderedLink;
 use crate::doctest;
@@ -48,10 +51,6 @@ use crate::html::highlight;
 use crate::html::length_limit::HtmlWithLimit;
 use crate::html::render::small_url_encode;
 use crate::html::toc::TocBuilder;
-
-use pulldown_cmark::{
-    html, BrokenLink, CodeBlockKind, CowStr, Event, LinkType, OffsetIter, Options, Parser, Tag,
-};
 
 #[cfg(test)]
 mod tests;

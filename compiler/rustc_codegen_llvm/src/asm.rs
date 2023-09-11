@@ -1,12 +1,4 @@
-use crate::attributes;
-use crate::builder::Builder;
-use crate::common::Funclet;
-use crate::context::CodegenCx;
-use crate::llvm;
-use crate::type_::Type;
-use crate::type_of::LayoutLlvmExt;
-use crate::value::Value;
-
+use libc::{c_char, c_uint};
 use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
 use rustc_codegen_ssa::mir::operand::OperandValue;
 use rustc_codegen_ssa::traits::*;
@@ -16,9 +8,16 @@ use rustc_middle::{bug, span_bug, ty::Instance};
 use rustc_span::{Pos, Span};
 use rustc_target::abi::*;
 use rustc_target::asm::*;
-
-use libc::{c_char, c_uint};
 use smallvec::SmallVec;
+
+use crate::attributes;
+use crate::builder::Builder;
+use crate::common::Funclet;
+use crate::context::CodegenCx;
+use crate::llvm;
+use crate::type_::Type;
+use crate::type_of::LayoutLlvmExt;
+use crate::value::Value;
 
 impl<'ll, 'tcx> AsmBuilderMethods<'tcx> for Builder<'_, 'll, 'tcx> {
     fn codegen_inline_asm(

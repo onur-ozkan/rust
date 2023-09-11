@@ -1,15 +1,17 @@
-use crate::ty::print::{with_forced_trimmed_paths, FmtPrinter, PrettyPrinter};
-use crate::ty::{self, BoundRegionKind, Region, Ty, TyCtxt};
+use std::borrow::Cow;
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
+use std::path::PathBuf;
+
 use rustc_errors::pluralize;
 use rustc_hir as hir;
 use rustc_hir::def::{CtorOf, DefKind};
 use rustc_hir::def_id::DefId;
 use rustc_span::symbol::Symbol;
 use rustc_target::spec::abi;
-use std::borrow::Cow;
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
-use std::path::PathBuf;
+
+use crate::ty::print::{with_forced_trimmed_paths, FmtPrinter, PrettyPrinter};
+use crate::ty::{self, BoundRegionKind, Region, Ty, TyCtxt};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, TypeFoldable, TypeVisitable, Lift)]
 pub struct ExpectedFound<T> {

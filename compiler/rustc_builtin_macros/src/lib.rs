@@ -18,13 +18,13 @@ extern crate proc_macro;
 #[macro_use]
 extern crate tracing;
 
-use crate::deriving::*;
-
 use rustc_errors::{DiagnosticMessage, SubdiagnosticMessage};
 use rustc_expand::base::{MacroExpanderFn, ResolverExpand, SyntaxExtensionKind};
 use rustc_expand::proc_macro::BangProcMacro;
 use rustc_fluent_macro::fluent_messages;
 use rustc_span::symbol::sym;
+
+use crate::deriving::*;
 
 mod alloc_error_handler;
 mod assert;

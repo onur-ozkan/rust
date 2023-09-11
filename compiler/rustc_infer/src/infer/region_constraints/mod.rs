@@ -1,11 +1,8 @@
 //! See `README.md`.
 
-use self::CombineMapType::*;
-use self::UndoLog::*;
-
-use super::{
-    InferCtxtUndoLogs, MiscVariable, RegionVariableOrigin, Rollback, Snapshot, SubregionOrigin,
-};
+use std::collections::BTreeMap;
+use std::ops::Range;
+use std::{cmp, fmt, mem};
 
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::intern::Interned;
@@ -20,9 +17,11 @@ use rustc_middle::ty::{ReLateBound, ReVar};
 use rustc_middle::ty::{Region, RegionVid};
 use rustc_span::Span;
 
-use std::collections::BTreeMap;
-use std::ops::Range;
-use std::{cmp, fmt, mem};
+use self::CombineMapType::*;
+use self::UndoLog::*;
+use super::{
+    InferCtxtUndoLogs, MiscVariable, RegionVariableOrigin, Rollback, Snapshot, SubregionOrigin,
+};
 
 mod leak_check;
 

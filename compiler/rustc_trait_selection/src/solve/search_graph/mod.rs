@@ -1,8 +1,7 @@
 mod cache;
 
-use self::cache::ProvisionalEntry;
-use super::inspect::ProofTreeBuilder;
-use super::SolverMode;
+use std::collections::hash_map::Entry;
+
 use cache::ProvisionalCache;
 use rustc_data_structures::fx::FxHashSet;
 use rustc_index::Idx;
@@ -13,7 +12,10 @@ use rustc_middle::traits::solve::CacheData;
 use rustc_middle::traits::solve::{CanonicalInput, Certainty, EvaluationCache, QueryResult};
 use rustc_middle::ty::TyCtxt;
 use rustc_session::Limit;
-use std::collections::hash_map::Entry;
+
+use self::cache::ProvisionalEntry;
+use super::inspect::ProofTreeBuilder;
+use super::SolverMode;
 
 rustc_index::newtype_index! {
     pub struct StackDepth {}

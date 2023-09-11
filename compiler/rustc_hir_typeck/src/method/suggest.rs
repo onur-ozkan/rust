@@ -1,10 +1,10 @@
 //! Give useful errors and suggestions to users when an item can't be
 //! found or is otherwise invalid.
 
-use crate::errors;
-use crate::errors::{CandidateTraitNote, NoAssociatedItem};
-use crate::Expectation;
-use crate::FnCtxt;
+use std::borrow::Cow;
+use std::cmp::{self, Ordering};
+use std::iter;
+
 use rustc_ast::ast::Mutability;
 use rustc_attr::parse_confusables;
 use rustc_data_structures::fx::{FxIndexMap, FxIndexSet};
@@ -17,6 +17,7 @@ use rustc_errors::{
 use rustc_hir as hir;
 use rustc_hir::def::DefKind;
 use rustc_hir::def_id::DefId;
+use rustc_hir::intravisit::Visitor;
 use rustc_hir::lang_items::LangItem;
 use rustc_hir::PatKind::Binding;
 use rustc_hir::PathSegment;
@@ -42,13 +43,13 @@ use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt as _
 use rustc_trait_selection::traits::{
     FulfillmentError, Obligation, ObligationCause, ObligationCauseCode,
 };
-use std::borrow::Cow;
 
 use super::probe::{AutorefOrPtrAdjustment, IsSuggestion, Mode, ProbeScope};
 use super::{CandidateSource, MethodError, NoMatchData};
-use rustc_hir::intravisit::Visitor;
-use std::cmp::{self, Ordering};
-use std::iter;
+use crate::errors;
+use crate::errors::{CandidateTraitNote, NoAssociatedItem};
+use crate::Expectation;
+use crate::FnCtxt;
 
 /// After identifying that `full_expr` is a method call, we use this type to keep the expression's
 /// components readily available to us to point at the right place in diagnostics.

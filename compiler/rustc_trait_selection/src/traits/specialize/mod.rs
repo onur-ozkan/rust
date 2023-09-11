@@ -10,26 +10,25 @@
 //! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/specialization.html
 
 pub mod specialization_graph;
+use rustc_data_structures::fx::FxIndexSet;
+use rustc_errors::{error_code, DelayDm, Diagnostic};
+use rustc_hir::def_id::{DefId, LocalDefId};
 use rustc_infer::infer::DefineOpaqueTypes;
+use rustc_middle::ty::{self, ImplSubject, Ty, TyCtxt, TypeVisitableExt};
+use rustc_middle::ty::{GenericArgs, GenericArgsRef};
+use rustc_session::lint::builtin::COHERENCE_LEAK_CHECK;
+use rustc_session::lint::builtin::ORDER_DEPENDENT_TRAIT_OBJECTS;
+use rustc_span::{Span, DUMMY_SP};
 use specialization_graph::GraphExt;
 
+use super::util;
+use super::SelectionContext;
 use crate::errors::NegativePositiveConflict;
 use crate::infer::{InferCtxt, InferOk, TyCtxtInferExt};
 use crate::traits::select::IntercrateAmbiguityCause;
 use crate::traits::{
     self, coherence, FutureCompatOverlapErrorKind, ObligationCause, ObligationCtxt,
 };
-use rustc_data_structures::fx::FxIndexSet;
-use rustc_errors::{error_code, DelayDm, Diagnostic};
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_middle::ty::{self, ImplSubject, Ty, TyCtxt, TypeVisitableExt};
-use rustc_middle::ty::{GenericArgs, GenericArgsRef};
-use rustc_session::lint::builtin::COHERENCE_LEAK_CHECK;
-use rustc_session::lint::builtin::ORDER_DEPENDENT_TRAIT_OBJECTS;
-use rustc_span::{Span, DUMMY_SP};
-
-use super::util;
-use super::SelectionContext;
 
 /// Information pertinent to an overlapping impl error.
 #[derive(Debug)]

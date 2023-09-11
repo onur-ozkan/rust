@@ -1,13 +1,7 @@
 //! Lexical region resolution.
 
-use crate::infer::region_constraints::Constraint;
-use crate::infer::region_constraints::GenericKind;
-use crate::infer::region_constraints::RegionConstraintData;
-use crate::infer::region_constraints::VarInfos;
-use crate::infer::region_constraints::VerifyBound;
-use crate::infer::RegionRelations;
-use crate::infer::RegionVariableOrigin;
-use crate::infer::SubregionOrigin;
+use std::fmt;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_data_structures::graph::implementation::{
     Direction, Graph, NodeIndex, INCOMING, OUTGOING,
@@ -20,9 +14,16 @@ use rustc_middle::ty::{ReEarlyBound, ReErased, ReError, ReFree, ReStatic};
 use rustc_middle::ty::{ReLateBound, RePlaceholder, ReVar};
 use rustc_middle::ty::{Region, RegionVid};
 use rustc_span::Span;
-use std::fmt;
 
 use super::outlives::test_type_match;
+use crate::infer::region_constraints::Constraint;
+use crate::infer::region_constraints::GenericKind;
+use crate::infer::region_constraints::RegionConstraintData;
+use crate::infer::region_constraints::VarInfos;
+use crate::infer::region_constraints::VerifyBound;
+use crate::infer::RegionRelations;
+use crate::infer::RegionVariableOrigin;
+use crate::infer::SubregionOrigin;
 
 /// This function performs lexical region resolution given a complete
 /// set of constraints and variable origins. It performs a fixed-point

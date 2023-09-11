@@ -2,7 +2,6 @@
 //!
 //! Box is not actually a pointer so it is incorrect to dereference it directly.
 
-use crate::MirPass;
 use rustc_hir::def_id::DefId;
 use rustc_index::Idx;
 use rustc_middle::mir::patch::MirPatch;
@@ -10,6 +9,8 @@ use rustc_middle::mir::visit::MutVisitor;
 use rustc_middle::mir::*;
 use rustc_middle::ty::{Ty, TyCtxt};
 use rustc_target::abi::FieldIdx;
+
+use crate::MirPass;
 
 /// Constructs the types used when accessing a Box's pointer
 pub fn build_ptr_tys<'tcx>(

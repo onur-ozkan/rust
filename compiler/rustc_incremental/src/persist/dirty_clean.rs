@@ -19,7 +19,8 @@
 //! Errors are reported if we are in the suitable configuration but
 //! the required condition is not met.
 
-use crate::errors;
+use std::iter::FromIterator;
+
 use rustc_ast::{self as ast, Attribute, NestedMetaItem};
 use rustc_data_structures::fx::FxHashSet;
 use rustc_data_structures::unord::UnordSet;
@@ -32,8 +33,9 @@ use rustc_middle::hir::nested_filter;
 use rustc_middle::ty::TyCtxt;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::Span;
-use std::iter::FromIterator;
 use thin_vec::ThinVec;
+
+use crate::errors;
 
 const LOADED_FROM_DISK: Symbol = sym::loaded_from_disk;
 const EXCEPT: Symbol = sym::except;

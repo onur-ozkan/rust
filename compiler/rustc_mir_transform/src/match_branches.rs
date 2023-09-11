@@ -1,9 +1,10 @@
-use crate::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
 use std::iter;
 
+use rustc_middle::mir::*;
+use rustc_middle::ty::TyCtxt;
+
 use super::simplify::simplify_cfg;
+use crate::MirPass;
 
 pub struct MatchBranchSimplification;
 

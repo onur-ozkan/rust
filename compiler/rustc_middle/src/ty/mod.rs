@@ -11,21 +11,14 @@
 
 #![allow(rustc::usage_of_ty_tykind)]
 
-pub use self::fold::{FallibleTypeFolder, TypeFoldable, TypeFolder, TypeSuperFoldable};
-pub use self::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitableExt, TypeVisitor};
-pub use self::AssocItemContainer::*;
-pub use self::BorrowKind::*;
-pub use self::IntVarValue::*;
-pub use self::Variance::*;
-use crate::error::{OpaqueHiddenTypeMismatch, TypeMismatchReason};
-use crate::metadata::ModChild;
-use crate::middle::privacy::EffectiveVisibilities;
-use crate::mir::{Body, GeneratorLayout};
-use crate::query::Providers;
-use crate::traits::{self, Reveal};
-use crate::ty;
-use crate::ty::fast_reject::SimplifiedType;
-use crate::ty::util::Discr;
+use std::fmt::Debug;
+use std::hash::{Hash, Hasher};
+use std::marker::PhantomData;
+use std::mem;
+use std::num::NonZeroUsize;
+use std::ops::ControlFlow;
+use std::{fmt, str};
+
 pub use adt::*;
 pub use assoc::*;
 pub use generic_args::*;
@@ -54,18 +47,6 @@ use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{ExpnId, ExpnKind, Span};
 use rustc_target::abi::{Align, FieldIdx, Integer, IntegerType, VariantIdx};
 pub use rustc_target::abi::{ReprFlags, ReprOptions};
-pub use rustc_type_ir::{DebugWithInfcx, InferCtxtLike, OptWithInfcx};
-pub use vtable::*;
-
-use std::fmt::Debug;
-use std::hash::{Hash, Hasher};
-use std::marker::PhantomData;
-use std::mem;
-use std::num::NonZeroUsize;
-use std::ops::ControlFlow;
-use std::{fmt, str};
-
-pub use crate::ty::diagnostics::*;
 pub use rustc_type_ir::AliasKind::*;
 pub use rustc_type_ir::ConstKind::{
     Bound as BoundCt, Error as ErrorCt, Expr as ExprCt, Infer as InferCt, Param as ParamCt,
@@ -76,6 +57,8 @@ pub use rustc_type_ir::InferTy::*;
 pub use rustc_type_ir::RegionKind::*;
 pub use rustc_type_ir::TyKind::*;
 pub use rustc_type_ir::*;
+pub use rustc_type_ir::{DebugWithInfcx, InferCtxtLike, OptWithInfcx};
+pub use vtable::*;
 
 pub use self::binding::BindingMode;
 pub use self::binding::BindingMode::*;
@@ -90,6 +73,7 @@ pub use self::consts::{
 pub use self::context::{
     tls, CtxtInterners, DeducedParamAttrs, FreeRegionInfo, GlobalCtxt, Lift, TyCtxt, TyCtxtFeed,
 };
+pub use self::fold::{FallibleTypeFolder, TypeFoldable, TypeFolder, TypeSuperFoldable};
 pub use self::instance::{Instance, InstanceDef, ShortInstance, UnusedGenericParams};
 pub use self::list::List;
 pub use self::parameterized::ParameterizedOverTcx;
@@ -110,6 +94,21 @@ pub use self::typeck_results::{
     GeneratorDiagnosticData, GeneratorInteriorTypeCause, TypeckResults, UserType,
     UserTypeAnnotationIndex,
 };
+pub use self::visit::{TypeSuperVisitable, TypeVisitable, TypeVisitableExt, TypeVisitor};
+pub use self::AssocItemContainer::*;
+pub use self::BorrowKind::*;
+pub use self::IntVarValue::*;
+pub use self::Variance::*;
+use crate::error::{OpaqueHiddenTypeMismatch, TypeMismatchReason};
+use crate::metadata::ModChild;
+use crate::middle::privacy::EffectiveVisibilities;
+use crate::mir::{Body, GeneratorLayout};
+use crate::query::Providers;
+use crate::traits::{self, Reveal};
+use crate::ty;
+pub use crate::ty::diagnostics::*;
+use crate::ty::fast_reject::SimplifiedType;
+use crate::ty::util::Discr;
 
 pub mod _match;
 pub mod abstract_const;
@@ -2753,8 +2752,9 @@ pub struct DestructuredConst<'tcx> {
 // Some types are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(PredicateKind<'_>, 32);
     static_assert_size!(WithCachedTypeInfo<TyKind<'_>>, 56);

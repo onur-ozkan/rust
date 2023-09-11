@@ -3,14 +3,13 @@
 
 use std::{collections::hash_map::Entry, hash::Hash, hash::Hasher, iter};
 
-use crate::MirPass;
-
 use rustc_data_structures::fx::FxHashMap;
 use rustc_middle::mir::visit::MutVisitor;
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
 
 use super::simplify::simplify_cfg;
+use crate::MirPass;
 
 pub struct DeduplicateBlocks;
 

@@ -22,8 +22,9 @@ pub enum ConstEvalErrKind {
 
 impl MachineStopType for ConstEvalErrKind {
     fn diagnostic_message(&self) -> DiagnosticMessage {
-        use crate::fluent_generated::*;
         use ConstEvalErrKind::*;
+
+        use crate::fluent_generated::*;
         match self {
             ConstAccessesStatic => const_eval_const_accesses_static,
             ModifiedGlobal => const_eval_modified_global,

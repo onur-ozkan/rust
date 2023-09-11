@@ -52,16 +52,18 @@
 
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
-use crate::ArtificialField;
-use crate::Overlap;
-use crate::{AccessDepth, Deep, Shallow};
+use std::cmp::max;
+use std::iter;
+
 use rustc_hir as hir;
 use rustc_middle::mir::{
     Body, BorrowKind, MutBorrowKind, Place, PlaceElem, PlaceRef, ProjectionElem,
 };
 use rustc_middle::ty::{self, TyCtxt};
-use std::cmp::max;
-use std::iter;
+
+use crate::ArtificialField;
+use crate::Overlap;
+use crate::{AccessDepth, Deep, Shallow};
 
 /// When checking if a place conflicts with another place, this enum is used to influence decisions
 /// where a place might be equal or disjoint with another place, such as if `a[i] == a[j]`.

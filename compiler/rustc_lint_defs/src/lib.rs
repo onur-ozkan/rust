@@ -5,7 +5,6 @@
 #[macro_use]
 extern crate rustc_macros;
 
-pub use self::Level::*;
 use rustc_ast::node_id::NodeId;
 use rustc_ast::{AttrId, Attribute};
 use rustc_data_structures::fx::{FxIndexMap, FxIndexSet};
@@ -16,8 +15,9 @@ use rustc_hir::HirId;
 use rustc_span::edition::Edition;
 use rustc_span::{sym, symbol::Ident, Span, Symbol};
 use rustc_target::spec::abi::Abi;
-
 use serde::{Deserialize, Serialize};
+
+pub use self::Level::*;
 
 pub mod builtin;
 

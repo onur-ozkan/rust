@@ -1,14 +1,15 @@
-use super::{GlobalCtxt, TyCtxt};
-
-use crate::dep_graph::TaskDepsRef;
-use crate::query::plumbing::QueryJobId;
-use rustc_data_structures::sync::{self, Lock};
-use rustc_errors::Diagnostic;
 #[cfg(not(parallel_compiler))]
 use std::cell::Cell;
 use std::mem;
 use std::ptr;
+
+use rustc_data_structures::sync::{self, Lock};
+use rustc_errors::Diagnostic;
 use thin_vec::ThinVec;
+
+use super::{GlobalCtxt, TyCtxt};
+use crate::dep_graph::TaskDepsRef;
+use crate::query::plumbing::QueryJobId;
 
 /// This is the implicit state of rustc. It contains the current
 /// `TyCtxt` and query. It is updated when creating a local interner or

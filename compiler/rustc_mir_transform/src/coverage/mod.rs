@@ -8,12 +8,6 @@ mod spans;
 #[cfg(test)]
 mod tests;
 
-use self::counters::{BcbCounter, CoverageCounters};
-use self::graph::{BasicCoverageBlock, BasicCoverageBlockData, CoverageGraph};
-use self::spans::{CoverageSpan, CoverageSpans};
-
-use crate::MirPass;
-
 use rustc_data_structures::graph::WithNumNodes;
 use rustc_data_structures::sync::Lrc;
 use rustc_index::IndexVec;
@@ -29,6 +23,11 @@ use rustc_middle::ty::TyCtxt;
 use rustc_span::def_id::DefId;
 use rustc_span::source_map::SourceMap;
 use rustc_span::{ExpnKind, SourceFile, Span, Symbol};
+
+use self::counters::{BcbCounter, CoverageCounters};
+use self::graph::{BasicCoverageBlock, BasicCoverageBlockData, CoverageGraph};
+use self::spans::{CoverageSpan, CoverageSpans};
+use crate::MirPass;
 
 /// A simple error message wrapper for `coverage::Error`s.
 #[derive(Debug)]

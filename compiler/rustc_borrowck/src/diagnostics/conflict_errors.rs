@@ -1,3 +1,5 @@
+use std::iter;
+
 use either::Either;
 use hir::PatField;
 use rustc_data_structures::captures::Captures;
@@ -27,8 +29,11 @@ use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::{BytePos, Span, Symbol};
 use rustc_trait_selection::infer::InferCtxtExt;
 use rustc_trait_selection::traits::ObligationCtxt;
-use std::iter;
 
+use super::{
+    explain_borrow::{BorrowExplanation, LaterUseKind},
+    DescribePlaceOpt, RegionName, RegionNameSource, UseSpans,
+};
 use crate::borrow_set::TwoPhaseActivation;
 use crate::borrowck_errors;
 use crate::diagnostics::conflict_errors::StorageDeadOrDrop::LocalStorageDead;
@@ -36,11 +41,6 @@ use crate::diagnostics::{find_all_local_uses, CapturedMessageOpt};
 use crate::{
     borrow_set::BorrowData, diagnostics::Instance, prefixes::IsPrefixOf,
     InitializationRequiringAction, MirBorrowckCtxt, PrefixSet, WriteKind,
-};
-
-use super::{
-    explain_borrow::{BorrowExplanation, LaterUseKind},
-    DescribePlaceOpt, RegionName, RegionNameSource, UseSpans,
 };
 
 #[derive(Debug)]

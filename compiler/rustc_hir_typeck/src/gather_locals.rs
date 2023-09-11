@@ -1,4 +1,3 @@
-use crate::FnCtxt;
 use rustc_hir as hir;
 use rustc_hir::intravisit::{self, Visitor};
 use rustc_hir::PatKind;
@@ -8,6 +7,8 @@ use rustc_middle::ty::UserType;
 use rustc_span::def_id::LocalDefId;
 use rustc_span::Span;
 use rustc_trait_selection::traits;
+
+use crate::FnCtxt;
 
 /// Provides context for checking patterns in declarations. More specifically this
 /// allows us to infer array types if the pattern is irrefutable and allows us to infer

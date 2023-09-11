@@ -1,5 +1,7 @@
 //! Implementation of compiling the compiler and standard library, in "check"-based modes.
 
+use std::path::{Path, PathBuf};
+
 use crate::builder::{crate_description, Alias, Builder, Kind, RunConfig, ShouldRun, Step};
 use crate::cache::Interned;
 use crate::compile::{add_to_sysroot, run_cargo, rustc_cargo, rustc_cargo_env, std_cargo};
@@ -7,7 +9,6 @@ use crate::config::TargetSelection;
 use crate::tool::{prepare_tool_cargo, SourceType};
 use crate::INTERNER;
 use crate::{Compiler, Mode, Subcommand};
-use std::path::{Path, PathBuf};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Std {

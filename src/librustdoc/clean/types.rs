@@ -8,8 +8,6 @@ use std::sync::OnceLock as OnceCell;
 use std::{fmt, iter};
 
 use arrayvec::ArrayVec;
-use thin_vec::ThinVec;
-
 use rustc_ast as ast;
 use rustc_ast_pretty::pprust;
 use rustc_attr::{ConstStability, Deprecation, Stability, StabilityLevel};
@@ -32,7 +30,14 @@ use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{self, FileName, Loc};
 use rustc_target::abi::VariantIdx;
 use rustc_target::spec::abi::Abi;
+use thin_vec::ThinVec;
 
+pub(crate) use self::ItemKind::*;
+pub(crate) use self::SelfTy::*;
+pub(crate) use self::Type::{
+    Array, BareFunction, BorrowedRef, DynTrait, Generic, ImplTrait, Infer, Primitive, QPath,
+    RawPointer, Slice, Tuple,
+};
 use crate::clean::cfg::Cfg;
 use crate::clean::external_path;
 use crate::clean::inline::{self, print_inlined_const};
@@ -42,13 +47,6 @@ use crate::formats::cache::Cache;
 use crate::formats::item_type::ItemType;
 use crate::html::render::Context;
 use crate::passes::collect_intra_doc_links::UrlFragment;
-
-pub(crate) use self::ItemKind::*;
-pub(crate) use self::SelfTy::*;
-pub(crate) use self::Type::{
-    Array, BareFunction, BorrowedRef, DynTrait, Generic, ImplTrait, Infer, Primitive, QPath,
-    RawPointer, Slice, Tuple,
-};
 
 #[cfg(test)]
 mod tests;
@@ -2517,8 +2515,9 @@ impl SubstParam {
 // Some nodes are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    use super::*;
     use rustc_data_structures::static_assert_size;
+
+    use super::*;
     // tidy-alphabetical-start
     static_assert_size!(Crate, 64); // frequently moved by-value
     static_assert_size!(DocFragment, 32);

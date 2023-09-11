@@ -1,14 +1,16 @@
-use crate::fx::{FxHashMap, FxHasher};
-#[cfg(parallel_compiler)]
-use crate::sync::{is_dyn_thread_safe, CacheAligned};
-use crate::sync::{Lock, LockGuard, Mode};
-#[cfg(parallel_compiler)]
-use itertools::Either;
 use std::borrow::Borrow;
 use std::collections::hash_map::RawEntryMut;
 use std::hash::{Hash, Hasher};
 use std::iter;
 use std::mem;
+
+#[cfg(parallel_compiler)]
+use itertools::Either;
+
+use crate::fx::{FxHashMap, FxHasher};
+#[cfg(parallel_compiler)]
+use crate::sync::{is_dyn_thread_safe, CacheAligned};
+use crate::sync::{Lock, LockGuard, Mode};
 
 // 32 shards is sufficient to reduce contention on an 8-core Ryzen 7 1700,
 // but this should be tested on higher core count CPUs. How the `Sharded` type gets used

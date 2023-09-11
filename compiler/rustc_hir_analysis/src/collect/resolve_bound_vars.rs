@@ -6,6 +6,8 @@
 //! the types in HIR to identify late-bound lifetimes and assign their Debruijn indices. This file
 //! is also responsible for assigning their semantics to implicit lifetimes in trait objects.
 
+use std::fmt;
+
 use rustc_ast::walk_list;
 use rustc_data_structures::fx::{FxHashSet, FxIndexMap, FxIndexSet};
 use rustc_errors::struct_span_err;
@@ -23,7 +25,6 @@ use rustc_session::lint;
 use rustc_span::def_id::DefId;
 use rustc_span::symbol::{sym, Ident};
 use rustc_span::{Span, DUMMY_SP};
-use std::fmt;
 
 use crate::errors;
 
@@ -1954,6 +1955,7 @@ fn is_late_bound_map(
     }
 
     use std::ops::ControlFlow;
+
     use ty::Ty;
     impl<'tcx> TypeVisitor<TyCtxt<'tcx>> for ConstrainedCollectorPostAstConv {
         fn visit_ty(&mut self, t: Ty<'tcx>) -> ControlFlow<!> {

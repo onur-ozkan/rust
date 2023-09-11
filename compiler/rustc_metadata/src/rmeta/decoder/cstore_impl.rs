@@ -1,8 +1,4 @@
-use crate::creader::{CStore, LoadedMacro};
-use crate::foreign_modules;
-use crate::native_libs;
-use crate::rmeta::table::IsDefault;
-use crate::rmeta::AttrFlags;
+use std::any::Any;
 
 use rustc_ast as ast;
 use rustc_attr::Deprecation;
@@ -24,9 +20,12 @@ use rustc_span::hygiene::{ExpnHash, ExpnId};
 use rustc_span::symbol::{kw, Symbol};
 use rustc_span::Span;
 
-use std::any::Any;
-
 use super::{Decodable, DecodeContext, DecodeIterator};
+use crate::creader::{CStore, LoadedMacro};
+use crate::foreign_modules;
+use crate::native_libs;
+use crate::rmeta::table::IsDefault;
+use crate::rmeta::AttrFlags;
 
 trait ProcessQueryValue<'tcx, T> {
     fn process_decoded(self, _tcx: TyCtxt<'tcx>, _err: impl Fn() -> !) -> T;

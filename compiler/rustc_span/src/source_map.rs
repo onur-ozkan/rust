@@ -9,20 +9,20 @@
 //! within the `SourceMap`, which upon request can be converted to line and column
 //! information, source code snippets, etc.
 
-pub use crate::hygiene::{ExpnData, ExpnKind};
-pub use crate::*;
+use std::cmp;
+use std::fs;
+use std::hash::Hash;
+use std::io;
+use std::io::BorrowedBuf;
+use std::io::Read;
+use std::path::{self, Path, PathBuf};
 
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::stable_hasher::{Hash128, Hash64, StableHasher};
 use rustc_data_structures::sync::{IntoDynSyncSend, Lrc, MappedReadGuard, ReadGuard, RwLock};
-use std::cmp;
-use std::hash::Hash;
-use std::path::{self, Path, PathBuf};
 
-use std::fs;
-use std::io;
-use std::io::BorrowedBuf;
-use std::io::Read;
+pub use crate::hygiene::{ExpnData, ExpnKind};
+pub use crate::*;
 
 #[cfg(test)]
 mod tests;

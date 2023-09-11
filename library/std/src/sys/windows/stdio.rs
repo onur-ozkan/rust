@@ -1,5 +1,7 @@
 #![unstable(issue = "none", feature = "windows_stdio")]
 
+use core::str::utf8_char_width;
+
 use crate::cmp;
 use crate::io;
 use crate::mem::MaybeUninit;
@@ -9,7 +11,6 @@ use crate::str;
 use crate::sys::c;
 use crate::sys::cvt;
 use crate::sys::handle::Handle;
-use core::str::utf8_char_width;
 
 #[cfg(test)]
 mod tests;

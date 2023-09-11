@@ -1,11 +1,6 @@
 use std::cell::RefCell;
 use std::fmt::Debug;
 
-use super::FulfillmentContext;
-use super::TraitEngine;
-use crate::solve::FulfillmentCtxt as NextFulfillmentCtxt;
-use crate::traits::error_reporting::TypeErrCtxtExt;
-use crate::traits::NormalizeExt;
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_errors::ErrorGuaranteed;
 use rustc_hir::def_id::{DefId, LocalDefId};
@@ -25,6 +20,12 @@ use rustc_middle::ty::ToPredicate;
 use rustc_middle::ty::TypeFoldable;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_session::config::TraitSolver;
+
+use super::FulfillmentContext;
+use super::TraitEngine;
+use crate::solve::FulfillmentCtxt as NextFulfillmentCtxt;
+use crate::traits::error_reporting::TypeErrCtxtExt;
+use crate::traits::NormalizeExt;
 
 pub trait TraitEngineExt<'tcx> {
     fn new(infcx: &InferCtxt<'tcx>) -> Box<Self>;

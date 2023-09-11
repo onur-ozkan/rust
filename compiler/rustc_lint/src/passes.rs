@@ -1,5 +1,3 @@
-use crate::context::{EarlyContext, LateContext};
-
 use rustc_ast as ast;
 use rustc_hir as hir;
 use rustc_session::lint::builtin::HardwiredLints;
@@ -7,6 +5,8 @@ use rustc_session::lint::LintPass;
 use rustc_span::def_id::LocalDefId;
 use rustc_span::symbol::Ident;
 use rustc_span::Span;
+
+use crate::context::{EarlyContext, LateContext};
 
 #[macro_export]
 macro_rules! late_lint_methods {

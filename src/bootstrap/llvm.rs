@@ -16,15 +16,15 @@ use std::io;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
+use build_helper::ci::CiEnv;
+use build_helper::git::get_git_merge_base;
+
 use crate::builder::{Builder, RunConfig, ShouldRun, Step};
 use crate::channel;
 use crate::config::{Config, TargetSelection};
 use crate::util::get_clang_cl_resource_dir;
 use crate::util::{self, exe, output, t, up_to_date};
 use crate::{CLang, GitRepo, Kind};
-
-use build_helper::ci::CiEnv;
-use build_helper::git::get_git_merge_base;
 
 #[derive(Clone)]
 pub struct LlvmResult {

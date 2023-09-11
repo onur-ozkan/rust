@@ -48,29 +48,23 @@ mod nonzero;
 mod saturating;
 mod wrapping;
 
+#[stable(feature = "rust1", since = "1.0.0")]
+#[cfg(not(no_fp_fmt_parse))]
+pub use dec2flt::ParseFloatError;
+#[stable(feature = "int_error_matching", since = "1.55.0")]
+pub use error::IntErrorKind;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use error::ParseIntError;
+#[stable(feature = "try_from", since = "1.34.0")]
+pub use error::TryFromIntError;
+#[stable(feature = "signed_nonzero", since = "1.34.0")]
+pub use nonzero::{NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroIsize};
+#[stable(feature = "nonzero", since = "1.28.0")]
+pub use nonzero::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8, NonZeroUsize};
 #[unstable(feature = "saturating_int_impl", issue = "87920")]
 pub use saturating::Saturating;
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use wrapping::Wrapping;
-
-#[stable(feature = "rust1", since = "1.0.0")]
-#[cfg(not(no_fp_fmt_parse))]
-pub use dec2flt::ParseFloatError;
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use error::ParseIntError;
-
-#[stable(feature = "nonzero", since = "1.28.0")]
-pub use nonzero::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8, NonZeroUsize};
-
-#[stable(feature = "signed_nonzero", since = "1.34.0")]
-pub use nonzero::{NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroIsize};
-
-#[stable(feature = "try_from", since = "1.34.0")]
-pub use error::TryFromIntError;
-
-#[stable(feature = "int_error_matching", since = "1.55.0")]
-pub use error::IntErrorKind;
 
 macro_rules! usize_isize_to_xe_bytes_doc {
     () => {

@@ -1,12 +1,12 @@
+use core::assert_matches::assert_matches;
+use core::ffi::FromBytesUntilNulError;
+#[allow(deprecated)]
+use core::hash::SipHasher13 as DefaultHasher;
+use core::hash::{Hash, Hasher};
+
 use super::*;
 use crate::rc::Rc;
 use crate::sync::Arc;
-use core::assert_matches::assert_matches;
-use core::ffi::FromBytesUntilNulError;
-use core::hash::{Hash, Hasher};
-
-#[allow(deprecated)]
-use core::hash::SipHasher13 as DefaultHasher;
 
 #[test]
 fn c_to_rust() {

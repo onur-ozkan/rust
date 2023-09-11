@@ -1,11 +1,11 @@
+use std::fmt::Debug;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_hir as hir;
 use rustc_hir::lang_items::LangItem;
 use rustc_middle::ty::{self, Region, RegionVid, TypeFoldable};
 use rustc_trait_selection::traits::auto_trait::{self, AutoTraitResult};
 use thin_vec::ThinVec;
-
-use std::fmt::Debug;
 
 use super::*;
 

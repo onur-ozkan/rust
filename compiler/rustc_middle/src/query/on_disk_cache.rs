@@ -1,3 +1,7 @@
+use std::collections::hash_map::Entry;
+use std::io;
+use std::mem;
+
 use rustc_data_structures::fx::{FxHashMap, FxIndexSet};
 use rustc_data_structures::memmap::Mmap;
 use rustc_data_structures::stable_hasher::Hash64;
@@ -24,9 +28,6 @@ use rustc_span::hygiene::{
 use rustc_span::source_map::{SourceMap, StableSourceFileId};
 use rustc_span::{BytePos, ExpnData, ExpnHash, Pos, RelativeBytePos, SourceFile, Span};
 use rustc_span::{CachingSourceMapView, Symbol};
-use std::collections::hash_map::Entry;
-use std::io;
-use std::mem;
 
 const TAG_FILE_FOOTER: u128 = 0xC0FFEE_C0FFEE_C0FFEE_C0FFEE_C0FFEE;
 

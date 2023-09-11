@@ -104,8 +104,7 @@
 //! Kleene operators under which a meta-variable is repeating is the concatenation of the stacks
 //! stored when entering a macro definition starting from the state in which the meta-variable is
 //! bound.
-use crate::errors;
-use crate::mbe::{KleeneToken, TokenTree};
+use std::iter;
 
 use rustc_ast::token::{Delimiter, Token, TokenKind};
 use rustc_ast::{NodeId, DUMMY_NODE_ID};
@@ -115,10 +114,10 @@ use rustc_session::lint::builtin::{META_VARIABLE_MISUSE, MISSING_FRAGMENT_SPECIF
 use rustc_session::parse::ParseSess;
 use rustc_span::symbol::kw;
 use rustc_span::{symbol::MacroRulesNormalizedIdent, Span};
-
 use smallvec::SmallVec;
 
-use std::iter;
+use crate::errors;
+use crate::mbe::{KleeneToken, TokenTree};
 
 /// Stack represented as linked list.
 ///

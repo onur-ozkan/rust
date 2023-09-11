@@ -1,4 +1,3 @@
-use crate::expand::{AstFragment, AstFragmentKind};
 use rustc_ast as ast;
 use rustc_ast::mut_visit::*;
 use rustc_ast::ptr::P;
@@ -8,6 +7,8 @@ use rustc_span::source_map::DUMMY_SP;
 use rustc_span::symbol::Ident;
 use smallvec::{smallvec, SmallVec};
 use thin_vec::ThinVec;
+
+use crate::expand::{AstFragment, AstFragmentKind};
 
 pub fn placeholder(
     kind: AstFragmentKind,

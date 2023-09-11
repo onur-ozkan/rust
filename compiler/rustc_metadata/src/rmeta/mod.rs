@@ -1,13 +1,17 @@
-use crate::creader::CrateMetadataRef;
-use decoder::Metadata;
-use def_path_hash_map::DefPathHashMapRef;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_middle::middle::debugger_visualizer::DebuggerVisualizerFile;
-use table::TableBuilder;
+use std::marker::PhantomData;
+use std::num::NonZeroUsize;
 
+pub use decoder::provide_extern;
+use decoder::DecodeContext;
+use decoder::Metadata;
+pub(crate) use decoder::{CrateMetadata, CrateNumMap, MetadataBlob};
+use def_path_hash_map::DefPathHashMapRef;
+use encoder::EncodeContext;
+pub use encoder::{encode_metadata, rendered_const, EncodedMetadata};
 use rustc_ast as ast;
 use rustc_ast::expand::StrippedCfgItem;
 use rustc_attr as attr;
+use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::svh::Svh;
 use rustc_hir as hir;
 use rustc_hir::def::{CtorKind, DefKind, DocLinkResMap};
@@ -18,6 +22,7 @@ use rustc_index::bit_set::BitSet;
 use rustc_index::IndexVec;
 use rustc_middle::metadata::ModChild;
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
+use rustc_middle::middle::debugger_visualizer::DebuggerVisualizerFile;
 use rustc_middle::middle::exported_symbols::{ExportedSymbol, SymbolExportInfo};
 use rustc_middle::middle::resolve_bound_vars::ObjectLifetimeDefault;
 use rustc_middle::mir;
@@ -29,21 +34,15 @@ use rustc_serialize::opaque::FileEncoder;
 use rustc_session::config::SymbolManglingVersion;
 use rustc_session::cstore::{CrateDepKind, ForeignModule, LinkagePreference, NativeLib};
 use rustc_span::edition::Edition;
+use rustc_span::hygiene::SyntaxContextData;
 use rustc_span::hygiene::{ExpnIndex, MacroKind};
 use rustc_span::symbol::{Ident, Symbol};
 use rustc_span::{self, ExpnData, ExpnHash, ExpnId, Span};
 use rustc_target::abi::{FieldIdx, VariantIdx};
 use rustc_target::spec::{PanicStrategy, TargetTriple};
+use table::TableBuilder;
 
-use std::marker::PhantomData;
-use std::num::NonZeroUsize;
-
-pub use decoder::provide_extern;
-use decoder::DecodeContext;
-pub(crate) use decoder::{CrateMetadata, CrateNumMap, MetadataBlob};
-use encoder::EncodeContext;
-pub use encoder::{encode_metadata, rendered_const, EncodedMetadata};
-use rustc_span::hygiene::SyntaxContextData;
+use crate::creader::CrateMetadataRef;
 
 mod decoder;
 mod def_path_hash_map;

@@ -4,13 +4,15 @@
 //! types or regions but can be other things. Examples of type relations are
 //! subtyping, type equality, etc.
 
-use crate::ty::error::{ExpectedFound, TypeError};
-use crate::ty::{self, Expr, ImplSubject, Term, TermKind, Ty, TyCtxt, TypeFoldable};
-use crate::ty::{GenericArg, GenericArgKind, GenericArgsRef};
+use std::iter;
+
 use rustc_hir as hir;
 use rustc_hir::def_id::DefId;
 use rustc_target::spec::abi;
-use std::iter;
+
+use crate::ty::error::{ExpectedFound, TypeError};
+use crate::ty::{self, Expr, ImplSubject, Term, TermKind, Ty, TyCtxt, TypeFoldable};
+use crate::ty::{GenericArg, GenericArgKind, GenericArgsRef};
 
 pub type RelateResult<'tcx, T> = Result<T, TypeError<'tcx>>;
 

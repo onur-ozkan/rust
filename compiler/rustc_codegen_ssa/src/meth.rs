@@ -1,9 +1,9 @@
-use crate::traits::*;
-
 use rustc_middle::ty::{self, GenericArgKind, Ty};
 use rustc_session::config::Lto;
 use rustc_symbol_mangling::typeid_for_trait_ref;
 use rustc_target::abi::call::FnAbi;
+
+use crate::traits::*;
 
 #[derive(Copy, Clone, Debug)]
 pub struct VirtualIndex(u64);

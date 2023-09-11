@@ -1,12 +1,15 @@
-use super::link::{self, ensure_removed};
-use super::lto::{self, SerializedModule};
-use super::symbol_export::symbol_name_for_instance_in_crate;
+use std::any::Any;
+use std::borrow::Cow;
+use std::fs;
+use std::io;
+use std::marker::PhantomData;
+use std::mem;
+use std::path::{Path, PathBuf};
+use std::str;
+use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::Arc;
+use std::thread;
 
-use crate::errors;
-use crate::traits::*;
-use crate::{
-    CachedModuleCodegen, CodegenResults, CompiledModule, CrateInfo, ModuleCodegen, ModuleKind,
-};
 use jobserver::{Acquired, Client};
 use rustc_ast::attr;
 use rustc_data_structures::fx::{FxHashMap, FxIndexMap};
@@ -35,18 +38,15 @@ use rustc_span::symbol::sym;
 use rustc_span::{BytePos, FileName, InnerSpan, Pos, Span};
 use rustc_target::spec::{MergeFunctions, SanitizerSet};
 
+use super::link::{self, ensure_removed};
+use super::lto::{self, SerializedModule};
+use super::symbol_export::symbol_name_for_instance_in_crate;
+use crate::errors;
 use crate::errors::ErrorCreatingRemarkDir;
-use std::any::Any;
-use std::borrow::Cow;
-use std::fs;
-use std::io;
-use std::marker::PhantomData;
-use std::mem;
-use std::path::{Path, PathBuf};
-use std::str;
-use std::sync::mpsc::{channel, Receiver, Sender};
-use std::sync::Arc;
-use std::thread;
+use crate::traits::*;
+use crate::{
+    CachedModuleCodegen, CodegenResults, CompiledModule, CrateInfo, ModuleCodegen, ModuleKind,
+};
 
 const PRE_LTO_BC_EXT: &str = "pre-lto.bc";
 

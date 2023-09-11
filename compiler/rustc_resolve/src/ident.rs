@@ -8,6 +8,8 @@ use rustc_span::def_id::LocalDefId;
 use rustc_span::hygiene::{ExpnId, ExpnKind, LocalExpnId, MacroKind, SyntaxContext};
 use rustc_span::symbol::{kw, Ident};
 use rustc_span::Span;
+use Determinacy::*;
+use Namespace::*;
 
 use crate::errors::{ParamKindInEnumDiscriminant, ParamKindInNonTrivialAnonConst};
 use crate::late::{
@@ -19,9 +21,6 @@ use crate::{errors, AmbiguityError, AmbiguityErrorMisc, AmbiguityKind, Determina
 use crate::{ImportKind, LexicalScopeBinding, Module, ModuleKind, ModuleOrUniformRoot};
 use crate::{NameBinding, NameBindingKind, ParentScope, PathResult, PrivacyError, Res};
 use crate::{ResolutionError, Resolver, Scope, ScopeSet, Segment, ToNameBinding, Weak};
-
-use Determinacy::*;
-use Namespace::*;
 
 type Visibility = ty::Visibility<LocalDefId>;
 

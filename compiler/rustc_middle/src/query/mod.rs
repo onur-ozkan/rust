@@ -6,6 +6,44 @@
 
 #![allow(unused_parens)]
 
+use std::mem;
+use std::ops::Deref;
+use std::path::PathBuf;
+use std::sync::Arc;
+
+use rustc_arena::TypedArena;
+use rustc_ast as ast;
+use rustc_ast::expand::{allocator::AllocatorKind, StrippedCfgItem};
+use rustc_attr as attr;
+use rustc_data_structures::fingerprint::Fingerprint;
+use rustc_data_structures::fx::{FxHashMap, FxIndexMap, FxIndexSet};
+use rustc_data_structures::steal::Steal;
+use rustc_data_structures::svh::Svh;
+use rustc_data_structures::sync::Lrc;
+use rustc_data_structures::sync::WorkerLocal;
+use rustc_data_structures::unord::UnordSet;
+use rustc_errors::ErrorGuaranteed;
+use rustc_hir as hir;
+use rustc_hir::def::{DefKind, DocLinkResMap};
+use rustc_hir::def_id::{
+    CrateNum, DefId, DefIdMap, DefIdSet, LocalDefId, LocalDefIdMap, LocalDefIdSet, LocalModDefId,
+};
+use rustc_hir::lang_items::{LangItem, LanguageItems};
+use rustc_hir::{Crate, ItemLocalId, TraitCandidate};
+use rustc_index::IndexVec;
+use rustc_query_system::ich::StableHashingContext;
+use rustc_query_system::query::{try_get_cached, CacheSelector, QueryCache, QueryMode, QueryState};
+use rustc_session::config::{EntryFnType, OptLevel, OutputFilenames, SymbolManglingVersion};
+use rustc_session::cstore::{CrateDepKind, CrateSource};
+use rustc_session::cstore::{ExternCrate, ForeignModule, LinkagePreference, NativeLib};
+use rustc_session::lint::LintExpectationId;
+use rustc_session::Limits;
+use rustc_span::def_id::LOCAL_CRATE;
+use rustc_span::symbol::Symbol;
+use rustc_span::{Span, DUMMY_SP};
+use rustc_target::abi;
+use rustc_target::spec::PanicStrategy;
+
 use crate::dep_graph;
 use crate::dep_graph::DepKind;
 use crate::infer::canonical::{self, Canonical};
@@ -52,42 +90,6 @@ use crate::ty::{
     UnusedGenericParams,
 };
 use crate::ty::{GenericArg, GenericArgsRef};
-use rustc_arena::TypedArena;
-use rustc_ast as ast;
-use rustc_ast::expand::{allocator::AllocatorKind, StrippedCfgItem};
-use rustc_attr as attr;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::{FxHashMap, FxIndexMap, FxIndexSet};
-use rustc_data_structures::steal::Steal;
-use rustc_data_structures::svh::Svh;
-use rustc_data_structures::sync::Lrc;
-use rustc_data_structures::sync::WorkerLocal;
-use rustc_data_structures::unord::UnordSet;
-use rustc_errors::ErrorGuaranteed;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, DocLinkResMap};
-use rustc_hir::def_id::{
-    CrateNum, DefId, DefIdMap, DefIdSet, LocalDefId, LocalDefIdMap, LocalDefIdSet, LocalModDefId,
-};
-use rustc_hir::lang_items::{LangItem, LanguageItems};
-use rustc_hir::{Crate, ItemLocalId, TraitCandidate};
-use rustc_index::IndexVec;
-use rustc_query_system::ich::StableHashingContext;
-use rustc_query_system::query::{try_get_cached, CacheSelector, QueryCache, QueryMode, QueryState};
-use rustc_session::config::{EntryFnType, OptLevel, OutputFilenames, SymbolManglingVersion};
-use rustc_session::cstore::{CrateDepKind, CrateSource};
-use rustc_session::cstore::{ExternCrate, ForeignModule, LinkagePreference, NativeLib};
-use rustc_session::lint::LintExpectationId;
-use rustc_session::Limits;
-use rustc_span::def_id::LOCAL_CRATE;
-use rustc_span::symbol::Symbol;
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::abi;
-use rustc_target::spec::PanicStrategy;
-use std::mem;
-use std::ops::Deref;
-use std::path::PathBuf;
-use std::sync::Arc;
 
 pub mod erase;
 mod keys;

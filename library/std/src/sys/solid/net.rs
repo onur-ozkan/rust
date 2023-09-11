@@ -1,3 +1,6 @@
+use libc::{c_int, c_void, size_t};
+
+use self::netc::{sockaddr, socklen_t, MSG_PEEK};
 use super::abi;
 use crate::{
     cmp,
@@ -10,9 +13,6 @@ use crate::{
     sys_common::{AsInner, FromInner, IntoInner},
     time::Duration,
 };
-
-use self::netc::{sockaddr, socklen_t, MSG_PEEK};
-use libc::{c_int, c_void, size_t};
 
 pub mod netc {
     pub use super::super::abi::sockets::*;

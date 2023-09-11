@@ -1,11 +1,12 @@
-use crate::{
-    lints::{NonBindingLet, NonBindingLetSub},
-    LateContext, LateLintPass, LintContext,
-};
 use rustc_errors::MultiSpan;
 use rustc_hir as hir;
 use rustc_middle::ty;
 use rustc_span::Symbol;
+
+use crate::{
+    lints::{NonBindingLet, NonBindingLetSub},
+    LateContext, LateLintPass, LintContext,
+};
 
 declare_lint! {
     /// The `let_underscore_drop` lint checks for statements which don't bind

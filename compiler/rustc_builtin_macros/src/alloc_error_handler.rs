@@ -1,6 +1,3 @@
-use crate::errors;
-use crate::util::check_builtin_macro_attribute;
-
 use rustc_ast::ptr::P;
 use rustc_ast::{self as ast, FnHeader, FnSig, Generics, StmtKind};
 use rustc_ast::{Fn, ItemKind, Stmt, TyKind, Unsafe};
@@ -8,6 +5,9 @@ use rustc_expand::base::{Annotatable, ExtCtxt};
 use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::Span;
 use thin_vec::{thin_vec, ThinVec};
+
+use crate::errors;
+use crate::util::check_builtin_macro_attribute;
 
 pub fn expand(
     ecx: &mut ExtCtxt<'_>,

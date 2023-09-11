@@ -1,22 +1,21 @@
 //! Support code for rustdoc and external tools.
 //! You really don't want to be using this unless you need to.
 
-use super::*;
+use std::collections::hash_map::Entry;
+use std::collections::VecDeque;
+use std::iter;
 
-use crate::errors::UnableToConstructConstantValue;
-use crate::infer::region_constraints::{Constraint, RegionConstraintData};
-use crate::infer::InferCtxt;
-use crate::traits::project::ProjectAndUnifyResult;
+use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
 use rustc_infer::infer::DefineOpaqueTypes;
 use rustc_middle::mir::interpret::ErrorHandled;
 use rustc_middle::ty::visit::TypeVisitableExt;
 use rustc_middle::ty::{ImplPolarity, Region, RegionVid};
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
-
-use std::collections::hash_map::Entry;
-use std::collections::VecDeque;
-use std::iter;
+use super::*;
+use crate::errors::UnableToConstructConstantValue;
+use crate::infer::region_constraints::{Constraint, RegionConstraintData};
+use crate::infer::InferCtxt;
+use crate::traits::project::ProjectAndUnifyResult;
 
 // FIXME(twk): this is obviously not nice to duplicate like that
 #[derive(Eq, PartialEq, Hash, Copy, Clone, Debug)]

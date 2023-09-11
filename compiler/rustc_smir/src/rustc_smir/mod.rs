@@ -7,10 +7,6 @@
 //!
 //! For now, we are developing everything inside `rustc`, thus, we keep this module private.
 
-use crate::rustc_internal::{self, opaque};
-use crate::stable_mir::mir::{CopyNonOverlapping, UserTypeProjection, VariantIdx};
-use crate::stable_mir::ty::{FloatTy, GenericParamDef, IntTy, Movability, RigidTy, TyKind, UintTy};
-use crate::stable_mir::{self, CompilerError, Context};
 use rustc_hir as hir;
 use rustc_middle::mir::interpret::{alloc_range, AllocId};
 use rustc_middle::mir::{self, ConstantKind};
@@ -19,6 +15,11 @@ use rustc_span::def_id::{CrateNum, DefId, LOCAL_CRATE};
 use rustc_span::ErrorGuaranteed;
 use rustc_target::abi::FieldIdx;
 use tracing::debug;
+
+use crate::rustc_internal::{self, opaque};
+use crate::stable_mir::mir::{CopyNonOverlapping, UserTypeProjection, VariantIdx};
+use crate::stable_mir::ty::{FloatTy, GenericParamDef, IntTy, Movability, RigidTy, TyKind, UintTy};
+use crate::stable_mir::{self, CompilerError, Context};
 
 mod alloc;
 

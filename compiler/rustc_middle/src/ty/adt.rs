@@ -1,6 +1,9 @@
-use crate::mir::interpret::ErrorHandled;
-use crate::ty;
-use crate::ty::util::{Discr, IntTypeExt};
+use std::cell::RefCell;
+use std::cmp::Ordering;
+use std::hash::{Hash, Hasher};
+use std::ops::Range;
+use std::str;
+
 use rustc_data_structures::captures::Captures;
 use rustc_data_structures::fingerprint::Fingerprint;
 use rustc_data_structures::fx::FxHashMap;
@@ -16,13 +19,10 @@ use rustc_session::DataTypeKind;
 use rustc_span::symbol::sym;
 use rustc_target::abi::{ReprOptions, VariantIdx, FIRST_VARIANT};
 
-use std::cell::RefCell;
-use std::cmp::Ordering;
-use std::hash::{Hash, Hasher};
-use std::ops::Range;
-use std::str;
-
 use super::{Destructor, FieldDef, GenericPredicates, Ty, TyCtxt, VariantDef, VariantDiscr};
+use crate::mir::interpret::ErrorHandled;
+use crate::ty;
+use crate::ty::util::{Discr, IntTypeExt};
 
 bitflags! {
     #[derive(HashStable, TyEncodable, TyDecodable)]

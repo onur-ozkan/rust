@@ -1,7 +1,8 @@
+use libc::{_lwp_self, clockid_t, lwpid_t, time_t, timespec, CLOCK_MONOTONIC};
+
 use crate::ffi::{c_int, c_void};
 use crate::ptr;
 use crate::time::Duration;
-use libc::{_lwp_self, clockid_t, lwpid_t, time_t, timespec, CLOCK_MONOTONIC};
 
 extern "C" {
     fn ___lwp_park60(

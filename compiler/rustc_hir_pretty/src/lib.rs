@@ -2,6 +2,9 @@
 #![deny(rustc::untranslatable_diagnostic)]
 #![deny(rustc::diagnostic_outside_of_impl)]
 
+use std::cell::Cell;
+use std::vec;
+
 use rustc_ast as ast;
 use rustc_ast::util::parser::{self, AssocOp, Fixity};
 use rustc_ast_pretty::pp::Breaks::{Consistent, Inconsistent};
@@ -15,9 +18,6 @@ use rustc_span::source_map::SourceMap;
 use rustc_span::symbol::{kw, Ident, IdentPrinter, Symbol};
 use rustc_span::{self, FileName};
 use rustc_target::spec::abi::Abi;
-
-use std::cell::Cell;
-use std::vec;
 
 pub fn id_to_string(map: &dyn rustc_hir::intravisit::Map<'_>, hir_id: hir::HirId) -> String {
     to_string(&map, |s| s.print_node(map.find(hir_id).unwrap()))

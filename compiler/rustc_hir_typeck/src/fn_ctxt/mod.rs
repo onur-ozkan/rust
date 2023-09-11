@@ -4,12 +4,11 @@ mod arg_matrix;
 mod checks;
 mod suggestions;
 
+use std::cell::{Cell, RefCell};
+use std::ops::Deref;
+
 pub use _impl::*;
 use rustc_errors::ErrorGuaranteed;
-pub use suggestions::*;
-
-use crate::coercion::DynamicCoerceMany;
-use crate::{Diverges, EnclosingBreakables, Inherited};
 use rustc_hir as hir;
 use rustc_hir::def_id::{DefId, LocalDefId};
 use rustc_hir_analysis::astconv::AstConv;
@@ -22,9 +21,10 @@ use rustc_session::Session;
 use rustc_span::symbol::Ident;
 use rustc_span::{self, Span, DUMMY_SP};
 use rustc_trait_selection::traits::{ObligationCause, ObligationCauseCode, ObligationCtxt};
+pub use suggestions::*;
 
-use std::cell::{Cell, RefCell};
-use std::ops::Deref;
+use crate::coercion::DynamicCoerceMany;
+use crate::{Diverges, EnclosingBreakables, Inherited};
 
 /// The `FnCtxt` stores type-checking context needed to type-check bodies of
 /// functions, closures, and `const`s, including performing type inference

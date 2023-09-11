@@ -1,11 +1,11 @@
+use rustc_hir as hir;
+use rustc_middle::{traits::util::supertraits, ty};
+use rustc_span::sym;
+
 use crate::{
     lints::{SupertraitAsDerefTarget, SupertraitAsDerefTargetLabel},
     LateContext, LateLintPass, LintContext,
 };
-
-use rustc_hir as hir;
-use rustc_middle::{traits::util::supertraits, ty};
-use rustc_span::sym;
 
 declare_lint! {
     /// The `deref_into_dyn_supertrait` lint is output whenever there is a use of the

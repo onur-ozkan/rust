@@ -1,5 +1,6 @@
-use super::*;
 use std::cell::Cell;
+
+use super::*;
 
 #[test]
 fn allocator_param() {

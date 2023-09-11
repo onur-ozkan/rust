@@ -12,7 +12,6 @@ use rustc_data_structures::fx::FxHashSet;
 use rustc_feature::Features;
 use rustc_session::parse::ParseSess;
 use rustc_span::symbol::{sym, Symbol};
-
 use rustc_span::Span;
 
 use crate::html::escape::Escape;

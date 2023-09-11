@@ -2,24 +2,6 @@
 //!
 //! See `mod.rs` for more context on type checking in general.
 
-use crate::cast;
-use crate::coercion::CoerceMany;
-use crate::coercion::DynamicCoerceMany;
-use crate::errors::ReturnLikeStatementKind;
-use crate::errors::TypeMismatchFruTypo;
-use crate::errors::{AddressOfTemporaryTaken, ReturnStmtOutsideOfFnBody, StructExprNonExhaustive};
-use crate::errors::{
-    FieldMultiplySpecifiedInInitializer, FunctionalRecordUpdateOnNonStruct, HelpUseLatestEdition,
-    YieldExprOutsideOfGenerator,
-};
-use crate::fatally_break_rust;
-use crate::method::{MethodCallComponents, SelfSource};
-use crate::type_error_struct;
-use crate::Expectation::{self, ExpectCastableToType, ExpectHasType, NoExpectation};
-use crate::{
-    report_unexpected_variant_res, BreakableCtxt, Diverges, FnCtxt, Needs,
-    TupleArgumentsFlag::DontTupleArguments,
-};
 use rustc_ast as ast;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::stack::ensure_sufficient_stack;
@@ -58,6 +40,25 @@ use rustc_trait_selection::infer::InferCtxtExt;
 use rustc_trait_selection::traits::error_reporting::TypeErrCtxtExt;
 use rustc_trait_selection::traits::ObligationCtxt;
 use rustc_trait_selection::traits::{self, ObligationCauseCode};
+
+use crate::cast;
+use crate::coercion::CoerceMany;
+use crate::coercion::DynamicCoerceMany;
+use crate::errors::ReturnLikeStatementKind;
+use crate::errors::TypeMismatchFruTypo;
+use crate::errors::{AddressOfTemporaryTaken, ReturnStmtOutsideOfFnBody, StructExprNonExhaustive};
+use crate::errors::{
+    FieldMultiplySpecifiedInInitializer, FunctionalRecordUpdateOnNonStruct, HelpUseLatestEdition,
+    YieldExprOutsideOfGenerator,
+};
+use crate::fatally_break_rust;
+use crate::method::{MethodCallComponents, SelfSource};
+use crate::type_error_struct;
+use crate::Expectation::{self, ExpectCastableToType, ExpectHasType, NoExpectation};
+use crate::{
+    report_unexpected_variant_res, BreakableCtxt, Diverges, FnCtxt, Needs,
+    TupleArgumentsFlag::DontTupleArguments,
+};
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     pub fn check_expr_has_type_or_error(

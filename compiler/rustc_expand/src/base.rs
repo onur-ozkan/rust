@@ -1,8 +1,9 @@
 #![deny(rustc::untranslatable_diagnostic)]
 
-use crate::errors;
-use crate::expand::{self, AstFragment, Invocation};
-use crate::module::DirOwnership;
+use std::default::Default;
+use std::iter;
+use std::path::{Path, PathBuf};
+use std::rc::Rc;
 
 use rustc_ast::attr::MarkedAttrs;
 use rustc_ast::mut_visit::DummyAstNode;
@@ -26,18 +27,17 @@ use rustc_session::errors::report_lit_error;
 use rustc_session::{parse::ParseSess, Limit, Session};
 use rustc_span::def_id::{CrateNum, DefId, LocalDefId};
 use rustc_span::edition::Edition;
+pub(crate) use rustc_span::hygiene::MacroKind;
 use rustc_span::hygiene::{AstPass, ExpnData, ExpnKind, LocalExpnId};
 use rustc_span::source_map::SourceMap;
 use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{BytePos, FileName, Span, DUMMY_SP};
 use smallvec::{smallvec, SmallVec};
-use std::default::Default;
-use std::iter;
-use std::path::{Path, PathBuf};
-use std::rc::Rc;
 use thin_vec::ThinVec;
 
-pub(crate) use rustc_span::hygiene::MacroKind;
+use crate::errors;
+use crate::expand::{self, AstFragment, Invocation};
+use crate::module::DirOwnership;
 
 // When adding new variants, make sure to
 // adjust the `visit_*` / `flat_map_*` calls in `InvocationCollector`

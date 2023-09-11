@@ -2,7 +2,6 @@ use super::{
     abi,
     error::{fail, fail_aborting, ItronError},
 };
-
 use crate::mem::MaybeUninit;
 
 /// Get the ID of the task in Running state. Panics on failure.

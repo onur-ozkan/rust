@@ -9,11 +9,11 @@
 //! is borrowed. But: writing `a` is legal if `*a` is borrowed,
 //! whether or not `a` is a shared or mutable reference. [...] "
 
-use super::MirBorrowckCtxt;
-
 use rustc_hir as hir;
 use rustc_middle::mir::{Body, PlaceRef, ProjectionElem};
 use rustc_middle::ty::{self, TyCtxt};
+
+use super::MirBorrowckCtxt;
 
 pub trait IsPrefixOf<'tcx> {
     fn is_prefix_of(&self, other: PlaceRef<'tcx>) -> bool;

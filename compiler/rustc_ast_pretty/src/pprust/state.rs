@@ -2,8 +2,8 @@ mod delimited;
 mod expr;
 mod item;
 
-use crate::pp::Breaks::{Consistent, Inconsistent};
-use crate::pp::{self, Breaks};
+use std::borrow::Cow;
+
 use rustc_ast::attr::AttrIdGenerator;
 use rustc_ast::ptr::P;
 use rustc_ast::token::{self, BinOpToken, CommentKind, Delimiter, Nonterminal, Token, TokenKind};
@@ -20,10 +20,11 @@ use rustc_span::edition::Edition;
 use rustc_span::source_map::{SourceMap, Spanned};
 use rustc_span::symbol::{kw, sym, Ident, IdentPrinter, Symbol};
 use rustc_span::{BytePos, FileName, Span, DUMMY_SP};
-use std::borrow::Cow;
 use thin_vec::ThinVec;
 
 pub use self::delimited::IterDelimited;
+use crate::pp::Breaks::{Consistent, Inconsistent};
+use crate::pp::{self, Breaks};
 
 pub enum MacHeader<'a> {
     Path(&'a ast::Path),

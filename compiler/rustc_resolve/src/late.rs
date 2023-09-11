@@ -6,11 +6,10 @@
 //! If you wonder why there's no `early.rs`, that's because it's split into three files -
 //! `build_reduced_graph.rs`, `macros.rs` and `imports.rs`.
 
-use crate::errors::ImportsCannotReferTo;
-use crate::BindingKey;
-use crate::{path_names_to_string, rustdoc, BindingError, Finalize, LexicalScopeBinding};
-use crate::{Module, ModuleOrUniformRoot, NameBinding, ParentScope, PathResult};
-use crate::{ResolutionError, Resolver, Segment, UseError};
+use std::assert_matches::debug_assert_matches;
+use std::borrow::Cow;
+use std::collections::{hash_map::Entry, BTreeSet};
+use std::mem::{replace, swap, take};
 
 use rustc_ast::ptr::P;
 use rustc_ast::visit::{self, AssocCtxt, BoundKind, FnCtxt, FnKind, Visitor};
@@ -30,10 +29,11 @@ use rustc_span::symbol::{kw, sym, Ident, Symbol};
 use rustc_span::{BytePos, Span, SyntaxContext};
 use smallvec::{smallvec, SmallVec};
 
-use std::assert_matches::debug_assert_matches;
-use std::borrow::Cow;
-use std::collections::{hash_map::Entry, BTreeSet};
-use std::mem::{replace, swap, take};
+use crate::errors::ImportsCannotReferTo;
+use crate::BindingKey;
+use crate::{path_names_to_string, rustdoc, BindingError, Finalize, LexicalScopeBinding};
+use crate::{Module, ModuleOrUniformRoot, NameBinding, ParentScope, PathResult};
+use crate::{ResolutionError, Resolver, Segment, UseError};
 
 mod diagnostics;
 

@@ -1,11 +1,12 @@
+use rustc_hir as hir;
+use rustc_middle::ty::{visit::TypeVisitableExt, Ty};
+use rustc_span::{symbol::sym, Span};
+
 use crate::{
     context::LintContext,
     lints::{EnumIntrinsicsMemDiscriminate, EnumIntrinsicsMemVariant},
     LateContext, LateLintPass,
 };
-use rustc_hir as hir;
-use rustc_middle::ty::{visit::TypeVisitableExt, Ty};
-use rustc_span::{symbol::sym, Span};
 
 declare_lint! {
     /// The `enum_intrinsics_non_enums` lint detects calls to

@@ -1,8 +1,5 @@
-use super::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use super::{DefineOpaqueTypes, InferResult};
-use crate::errors::OpaqueHiddenTypeDiag;
-use crate::infer::{InferCtxt, InferOk};
-use crate::traits::{self, PredicateObligation};
+use std::ops::ControlFlow;
+
 use hir::def_id::{DefId, LocalDefId};
 use hir::OpaqueTyOrigin;
 use rustc_data_structures::fx::FxIndexMap;
@@ -17,7 +14,12 @@ use rustc_middle::ty::{
     TypeVisitable, TypeVisitableExt, TypeVisitor,
 };
 use rustc_span::Span;
-use std::ops::ControlFlow;
+
+use super::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use super::{DefineOpaqueTypes, InferResult};
+use crate::errors::OpaqueHiddenTypeDiag;
+use crate::infer::{InferCtxt, InferOk};
+use crate::traits::{self, PredicateObligation};
 
 mod table;
 

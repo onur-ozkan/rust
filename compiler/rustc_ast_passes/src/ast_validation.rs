@@ -6,6 +6,9 @@
 // This pass is supposed to perform only simple checks not requiring name resolution
 // or type checking or some other kind of complex analysis.
 
+use std::mem;
+use std::ops::{Deref, DerefMut};
+
 use itertools::{Either, Itertools};
 use rustc_ast::ptr::P;
 use rustc_ast::visit::{self, AssocCtxt, BoundKind, FnCtxt, FnKind, Visitor};
@@ -25,8 +28,6 @@ use rustc_span::source_map::Spanned;
 use rustc_span::symbol::{kw, sym, Ident};
 use rustc_span::Span;
 use rustc_target::spec::abi;
-use std::mem;
-use std::ops::{Deref, DerefMut};
 use thin_vec::thin_vec;
 
 use crate::errors;

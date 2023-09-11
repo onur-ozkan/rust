@@ -1,8 +1,7 @@
+use super::display_buffer::DisplayBuffer;
 use crate::cmp::Ordering;
 use crate::fmt::{self, Write};
 use crate::mem::transmute;
-
-use super::display_buffer::DisplayBuffer;
 
 /// An IP address, either IPv4 or IPv6.
 ///

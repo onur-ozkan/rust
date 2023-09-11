@@ -10,9 +10,8 @@
 #![allow(internal_features)]
 #![recursion_limit = "128"]
 
-use synstructure::decl_derive;
-
 use proc_macro::TokenStream;
+use synstructure::decl_derive;
 
 mod diagnostics;
 mod hash_stable;

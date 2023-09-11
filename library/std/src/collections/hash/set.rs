@@ -3,14 +3,13 @@ mod tests;
 
 use hashbrown::hash_set as base;
 
+use super::map::{map_try_reserve_error, RandomState};
 use crate::borrow::Borrow;
 use crate::collections::TryReserveError;
 use crate::fmt;
 use crate::hash::{BuildHasher, Hash};
 use crate::iter::{Chain, FusedIterator};
 use crate::ops::{BitAnd, BitOr, BitXor, Sub};
-
-use super::map::{map_try_reserve_error, RandomState};
 
 /// A [hash set] implemented as a `HashMap` where the value is `()`.
 ///

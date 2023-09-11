@@ -62,10 +62,11 @@
 //! variant argument) that does not require visiting, as in
 //! `is_cleanup` above.
 
+use rustc_span::Span;
+
 use crate::mir::*;
 use crate::ty::GenericArgsRef;
 use crate::ty::{self, CanonicalUserTypeAnnotation, Ty};
-use rustc_span::Span;
 
 macro_rules! make_mir_visitor {
     ($visitor_trait_name:ident, $($mutability:ident)?) => {

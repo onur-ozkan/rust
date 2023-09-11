@@ -1,3 +1,5 @@
+use std::iter;
+
 use rustc_data_structures::fx::FxHashMap;
 use rustc_hir as hir;
 use rustc_hir::def::DefKind;
@@ -5,7 +7,6 @@ use rustc_hir::def_id::LocalDefId;
 use rustc_middle::query::Providers;
 use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_span::Span;
-use std::iter;
 
 pub fn provide(providers: &mut Providers) {
     *providers = Providers {

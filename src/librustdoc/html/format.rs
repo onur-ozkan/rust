@@ -12,6 +12,7 @@ use std::cell::Cell;
 use std::fmt::{self, Write};
 use std::iter::{self, once};
 
+use itertools::Itertools;
 use rustc_ast as ast;
 use rustc_attr::{ConstStability, StabilityLevel};
 use rustc_data_structures::captures::Captures;
@@ -26,8 +27,8 @@ use rustc_span::symbol::kw;
 use rustc_span::{sym, Symbol};
 use rustc_target::spec::abi::Abi;
 
-use itertools::Itertools;
-
+use super::url_parts_builder::estimate_item_path_byte_length;
+use super::url_parts_builder::UrlPartsBuilder;
 use crate::clean::{
     self, types::ExternalLocation, utils::find_nearest_parent_module, ExternalCrate, ItemId,
     PrimitiveType,
@@ -36,9 +37,6 @@ use crate::formats::item_type::ItemType;
 use crate::html::escape::Escape;
 use crate::html::render::Context;
 use crate::passes::collect_intra_doc_links::UrlFragment;
-
-use super::url_parts_builder::estimate_item_path_byte_length;
-use super::url_parts_builder::UrlPartsBuilder;
 
 pub(crate) trait Print {
     fn print(self, buffer: &mut Buffer);

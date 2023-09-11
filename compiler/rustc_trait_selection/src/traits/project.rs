@@ -1,27 +1,7 @@
 //! Code for projecting associated types out of trait references.
 
-use super::check_args_compatible;
-use super::specialization_graph;
-use super::translate_args;
-use super::util;
-use super::MismatchedProjectionTypes;
-use super::Obligation;
-use super::ObligationCause;
-use super::PredicateObligation;
-use super::Selection;
-use super::SelectionContext;
-use super::SelectionError;
-use super::{Normalized, NormalizedTy, ProjectionCacheEntry, ProjectionCacheKey};
-use rustc_middle::traits::BuiltinImplSource;
-use rustc_middle::traits::ImplSource;
-use rustc_middle::traits::ImplSourceUserDefinedData;
+use std::collections::BTreeMap;
 
-use crate::errors::InherentProjectionNormalizationOverflow;
-use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use crate::infer::{InferCtxt, InferOk, LateBoundRegionConversionTime};
-use crate::traits::error_reporting::TypeErrCtxtExt as _;
-use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
-use crate::traits::select::ProjectionMatchesProjection;
 use rustc_data_structures::sso::SsoHashSet;
 use rustc_data_structures::stack::ensure_sufficient_stack;
 use rustc_errors::ErrorGuaranteed;
@@ -34,14 +14,33 @@ use rustc_infer::traits::FulfillmentError;
 use rustc_infer::traits::ObligationCauseCode;
 use rustc_infer::traits::TraitEngine;
 use rustc_middle::traits::select::OverflowError;
+use rustc_middle::traits::BuiltinImplSource;
+use rustc_middle::traits::ImplSource;
+use rustc_middle::traits::ImplSourceUserDefinedData;
+pub use rustc_middle::traits::Reveal;
 use rustc_middle::ty::fold::{TypeFoldable, TypeFolder, TypeSuperFoldable};
 use rustc_middle::ty::visit::{MaxUniverse, TypeVisitable, TypeVisitableExt};
 use rustc_middle::ty::{self, Term, ToPredicate, Ty, TyCtxt};
 use rustc_span::symbol::sym;
 
-use std::collections::BTreeMap;
-
-pub use rustc_middle::traits::Reveal;
+use super::check_args_compatible;
+use super::specialization_graph;
+use super::translate_args;
+use super::util;
+use super::MismatchedProjectionTypes;
+use super::Obligation;
+use super::ObligationCause;
+use super::PredicateObligation;
+use super::Selection;
+use super::SelectionContext;
+use super::SelectionError;
+use super::{Normalized, NormalizedTy, ProjectionCacheEntry, ProjectionCacheKey};
+use crate::errors::InherentProjectionNormalizationOverflow;
+use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use crate::infer::{InferCtxt, InferOk, LateBoundRegionConversionTime};
+use crate::traits::error_reporting::TypeErrCtxtExt as _;
+use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
+use crate::traits::select::ProjectionMatchesProjection;
 
 pub type PolyProjectionObligation<'tcx> = Obligation<'tcx, ty::PolyProjectionPredicate<'tcx>>;
 

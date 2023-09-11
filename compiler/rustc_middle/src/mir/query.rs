@@ -1,7 +1,8 @@
 //! Values computed by queries that use MIR.
 
-use crate::mir::interpret::ConstValue;
-use crate::ty::{self, OpaqueHiddenType, Ty, TyCtxt};
+use std::cell::Cell;
+use std::fmt::{self, Debug};
+
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_data_structures::unord::UnordSet;
 use rustc_errors::ErrorGuaranteed;
@@ -13,10 +14,10 @@ use rustc_span::symbol::Symbol;
 use rustc_span::Span;
 use rustc_target::abi::{FieldIdx, VariantIdx};
 use smallvec::SmallVec;
-use std::cell::Cell;
-use std::fmt::{self, Debug};
 
 use super::SourceInfo;
+use crate::mir::interpret::ConstValue;
+use crate::ty::{self, OpaqueHiddenType, Ty, TyCtxt};
 
 #[derive(Copy, Clone, PartialEq, TyEncodable, TyDecodable, HashStable, Debug)]
 pub enum UnsafetyViolationKind {

@@ -4,11 +4,11 @@
 //! useful because (unlike MIR building) it runs after type checking, so it can make use of
 //! `Reveal::All` to provide more precise type information.
 
-use crate::MirPass;
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
 
 use super::simplify::simplify_cfg;
+use crate::MirPass;
 
 pub struct RemoveUnneededDrops;
 

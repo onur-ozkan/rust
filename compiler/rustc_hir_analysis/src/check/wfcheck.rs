@@ -1,5 +1,5 @@
-use crate::autoderef::Autoderef;
-use crate::constrained_generic_params::{identify_constrained_generic_params, Parameter};
+use std::cell::LazyCell;
+use std::ops::{ControlFlow, Deref};
 
 use rustc_ast as ast;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
@@ -30,8 +30,8 @@ use rustc_trait_selection::traits::{
     self, ObligationCause, ObligationCauseCode, ObligationCtxt, WellFormedLoc,
 };
 
-use std::cell::LazyCell;
-use std::ops::{ControlFlow, Deref};
+use crate::autoderef::Autoderef;
+use crate::constrained_generic_params::{identify_constrained_generic_params, Parameter};
 
 pub(super) struct WfCheckingCtxt<'a, 'tcx> {
     pub(super) ocx: ObligationCtxt<'a, 'tcx>,

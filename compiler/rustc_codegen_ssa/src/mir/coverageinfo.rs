@@ -1,9 +1,8 @@
-use crate::traits::*;
-
 use rustc_middle::mir::Coverage;
 use rustc_middle::mir::SourceScope;
 
 use super::FunctionCx;
+use crate::traits::*;
 
 impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
     pub fn codegen_coverage(&self, bx: &mut Bx, coverage: &Coverage, scope: SourceScope) {

@@ -1,9 +1,11 @@
+use std::fmt::{Debug, Write};
+
+use format::ProofTreeFormatter;
+
 use super::{
     CanonicalInput, Certainty, Goal, IsNormalizesToHack, NoSolution, QueryInput, QueryResult,
 };
 use crate::ty;
-use format::ProofTreeFormatter;
-use std::fmt::{Debug, Write};
 
 mod format;
 

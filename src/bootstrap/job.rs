@@ -27,7 +27,6 @@
 //! Note that this module has a #[cfg(windows)] above it as none of this logic
 //! is required on Unix.
 
-use crate::Build;
 use std::env;
 use std::ffi::c_void;
 use std::io;
@@ -46,6 +45,8 @@ use windows::{
         GetCurrentProcess, OpenProcess, BELOW_NORMAL_PRIORITY_CLASS, PROCESS_DUP_HANDLE,
     },
 };
+
+use crate::Build;
 
 pub unsafe fn setup(build: &mut Build) {
     // Enable the Windows Error Reporting dialog which msys disables,

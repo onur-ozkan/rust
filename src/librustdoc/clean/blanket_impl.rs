@@ -1,4 +1,3 @@
-use crate::rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
 use rustc_hir as hir;
 use rustc_infer::infer::{DefineOpaqueTypes, InferOk, TyCtxtInferExt};
 use rustc_infer::traits;
@@ -6,6 +5,7 @@ use rustc_middle::ty::ToPredicate;
 use rustc_span::DUMMY_SP;
 
 use super::*;
+use crate::rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
 
 pub(crate) struct BlanketImplFinder<'a, 'tcx> {
     pub(crate) cx: &'a mut core::DocContext<'tcx>,

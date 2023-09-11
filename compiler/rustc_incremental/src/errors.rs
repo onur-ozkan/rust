@@ -1,6 +1,7 @@
+use std::path::{Path, PathBuf};
+
 use rustc_macros::Diagnostic;
 use rustc_span::{symbol::Ident, Span, Symbol};
-use std::path::{Path, PathBuf};
 
 #[derive(Diagnostic)]
 #[diag(incremental_unrecognized_depnode)]

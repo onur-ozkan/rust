@@ -1,3 +1,10 @@
+use rustc_middle::ty::{self, Ty, TyCtxt};
+use rustc_span::{sym, Span};
+use rustc_target::abi::{
+    call::{FnAbi, PassMode},
+    WrappingRange,
+};
+
 use super::operand::{OperandRef, OperandValue};
 use super::place::PlaceRef;
 use super::FunctionCx;
@@ -8,13 +15,6 @@ use crate::glue;
 use crate::meth;
 use crate::traits::*;
 use crate::MemFlags;
-
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::{sym, Span};
-use rustc_target::abi::{
-    call::{FnAbi, PassMode},
-    WrappingRange,
-};
 
 fn copy_intrinsic<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>>(
     bx: &mut Bx,

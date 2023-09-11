@@ -6,18 +6,19 @@
 use std::fmt::Debug;
 use std::ops::{ControlFlow, Index};
 
-use crate::rustc_internal;
-use crate::stable_mir::CompilerError;
-use crate::{
-    rustc_smir::Tables,
-    stable_mir::{self, with},
-};
 use rustc_driver::{Callbacks, Compilation, RunCompiler};
 use rustc_interface::{interface, Queries};
 use rustc_middle::mir::interpret::AllocId;
 use rustc_middle::ty::TyCtxt;
 use rustc_session::EarlyErrorHandler;
 pub use rustc_span::def_id::{CrateNum, DefId};
+
+use crate::rustc_internal;
+use crate::stable_mir::CompilerError;
+use crate::{
+    rustc_smir::Tables,
+    stable_mir::{self, with},
+};
 
 fn with_tables<R>(mut f: impl FnMut(&mut Tables<'_>) -> R) -> R {
     let mut ret = None;

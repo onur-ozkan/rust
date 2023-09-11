@@ -39,8 +39,9 @@ use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 
 mod caching_source_map_view;
 pub mod source_map;
-pub use self::caching_source_map_view::CachingSourceMapView;
 use source_map::SourceMap;
+
+pub use self::caching_source_map_view::CachingSourceMapView;
 
 pub mod edition;
 use edition::Edition;
@@ -63,9 +64,6 @@ pub mod fatal_error;
 
 pub mod profiling;
 
-use rustc_data_structures::stable_hasher::{Hash128, Hash64, HashStable, StableHasher};
-use rustc_data_structures::sync::{FreezeLock, FreezeWriteGuard, Lock, Lrc};
-
 use std::borrow::Cow;
 use std::cmp::{self, Ordering};
 use std::hash::Hash;
@@ -76,6 +74,8 @@ use std::{fmt, iter};
 
 use md5::Digest;
 use md5::Md5;
+use rustc_data_structures::stable_hasher::{Hash128, Hash64, HashStable, StableHasher};
+use rustc_data_structures::sync::{FreezeLock, FreezeWriteGuard, Lock, Lrc};
 use sha1::Sha1;
 use sha2::Sha256;
 

@@ -41,10 +41,10 @@
 //!     - ty.super_visit_with(visitor)
 //! - u.visit_with(visitor)
 //! ```
-use crate::Interner;
-
 use std::fmt;
 use std::ops::ControlFlow;
+
+use crate::Interner;
 
 /// This trait is implemented for every type that can be visited,
 /// providing the skeleton of the traversal.

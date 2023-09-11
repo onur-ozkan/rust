@@ -1,11 +1,10 @@
 //! Comparison traits for `[T]`.
 
+use super::from_raw_parts;
+use super::memchr;
 use crate::cmp::{self, BytewiseEq, Ordering};
 use crate::intrinsics::compare_bytes;
 use crate::mem;
-
-use super::from_raw_parts;
-use super::memchr;
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<A, B> PartialEq<[B]> for [A]

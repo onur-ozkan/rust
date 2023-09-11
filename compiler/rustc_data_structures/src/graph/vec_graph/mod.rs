@@ -1,5 +1,6 @@
-use crate::graph::{DirectedGraph, GraphSuccessors, WithNumEdges, WithNumNodes, WithSuccessors};
 use rustc_index::{Idx, IndexVec};
+
+use crate::graph::{DirectedGraph, GraphSuccessors, WithNumEdges, WithNumNodes, WithSuccessors};
 
 #[cfg(test)]
 mod tests;

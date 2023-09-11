@@ -11,16 +11,9 @@
 //! [`Ty`]: rustc_middle::ty::Ty
 //! [`val_ty`]: crate::common::val_ty
 
-use super::ModuleLlvm;
-
-use crate::attributes;
-use crate::builder::Builder;
-use crate::context::CodegenCx;
-use crate::llvm;
-use crate::value::Value;
+use std::time::Instant;
 
 use cstr::cstr;
-
 use rustc_codegen_ssa::base::maybe_create_entry_wrapper;
 use rustc_codegen_ssa::mono_item::MonoItemExt;
 use rustc_codegen_ssa::traits::*;
@@ -34,7 +27,12 @@ use rustc_session::config::DebugInfo;
 use rustc_span::symbol::Symbol;
 use rustc_target::spec::SanitizerSet;
 
-use std::time::Instant;
+use super::ModuleLlvm;
+use crate::attributes;
+use crate::builder::Builder;
+use crate::context::CodegenCx;
+use crate::llvm;
+use crate::value::Value;
 
 pub struct ValueIter<'ll> {
     cur: Option<&'ll Value>,

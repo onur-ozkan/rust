@@ -5,10 +5,8 @@
 // identify what tests are needed, perform the tests, and then filter
 // the candidates based on the result.
 
-use crate::build::expr::as_place::PlaceBuilder;
-use crate::build::matches::{Candidate, MatchPair, Test, TestKind};
-use crate::build::Builder;
-use crate::thir::pattern::compare_const_vals;
+use std::cmp::Ordering;
+
 use rustc_data_structures::fx::FxIndexMap;
 use rustc_hir::{LangItem, RangeEnd};
 use rustc_index::bit_set::BitSet;
@@ -22,7 +20,10 @@ use rustc_span::symbol::{sym, Symbol};
 use rustc_span::Span;
 use rustc_target::abi::VariantIdx;
 
-use std::cmp::Ordering;
+use crate::build::expr::as_place::PlaceBuilder;
+use crate::build::matches::{Candidate, MatchPair, Test, TestKind};
+use crate::build::Builder;
+use crate::thir::pattern::compare_const_vals;
 
 impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// Identifies what test is needed to decide if `match_pair` is applicable.

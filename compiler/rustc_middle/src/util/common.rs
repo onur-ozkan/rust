@@ -1,7 +1,7 @@
-use rustc_data_structures::sync::Lock;
-
 use std::fmt::Debug;
 use std::time::{Duration, Instant};
+
+use rustc_data_structures::sync::Lock;
 
 #[cfg(test)]
 mod tests;

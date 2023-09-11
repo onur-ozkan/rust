@@ -1,5 +1,7 @@
 #![unstable(issue = "none", feature = "windows_net")]
 
+use libc::{c_int, c_long, c_ulong, c_ushort};
+
 use crate::cmp;
 use crate::io::{self, BorrowedBuf, BorrowedCursor, IoSlice, IoSliceMut, Read};
 use crate::mem;
@@ -14,8 +16,6 @@ use crate::sys::c;
 use crate::sys_common::net;
 use crate::sys_common::{AsInner, FromInner, IntoInner};
 use crate::time::Duration;
-
-use libc::{c_int, c_long, c_ulong, c_ushort};
 
 pub type wrlen_t = i32;
 

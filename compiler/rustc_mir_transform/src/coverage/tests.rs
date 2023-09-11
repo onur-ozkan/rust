@@ -24,12 +24,7 @@
 //! globals is comparatively simpler. The easiest way is to wrap the test in a closure argument
 //! to: `rustc_span::create_default_session_globals_then(|| { test_here(); })`.
 
-use super::counters;
-use super::graph;
-use super::spans;
-
 use coverage_test_macros::let_bcb;
-
 use itertools::Itertools;
 use rustc_data_structures::graph::WithNumNodes;
 use rustc_data_structures::graph::WithSuccessors;
@@ -37,6 +32,10 @@ use rustc_index::{Idx, IndexVec};
 use rustc_middle::mir::*;
 use rustc_middle::ty;
 use rustc_span::{self, BytePos, Pos, Span, DUMMY_SP};
+
+use super::counters;
+use super::graph;
+use super::spans;
 
 // All `TEMP_BLOCK` targets should be replaced before calling `to_body() -> mir::Body`.
 const TEMP_BLOCK: BasicBlock = BasicBlock::MAX;

@@ -1,12 +1,11 @@
+use super::{
+    FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce, TrustedStep,
+};
 use crate::ascii::Char as AsciiChar;
 use crate::convert::TryFrom;
 use crate::mem;
 use crate::num::NonZeroUsize;
 use crate::ops::{self, Try};
-
-use super::{
-    FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce, TrustedStep,
-};
 
 // Safety: All invariants are upheld.
 macro_rules! unsafe_impl_trusted_step {

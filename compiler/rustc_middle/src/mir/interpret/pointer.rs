@@ -1,9 +1,9 @@
-use super::{AllocId, InterpResult};
+use std::fmt;
 
 use rustc_macros::HashStable;
 use rustc_target::abi::{HasDataLayout, Size};
 
-use std::fmt;
+use super::{AllocId, InterpResult};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Pointer arithmetic

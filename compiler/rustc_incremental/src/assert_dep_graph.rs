@@ -33,7 +33,10 @@
 //! fn baz() { foo(); }
 //! ```
 
-use crate::errors;
+use std::env;
+use std::fs::{self, File};
+use std::io::{BufWriter, Write};
+
 use rustc_ast as ast;
 use rustc_data_structures::fx::FxIndexSet;
 use rustc_data_structures::graph::implementation::{Direction, NodeIndex, INCOMING, OUTGOING};
@@ -49,9 +52,7 @@ use rustc_middle::ty::TyCtxt;
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::Span;
 
-use std::env;
-use std::fs::{self, File};
-use std::io::{BufWriter, Write};
+use crate::errors;
 
 #[allow(missing_docs)]
 pub fn assert_dep_graph(tcx: TyCtxt<'_>) {

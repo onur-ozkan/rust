@@ -1,11 +1,12 @@
-use crate::os::windows::prelude::*;
-
+use super::path::maybe_verbatim;
+use super::to_u16s;
 use crate::borrow::Cow;
 use crate::ffi::OsString;
 use crate::fmt;
 use crate::io::{self, BorrowedCursor, Error, IoSlice, IoSliceMut, SeekFrom};
 use crate::mem::{self, MaybeUninit};
 use crate::os::windows::io::{AsHandle, BorrowedHandle};
+use crate::os::windows::prelude::*;
 use crate::path::{Path, PathBuf};
 use crate::ptr;
 use crate::slice;
@@ -15,9 +16,6 @@ use crate::sys::time::SystemTime;
 use crate::sys::{c, cvt, Align8};
 use crate::sys_common::{AsInner, FromInner, IntoInner};
 use crate::thread;
-
-use super::path::maybe_verbatim;
-use super::to_u16s;
 
 pub struct File {
     handle: Handle,

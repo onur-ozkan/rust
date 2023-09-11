@@ -1,23 +1,5 @@
 // ignore-tidy-filelength
 
-use crate::common::{expected_output_path, UI_EXTENSIONS, UI_FIXED, UI_STDERR, UI_STDOUT};
-use crate::common::{incremental_dir, output_base_dir, output_base_name, output_testname_unique};
-use crate::common::{Assembly, Incremental, JsDocTest, MirOpt, RunMake, RustdocJson, Ui};
-use crate::common::{Codegen, CodegenUnits, DebugInfo, Debugger, Rustdoc};
-use crate::common::{CompareMode, FailMode, PassMode};
-use crate::common::{Config, TestPaths};
-use crate::common::{CoverageMap, Pretty, RunCoverage, RunPassValgrind};
-use crate::common::{UI_COVERAGE, UI_COVERAGE_MAP, UI_RUN_STDERR, UI_RUN_STDOUT};
-use crate::compute_diff::{write_diff, write_filtered_diff};
-use crate::errors::{self, Error, ErrorKind};
-use crate::header::TestProps;
-use crate::json;
-use crate::read2::read2_abbreviated;
-use crate::util::{add_dylib_path, dylib_env_var, logv, PathBufExt};
-use crate::ColorConfig;
-use regex::{Captures, Regex};
-use rustfix::{apply_suggestions, get_suggestions_from_json, Filter};
-
 use std::borrow::Cow;
 use std::collections::hash_map::DefaultHasher;
 use std::collections::{HashMap, HashSet};
@@ -36,10 +18,27 @@ use std::sync::Arc;
 use anyhow::Context;
 use glob::glob;
 use once_cell::sync::Lazy;
+use regex::{Captures, Regex};
+use rustfix::{apply_suggestions, get_suggestions_from_json, Filter};
 use tracing::*;
 
+use crate::common::{expected_output_path, UI_EXTENSIONS, UI_FIXED, UI_STDERR, UI_STDOUT};
+use crate::common::{incremental_dir, output_base_dir, output_base_name, output_testname_unique};
+use crate::common::{Assembly, Incremental, JsDocTest, MirOpt, RunMake, RustdocJson, Ui};
+use crate::common::{Codegen, CodegenUnits, DebugInfo, Debugger, Rustdoc};
+use crate::common::{CompareMode, FailMode, PassMode};
+use crate::common::{Config, TestPaths};
+use crate::common::{CoverageMap, Pretty, RunCoverage, RunPassValgrind};
+use crate::common::{UI_COVERAGE, UI_COVERAGE_MAP, UI_RUN_STDERR, UI_RUN_STDOUT};
+use crate::compute_diff::{write_diff, write_filtered_diff};
+use crate::errors::{self, Error, ErrorKind};
 use crate::extract_gdb_version;
+use crate::header::TestProps;
 use crate::is_android_gdb_target;
+use crate::json;
+use crate::read2::read2_abbreviated;
+use crate::util::{add_dylib_path, dylib_env_var, logv, PathBufExt};
+use crate::ColorConfig;
 
 mod debugger;
 use debugger::DebuggerCommands;

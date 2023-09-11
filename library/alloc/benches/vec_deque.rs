@@ -3,6 +3,7 @@ use std::{
     collections::{vec_deque, VecDeque},
     mem,
 };
+
 use test::{black_box, Bencher};
 
 #[bench]

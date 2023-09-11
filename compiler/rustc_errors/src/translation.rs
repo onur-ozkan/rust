@@ -1,11 +1,13 @@
-use crate::error::{TranslateError, TranslateErrorKind};
-use crate::snippet::Style;
-use crate::{DiagnosticArg, DiagnosticMessage, FluentBundle};
-use rustc_data_structures::sync::Lrc;
-use rustc_error_messages::FluentArgs;
 use std::borrow::Cow;
 use std::env;
 use std::error::Report;
+
+use rustc_data_structures::sync::Lrc;
+use rustc_error_messages::FluentArgs;
+
+use crate::error::{TranslateError, TranslateErrorKind};
+use crate::snippet::Style;
+use crate::{DiagnosticArg, DiagnosticMessage, FluentBundle};
 
 /// Convert diagnostic arguments (a rustc internal type that exists to implement
 /// `Encodable`/`Decodable`) into `FluentArgs` which is necessary to perform translation.

@@ -1,4 +1,3 @@
-use super::*;
 use std::fmt::Write;
 use std::{borrow::Borrow, cmp, iter, ops::Bound};
 
@@ -6,8 +5,9 @@ use std::{borrow::Borrow, cmp, iter, ops::Bound};
 use rand::{seq::SliceRandom, SeedableRng};
 #[cfg(feature = "randomize")]
 use rand_xoshiro::Xoshiro128StarStar;
-
 use tracing::debug;
+
+use super::*;
 
 pub trait LayoutCalculator {
     type TargetDataLayoutRef: Borrow<TargetDataLayout>;

@@ -2,15 +2,14 @@
 #![deny(rustc::diagnostic_outside_of_impl)]
 //! This file provides API for compiler consumers.
 
+use std::rc::Rc;
+
 use rustc_hir::def_id::LocalDefId;
 use rustc_index::{IndexSlice, IndexVec};
 use rustc_infer::infer::TyCtxtInferExt;
 use rustc_middle::mir::{Body, Promoted};
 use rustc_middle::traits::DefiningAnchor;
 use rustc_middle::ty::TyCtxt;
-use std::rc::Rc;
-
-use crate::borrow_set::BorrowSet;
 
 pub use super::{
     constraints::OutlivesConstraint,
@@ -22,6 +21,7 @@ pub use super::{
     places_conflict::{places_conflict, PlaceConflictBias},
     region_infer::RegionInferenceContext,
 };
+use crate::borrow_set::BorrowSet;
 
 /// Options determining the output behavior of [`get_body_with_borrowck_facts`].
 ///

@@ -40,24 +40,25 @@
 //!
 //! [^2] `MTLockRef` is a typedef.
 
-pub use crate::marker::*;
-use parking_lot::Mutex;
 use std::any::Any;
 use std::collections::HashMap;
 use std::hash::{BuildHasher, Hash};
 use std::ops::{Deref, DerefMut};
 use std::panic::{catch_unwind, resume_unwind, AssertUnwindSafe};
 
+use parking_lot::Mutex;
+
+pub use crate::marker::*;
+
 mod lock;
 pub use lock::{Lock, LockGuard, Mode};
 
 mod worker_local;
-pub use worker_local::{Registry, WorkerLocal};
-
 pub use std::sync::atomic::Ordering;
 pub use std::sync::atomic::Ordering::SeqCst;
 
 pub use vec::{AppendOnlyIndexVec, AppendOnlyVec};
+pub use worker_local::{Registry, WorkerLocal};
 
 mod vec;
 
@@ -65,8 +66,9 @@ mod freeze;
 pub use freeze::{FreezeLock, FreezeReadGuard, FreezeWriteGuard};
 
 mod mode {
-    use super::Ordering;
     use std::sync::atomic::AtomicU8;
+
+    use super::Ordering;
 
     const UNINITIALIZED: u8 = 0;
     const DYN_NOT_THREAD_SAFE: u8 = 1;

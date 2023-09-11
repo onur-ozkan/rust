@@ -1,4 +1,5 @@
-use super::callee::DeferredCallResolution;
+use std::cell::RefCell;
+use std::ops::Deref;
 
 use rustc_data_structures::unord::{UnordMap, UnordSet};
 use rustc_hir as hir;
@@ -13,8 +14,7 @@ use rustc_span::{self, Span};
 use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
 use rustc_trait_selection::traits::{self, PredicateObligation, TraitEngine, TraitEngineExt as _};
 
-use std::cell::RefCell;
-use std::ops::Deref;
+use super::callee::DeferredCallResolution;
 
 /// Closures defined within the function. For example:
 /// ```ignore (illustrative)

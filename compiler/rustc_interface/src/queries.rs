@@ -1,6 +1,6 @@
-use crate::errors::{FailedWritingFile, RustcErrorFatal, RustcErrorUnexpectedAnnotation};
-use crate::interface::{Compiler, Result};
-use crate::{passes, util};
+use std::any::Any;
+use std::cell::{RefCell, RefMut};
+use std::sync::Arc;
 
 use rustc_ast as ast;
 use rustc_codegen_ssa::traits::CodegenBackend;
@@ -20,9 +20,10 @@ use rustc_session::cstore::Untracked;
 use rustc_session::{output::find_crate_name, Session};
 use rustc_span::symbol::sym;
 use rustc_span::Symbol;
-use std::any::Any;
-use std::cell::{RefCell, RefMut};
-use std::sync::Arc;
+
+use crate::errors::{FailedWritingFile, RustcErrorFatal, RustcErrorUnexpectedAnnotation};
+use crate::interface::{Compiler, Result};
+use crate::{passes, util};
 
 /// Represent the result of a query.
 ///

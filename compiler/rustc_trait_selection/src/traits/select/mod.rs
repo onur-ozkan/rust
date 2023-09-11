@@ -2,9 +2,33 @@
 //!
 //! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/resolution.html#selection
 
+use std::cell::{Cell, RefCell};
+use std::cmp;
+use std::fmt::{self, Display};
+use std::iter;
+
+use rustc_data_structures::fx::{FxHashSet, FxIndexMap, FxIndexSet};
+use rustc_data_structures::stack::ensure_sufficient_stack;
+use rustc_errors::Diagnostic;
+use rustc_hir as hir;
+use rustc_hir::def_id::DefId;
+use rustc_infer::infer::DefineOpaqueTypes;
+use rustc_infer::infer::LateBoundRegionConversionTime;
+use rustc_infer::traits::TraitObligation;
+use rustc_middle::dep_graph::{DepKind, DepNodeIndex};
+use rustc_middle::mir::interpret::ErrorHandled;
+pub use rustc_middle::traits::select::*;
+use rustc_middle::ty::abstract_const::NotConstEvaluatable;
+use rustc_middle::ty::fold::BottomUpFolder;
+use rustc_middle::ty::print::with_no_trimmed_paths;
+use rustc_middle::ty::relate::TypeRelation;
+use rustc_middle::ty::GenericArgsRef;
+use rustc_middle::ty::{self, EarlyBinder, PolyProjectionPredicate, ToPolyTraitRef, ToPredicate};
+use rustc_middle::ty::{Ty, TyCtxt, TypeFoldable, TypeVisitableExt};
+use rustc_span::symbol::sym;
+
 use self::EvaluationResult::*;
 use self::SelectionCandidate::*;
-
 use super::coherence::{self, Conflict};
 use super::const_evaluatable;
 use super::project;
@@ -18,7 +42,6 @@ use super::{
     ObligationCause, ObligationCauseCode, Overflow, PolyTraitObligation, PredicateObligation,
     Selection, SelectionError, SelectionResult, TraitQueryMode,
 };
-
 use crate::infer::{InferCtxt, InferOk, TypeFreshener};
 use crate::solve::InferCtxtSelectExt;
 use crate::traits::error_reporting::TypeErrCtxtExt;
@@ -27,31 +50,6 @@ use crate::traits::project::ProjectAndUnifyResult;
 use crate::traits::project::ProjectionCacheKeyExt;
 use crate::traits::ProjectionCacheKey;
 use crate::traits::Unimplemented;
-use rustc_data_structures::fx::{FxHashSet, FxIndexMap, FxIndexSet};
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_errors::Diagnostic;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_infer::infer::DefineOpaqueTypes;
-use rustc_infer::infer::LateBoundRegionConversionTime;
-use rustc_infer::traits::TraitObligation;
-use rustc_middle::dep_graph::{DepKind, DepNodeIndex};
-use rustc_middle::mir::interpret::ErrorHandled;
-use rustc_middle::ty::abstract_const::NotConstEvaluatable;
-use rustc_middle::ty::fold::BottomUpFolder;
-use rustc_middle::ty::relate::TypeRelation;
-use rustc_middle::ty::GenericArgsRef;
-use rustc_middle::ty::{self, EarlyBinder, PolyProjectionPredicate, ToPolyTraitRef, ToPredicate};
-use rustc_middle::ty::{Ty, TyCtxt, TypeFoldable, TypeVisitableExt};
-use rustc_span::symbol::sym;
-
-use std::cell::{Cell, RefCell};
-use std::cmp;
-use std::fmt::{self, Display};
-use std::iter;
-
-pub use rustc_middle::traits::select::*;
-use rustc_middle::ty::print::with_no_trimmed_paths;
 
 mod candidate_assembly;
 mod confirmation;

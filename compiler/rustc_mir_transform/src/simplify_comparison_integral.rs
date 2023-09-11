@@ -1,6 +1,5 @@
 use std::iter;
 
-use super::MirPass;
 use rustc_middle::{
     mir::{
         interpret::Scalar, BasicBlock, BinOp, Body, Operand, Place, Rvalue, Statement,
@@ -8,6 +7,8 @@ use rustc_middle::{
     },
     ty::{Ty, TyCtxt},
 };
+
+use super::MirPass;
 
 /// Pass to convert `if` conditions on integrals into switches on the integral.
 /// For an example, it turns something like

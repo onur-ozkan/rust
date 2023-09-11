@@ -1,5 +1,6 @@
-use super::*;
 use std::cmp::Ordering;
+
+use super::*;
 
 #[derive(Debug)]
 struct S(u32);

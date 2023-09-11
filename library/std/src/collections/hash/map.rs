@@ -1,10 +1,9 @@
 #[cfg(test)]
 mod tests;
 
-use self::Entry::*;
-
 use hashbrown::hash_map as base;
 
+use self::Entry::*;
 use crate::borrow::Borrow;
 use crate::cell::Cell;
 use crate::collections::TryReserveError;

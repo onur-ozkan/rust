@@ -1,10 +1,11 @@
 //! This pass removes jumps to basic blocks containing only a return, and replaces them with a
 //! return instead.
 
-use crate::{simplify, MirPass};
 use rustc_index::bit_set::BitSet;
 use rustc_middle::mir::*;
 use rustc_middle::ty::TyCtxt;
+
+use crate::{simplify, MirPass};
 
 pub struct MultipleReturnTerminators;
 

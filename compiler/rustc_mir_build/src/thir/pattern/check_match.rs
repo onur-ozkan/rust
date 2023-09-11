@@ -1,10 +1,3 @@
-use super::deconstruct_pat::{Constructor, DeconstructedPat};
-use super::usefulness::{
-    compute_match_usefulness, MatchArm, MatchCheckCtxt, Reachability, UsefulnessReport,
-};
-
-use crate::errors::*;
-
 use rustc_arena::TypedArena;
 use rustc_ast::Mutability;
 use rustc_data_structures::fx::FxHashSet;
@@ -26,6 +19,12 @@ use rustc_session::lint::builtin::{
 use rustc_session::Session;
 use rustc_span::hygiene::DesugaringKind;
 use rustc_span::Span;
+
+use super::deconstruct_pat::{Constructor, DeconstructedPat};
+use super::usefulness::{
+    compute_match_usefulness, MatchArm, MatchCheckCtxt, Reachability, UsefulnessReport,
+};
+use crate::errors::*;
 
 pub(crate) fn check_match(tcx: TyCtxt<'_>, def_id: LocalDefId) -> Result<(), ErrorGuaranteed> {
     let (thir, expr) = tcx.thir_body(def_id)?;

@@ -18,6 +18,12 @@ extern crate rustc_middle;
 #[macro_use]
 extern crate tracing;
 
+use std::cell::RefCell;
+use std::collections::BTreeMap;
+use std::ops::Deref;
+use std::rc::Rc;
+
+use consumers::{BodyWithBorrowckFacts, ConsumerOptions};
 use rustc_data_structures::fx::{FxIndexMap, FxIndexSet};
 use rustc_data_structures::graph::dominators::Dominators;
 use rustc_errors::{Diagnostic, DiagnosticBuilder, DiagnosticMessage, SubdiagnosticMessage};
@@ -39,16 +45,6 @@ use rustc_middle::mir::{ProjectionElem, Promoted, Rvalue, Statement, StatementKi
 use rustc_middle::query::Providers;
 use rustc_middle::traits::DefiningAnchor;
 use rustc_middle::ty::{self, CapturedPlace, ParamEnv, RegionVid, TyCtxt};
-use rustc_session::lint::builtin::UNUSED_MUT;
-use rustc_span::{Span, Symbol};
-use rustc_target::abi::FieldIdx;
-
-use smallvec::SmallVec;
-use std::cell::RefCell;
-use std::collections::BTreeMap;
-use std::ops::Deref;
-use std::rc::Rc;
-
 use rustc_mir_dataflow::impls::{
     EverInitializedPlaces, MaybeInitializedPlaces, MaybeUninitializedPlaces,
 };
@@ -56,15 +52,16 @@ use rustc_mir_dataflow::move_paths::{InitIndex, MoveOutIndex, MovePathIndex};
 use rustc_mir_dataflow::move_paths::{InitLocation, LookupResult, MoveData, MoveError};
 use rustc_mir_dataflow::Analysis;
 use rustc_mir_dataflow::MoveDataParamEnv;
-
-use crate::session_diagnostics::VarNeedNotMut;
+use rustc_session::lint::builtin::UNUSED_MUT;
+use rustc_span::{Span, Symbol};
+use rustc_target::abi::FieldIdx;
+use smallvec::SmallVec;
 
 use self::diagnostics::{AccessKind, RegionName};
 use self::location::LocationTable;
-use self::prefixes::PrefixSet;
-use consumers::{BodyWithBorrowckFacts, ConsumerOptions};
-
 use self::path_utils::*;
+use self::prefixes::PrefixSet;
+use crate::session_diagnostics::VarNeedNotMut;
 
 pub mod borrow_set;
 mod borrowck_errors;

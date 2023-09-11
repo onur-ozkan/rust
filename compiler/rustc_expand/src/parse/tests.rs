@@ -1,6 +1,4 @@
-use crate::tests::{
-    matches_codepattern, string_to_stream, with_error_checking_parse, with_expected_parse_error,
-};
+use std::path::PathBuf;
 
 use rustc_ast::ptr::P;
 use rustc_ast::token::{self, Delimiter, Token};
@@ -17,7 +15,9 @@ use rustc_span::source_map::FilePathMapping;
 use rustc_span::symbol::{kw, sym, Symbol};
 use rustc_span::{BytePos, FileName, Pos, Span};
 
-use std::path::PathBuf;
+use crate::tests::{
+    matches_codepattern, string_to_stream, with_error_checking_parse, with_expected_parse_error,
+};
 
 fn sess() -> ParseSess {
     ParseSess::new(

@@ -46,13 +46,6 @@ mod writeback;
 
 pub use fn_ctxt::FnCtxt;
 pub use inherited::Inherited;
-
-use crate::check::check_fn;
-use crate::coercion::DynamicCoerceMany;
-use crate::diverges::Diverges;
-use crate::expectation::Expectation;
-use crate::fn_ctxt::RawTy;
-use crate::gather_locals::GatherLocalsVisitor;
 use rustc_data_structures::unord::UnordSet;
 use rustc_errors::{
     struct_span_err, DiagnosticId, DiagnosticMessage, ErrorGuaranteed, MultiSpan,
@@ -72,6 +65,13 @@ use rustc_middle::ty::{self, Ty, TyCtxt};
 use rustc_session::config;
 use rustc_span::def_id::{DefId, LocalDefId};
 use rustc_span::Span;
+
+use crate::check::check_fn;
+use crate::coercion::DynamicCoerceMany;
+use crate::diverges::Diverges;
+use crate::expectation::Expectation;
+use crate::fn_ctxt::RawTy;
+use crate::gather_locals::GatherLocalsVisitor;
 
 fluent_messages! { "../messages.ftl" }
 

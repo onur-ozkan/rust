@@ -1,6 +1,7 @@
-use super::BackendTypes;
 use rustc_middle::mir::Coverage;
 use rustc_middle::ty::Instance;
+
+use super::BackendTypes;
 
 pub trait CoverageInfoBuilderMethods<'tcx>: BackendTypes {
     /// Handle the MIR coverage info in a backend-specific way.

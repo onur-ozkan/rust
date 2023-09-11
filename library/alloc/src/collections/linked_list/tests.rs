@@ -1,11 +1,11 @@
-use super::*;
-use crate::testing::crash_test::{CrashTestDummy, Panic};
-use crate::vec::Vec;
-
 use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::thread;
 
 use rand::RngCore;
+
+use super::*;
+use crate::testing::crash_test::{CrashTestDummy, Panic};
+use crate::vec::Vec;
 
 #[test]
 fn test_basic() {

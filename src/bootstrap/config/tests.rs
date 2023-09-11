@@ -1,9 +1,10 @@
-use crate::config::TomlConfig;
+use std::{env, path::Path};
 
-use super::{Config, Flags};
 use clap::CommandFactory;
 use serde::Deserialize;
-use std::{env, path::Path};
+
+use super::{Config, Flags};
+use crate::config::TomlConfig;
 
 fn parse(config: &str) -> Config {
     Config::parse_inner(&["check".to_owned(), "--config=/does/not/exist".to_owned()], |&_| {

@@ -1,11 +1,12 @@
-use super::ItemCtxt;
-use crate::astconv::{AstConv, PredicateFilter};
 use rustc_hir as hir;
 use rustc_infer::traits::util;
 use rustc_middle::ty::GenericArgs;
 use rustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeFolder};
 use rustc_span::def_id::{DefId, LocalDefId};
 use rustc_span::Span;
+
+use super::ItemCtxt;
+use crate::astconv::{AstConv, PredicateFilter};
 
 /// For associated types we include both bounds written on the type
 /// (`type X: Trait`) and predicates from the trait: `where Self::X: Trait`.

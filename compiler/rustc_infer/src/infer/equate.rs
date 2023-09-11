@@ -1,15 +1,13 @@
-use crate::infer::DefineOpaqueTypes;
-use crate::traits::PredicateObligations;
-
-use super::combine::{CombineFields, ObligationEmittingRelation};
-use super::Subtype;
-
+use rustc_hir::def_id::DefId;
 use rustc_middle::ty::relate::{self, Relate, RelateResult, TypeRelation};
 use rustc_middle::ty::GenericArgsRef;
 use rustc_middle::ty::TyVar;
 use rustc_middle::ty::{self, Ty, TyCtxt, TypeVisitableExt};
 
-use rustc_hir::def_id::DefId;
+use super::combine::{CombineFields, ObligationEmittingRelation};
+use super::Subtype;
+use crate::infer::DefineOpaqueTypes;
+use crate::traits::PredicateObligations;
 
 /// Ensures `a` is made equal to `b`. Returns `a` on success.
 pub struct Equate<'combine, 'infcx, 'tcx> {

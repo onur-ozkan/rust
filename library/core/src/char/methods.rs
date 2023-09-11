@@ -1,12 +1,11 @@
 //! impl char {}
 
+use super::*;
 use crate::ascii;
 use crate::slice;
 use crate::str::from_utf8_unchecked_mut;
 use crate::unicode::printable::is_printable;
 use crate::unicode::{self, conversions};
-
-use super::*;
 
 impl char {
     /// The lowest valid code point a `char` can have, `'\0'`.

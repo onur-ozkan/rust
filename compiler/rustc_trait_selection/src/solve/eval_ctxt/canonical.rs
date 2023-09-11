@@ -8,9 +8,9 @@
 //! section of the [rustc-dev-guide][c].
 //!
 //! [c]: https://rustc-dev-guide.rust-lang.org/solve/canonicalization.html
-use super::{CanonicalInput, Certainty, EvalCtxt, Goal};
-use crate::solve::canonicalize::{CanonicalizeMode, Canonicalizer};
-use crate::solve::{response_no_constraints_raw, CanonicalResponse, QueryResult, Response};
+use std::iter;
+use std::ops::Deref;
+
 use rustc_data_structures::fx::FxHashSet;
 use rustc_index::IndexVec;
 use rustc_infer::infer::canonical::query_response::make_query_region_constraints;
@@ -26,8 +26,10 @@ use rustc_middle::ty::{
     TypeVisitableExt,
 };
 use rustc_span::DUMMY_SP;
-use std::iter;
-use std::ops::Deref;
+
+use super::{CanonicalInput, Certainty, EvalCtxt, Goal};
+use crate::solve::canonicalize::{CanonicalizeMode, Canonicalizer};
+use crate::solve::{response_no_constraints_raw, CanonicalResponse, QueryResult, Response};
 
 impl<'tcx> EvalCtxt<'_, 'tcx> {
     /// Canonicalizes the goal remembering the original values

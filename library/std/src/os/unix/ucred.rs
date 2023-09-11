@@ -25,9 +25,6 @@ pub struct UCred {
     pub pid: Option<pid_t>,
 }
 
-#[cfg(any(target_os = "android", target_os = "linux"))]
-pub use self::impl_linux::peer_cred;
-
 #[cfg(any(
     target_os = "dragonfly",
     target_os = "freebsd",
@@ -35,17 +32,19 @@ pub use self::impl_linux::peer_cred;
     target_os = "netbsd"
 ))]
 pub use self::impl_bsd::peer_cred;
-
+#[cfg(any(target_os = "android", target_os = "linux"))]
+pub use self::impl_linux::peer_cred;
 #[cfg(any(target_os = "macos", target_os = "ios", target_os = "tvos", target_os = "watchos"))]
 pub use self::impl_mac::peer_cred;
 
 #[cfg(any(target_os = "linux", target_os = "android"))]
 pub mod impl_linux {
+    use libc::{c_void, getsockopt, socklen_t, ucred, SOL_SOCKET, SO_PEERCRED};
+
     use super::UCred;
     use crate::os::unix::io::AsRawFd;
     use crate::os::unix::net::UnixStream;
     use crate::{io, mem};
-    use libc::{c_void, getsockopt, socklen_t, ucred, SOL_SOCKET, SO_PEERCRED};
 
     pub fn peer_cred(socket: &UnixStream) -> io::Result<UCred> {
         let ucred_size = mem::size_of::<ucred>();
@@ -100,11 +99,12 @@ pub mod impl_bsd {
 
 #[cfg(any(target_os = "macos", target_os = "ios", target_os = "tvos", target_os = "watchos"))]
 pub mod impl_mac {
+    use libc::{c_void, getpeereid, getsockopt, pid_t, socklen_t, LOCAL_PEERPID, SOL_LOCAL};
+
     use super::UCred;
     use crate::os::unix::io::AsRawFd;
     use crate::os::unix::net::UnixStream;
     use crate::{io, mem};
-    use libc::{c_void, getpeereid, getsockopt, pid_t, socklen_t, LOCAL_PEERPID, SOL_LOCAL};
 
     pub fn peer_cred(socket: &UnixStream) -> io::Result<UCred> {
         let mut cred = UCred { uid: 1, gid: 1, pid: None };

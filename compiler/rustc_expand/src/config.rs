@@ -1,9 +1,5 @@
 //! Conditional compilation stripping.
 
-use crate::errors::{
-    FeatureIncludedInEdition, FeatureNotAllowed, FeatureRemoved, FeatureRemovedReason, InvalidCfg,
-    MalformedFeatureAttribute, MalformedFeatureAttributeHelp, RemoveExprNotSupported,
-};
 use rustc_ast::ptr::P;
 use rustc_ast::token::{Delimiter, Token, TokenKind};
 use rustc_ast::tokenstream::{AttrTokenStream, AttrTokenTree};
@@ -24,6 +20,11 @@ use rustc_session::Session;
 use rustc_span::edition::{Edition, ALL_EDITIONS};
 use rustc_span::symbol::{sym, Symbol};
 use rustc_span::{Span, DUMMY_SP};
+
+use crate::errors::{
+    FeatureIncludedInEdition, FeatureNotAllowed, FeatureRemoved, FeatureRemovedReason, InvalidCfg,
+    MalformedFeatureAttribute, MalformedFeatureAttributeHelp, RemoveExprNotSupported,
+};
 
 /// A folder that strips out items that do not belong in the current configuration.
 pub struct StripUnconfigured<'a> {
