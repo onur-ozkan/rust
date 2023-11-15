@@ -1,4 +1,8 @@
-//! Implementation of compiling the compiler and standard library, in "check"-based modes.
+//! # Compilation in "check"-based modes
+//!
+//! This module contains the implementation of compiling the compiler, standard library, and tools in
+//! "check"-based modes. It includes steps for building the standard library, rustc, code generation backends,
+//! and various tools like clippy, miri, rustdoc, etc.
 
 use crate::core::build_steps::compile::{
     add_to_sysroot, run_cargo, rustc_cargo, rustc_cargo_env, std_cargo,

@@ -1,3 +1,8 @@
+//! Module for collecting and storing package metadata from workspace members.
+//!
+//! For more information about the `cargo metadata` command, refer to:
+//! <https://doc.rust-lang.org/nightly/cargo/commands/cargo-metadata.html>
+
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -7,15 +12,11 @@ use crate::utils::cache::INTERNER;
 use crate::utils::helpers::output;
 use crate::{t, Build, Crate};
 
-/// For more information, see the output of
-/// <https://doc.rust-lang.org/nightly/cargo/commands/cargo-metadata.html>
 #[derive(Debug, Deserialize)]
 struct Output {
     packages: Vec<Package>,
 }
 
-/// For more information, see the output of
-/// <https://doc.rust-lang.org/nightly/cargo/commands/cargo-metadata.html>
 #[derive(Debug, Deserialize)]
 struct Package {
     name: String,
@@ -25,8 +26,6 @@ struct Package {
     targets: Vec<Target>,
 }
 
-/// For more information, see the output of
-/// <https://doc.rust-lang.org/nightly/cargo/commands/cargo-metadata.html>
 #[derive(Debug, Deserialize)]
 struct Dependency {
     name: String,

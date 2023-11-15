@@ -1,9 +1,11 @@
-//! rustbuild, the Rust build system
+//! # rustbuild, The Rust Build System
 //!
-//! This is the entry point for the build system used to compile the `rustc`
-//! compiler. Lots of documentation can be found in the `README.md` file in the
-//! parent directory, and otherwise documentation can be found throughout the `build`
-//! directory in each respective module.
+//! This is the entry point for the build system used to compile the rustc, std library
+//! and tools. For extensive documentation, refer to the `README.md` file in the
+//! bootstrap's project root.
+//!
+//! The `main` function orchestrates the build process, handling configuration parsing,
+//! file locking, version checks, etc.
 
 #[cfg(all(any(unix, windows), not(target_os = "solaris")))]
 use std::io::Write;

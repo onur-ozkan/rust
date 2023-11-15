@@ -1,3 +1,7 @@
+//! Module for downloading and handling various components during the build
+//! process. Which includes functionality for downloading and extracting the
+//! compiler toolchain and LLVM.
+
 use std::{
     env,
     ffi::{OsStr, OsString},
