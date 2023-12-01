@@ -20,8 +20,8 @@ use crate::core::config::{DryRun, SplitDebuginfo, TargetSelection};
 use crate::utils::cache::{Cache, Interned, INTERNER};
 use crate::utils::helpers::{self, add_dylib_path, add_link_lib_path, add_rustdoc_lld_flags, exe};
 use crate::utils::helpers::{libdir, output, t, LldThreads};
-use crate::Crate;
 use crate::EXTRA_CHECK_CFGS;
+use crate::{prepare_behaviour_dump_dir, Crate};
 use crate::{Build, CLang, DocTests, GitRepo, Mode};
 
 pub use crate::Compiler;
@@ -1785,6 +1785,16 @@ impl<'a> Builder<'a> {
 
         // Enable usage of unstable features
         cargo.env("RUSTC_BOOTSTRAP", "1");
+
+        if self.config.dump_bootstrap_behaviour {
+            prepare_behaviour_dump_dir(&self.build);
+
+            cargo
+                .env("BOOTSTRAP_BEHAVIOUR_DUMP", self.build.out.join("bootstrap-behaviour-dump"))
+                .env("BUILD_OUT", &self.build.out)
+                .env("CARGO_HOME", t!(home::cargo_home()));
+        };
+
         self.add_rust_test_threads(&mut cargo);
 
         // Almost all of the crates that we compile as part of the bootstrap may

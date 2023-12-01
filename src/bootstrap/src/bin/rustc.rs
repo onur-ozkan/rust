@@ -16,6 +16,8 @@
 //! never get replaced.
 
 use std::env;
+use std::fs::OpenOptions;
+use std::io::Write;
 use std::path::PathBuf;
 use std::process::{Child, Command};
 use std::time::Instant;
@@ -32,9 +34,7 @@ fn main() {
     let args = env::args_os().skip(1).collect::<Vec<_>>();
     let arg = |name| args.windows(2).find(|args| args[0] == name).and_then(|args| args[1].to_str());
 
-    // We don't use the stage in this shim, but let's parse it to make sure that we're invoked
-    // by bootstrap, or that we provide a helpful error message if not.
-    bin_helpers::parse_rustc_stage();
+    let stage = bin_helpers::parse_rustc_stage();
     let verbose = bin_helpers::parse_rustc_verbose();
 
     // Detect whether or not we're a build script depending on whether --target
@@ -212,6 +212,19 @@ fn main() {
         if let Some("rustc_driver") = crate_name {
             cmd.arg("-Clink-args=-Wl,-q");
         }
+    }
+
+    if let Ok(dump_dir) = env::var("BOOTSTRAP_BEHAVIOUR_DUMP") {
+        let dump_file = format!("{dump_dir}/stage{stage}-rustc");
+
+        let mut file =
+            OpenOptions::new().create(true).write(true).append(true).open(&dump_file).unwrap();
+
+        let cmd_dump = format!("{:?}\n", cmd);
+        let cmd_dump = cmd_dump.replace(&env::var("BUILD_OUT").unwrap(), "${BUILD_OUT}");
+        let cmd_dump = cmd_dump.replace(&env::var("CARGO_HOME").unwrap(), "${CARGO_HOME}");
+
+        file.write_all(cmd_dump.as_bytes()).expect("Unable to write file");
     }
 
     let start = Instant::now();

@@ -2,7 +2,8 @@
 //!
 //! See comments in `src/bootstrap/rustc.rs` for more information.
 
-use std::env;
+use std::io::Write;
+use std::{env, fs::OpenOptions};
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -61,6 +62,19 @@ fn main() {
     }
     cmd.arg("-Zunstable-options");
     cmd.arg("--check-cfg=cfg(bootstrap)");
+
+    if let Ok(dump_dir) = env::var("BOOTSTRAP_BEHAVIOUR_DUMP") {
+        let dump_file = format!("{dump_dir}/stage{stage}-rustdoc");
+
+        let mut file =
+            OpenOptions::new().create(true).write(true).append(true).open(&dump_file).unwrap();
+
+        let cmd_dump = format!("{:?}\n", cmd);
+        let cmd_dump = cmd_dump.replace(&env::var("BUILD_OUT").unwrap(), "${BUILD_OUT}");
+        let cmd_dump = cmd_dump.replace(&env::var("CARGO_HOME").unwrap(), "${CARGO_HOME}");
+
+        file.write_all(cmd_dump.as_bytes()).expect("Unable to write file");
+    }
 
     if verbose > 1 {
         eprintln!(

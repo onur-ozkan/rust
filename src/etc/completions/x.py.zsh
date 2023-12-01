@@ -45,6 +45,7 @@ _x.py() {
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -94,6 +95,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -136,6 +138,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -182,6 +185,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -223,6 +227,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -265,6 +270,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -308,6 +314,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -362,6 +369,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -404,6 +412,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -446,6 +455,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -487,6 +497,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -528,6 +539,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -570,6 +582,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -611,6 +624,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
@@ -654,6 +668,7 @@ _arguments "${_arguments_options[@]}" \
 '--incremental[use incremental compilation]' \
 '--include-default-paths[include default paths in addition to the provided ones]' \
 '--dry-run[dry run; don'\''t build anything]' \
+'--dump-bootstrap-behaviour[Indicates whether to dump the work done from bootstrap]' \
 '--json-output[use message-format=json]' \
 '--llvm-profile-generate[generate PGO profile with llvm built for rustc]' \
 '--enable-bolt-settings[Enable BOLT link flags]' \
