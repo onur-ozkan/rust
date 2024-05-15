@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# !!!EXPERIMENTAL BOOTSTRAP WITH NO PYTHON SCRIPT INVOLVED!!!
+
+set -eu
+
+# syntax check
+sh -n "$0"
+
+# TODOs
+# - download beta compiler (What will happen when cargo and rustc is set in the config.toml?)
+# - Migrate all the python logic to a new bootstrap binary (something like bootstrap-init) that starts bootstrapping at the end of the process, similar to bootstrap.py.
+# - Run `cargo run` on the migrated program.
+#
+# Move certain options from config.toml to environment variables,
+# so we can read them here easily as we can't parse config.toml
+# in bash scripts.
+
+realpath() {
+    local path="$1"
+    if [ -L "$path" ]; then
+        readlink -f "$path"
+    elif [ -d "$path" ]; then
+        (cd -P "$path" && pwd)
+    else
+        echo "$(realpath "$(dirname "$path")")/$(basename "$path")"
+    fi
+}
+
+download() {
+    url=$1
+    output_path=$2
+
+    curl \
+        -L `#Follow redirect.` \
+        -y 30 -Y 10 `#Timeout if speed is < 10 bytes/sec for > 30 seconds.` \
+        --connect-timeout 30 `#Timeout if cannot connect within 30 seconds.` \
+        -o $output_path \
+        --retry 3 -SRf \
+        $url
+}
+
+# Parse values from stage0 file by key
+get_value_by_key() {
+    local key="$1"
+    local file="src/stage0"
+
+    local value=$(awk -F= '{a[$1]=$2} END {print(a["'$key'"])}' $file)
+
+    if [ -z "$value" ]; then
+        echo "ERROR: Key '$key' not found in '$file'."
+        exit 1
+    fi
+
+    echo "$value"
+}
+
+rust_root=$(dirname "$(realpath "$0")")
+host_triple=$($rust_root/src/etc/resolve_target_triple.sh)
+dist_server=$(get_value_by_key "dist_server")
+compiler_date=$(get_value_by_key "compiler_date")
+base_download_url="$dist_server/dist/$compiler_date"
+
+download_dir="./build2/cache/$compiler_date"
+# Ensure existance of the build directory
+mkdir -p $download_dir
+
+if command -v xz > /dev/null 2>&1; then
+    compression_type="xz"
+elif command -v gunzip > /dev/null 2>&1; then
+    compression_type="gz"
+else
+    echo "ERROR: Host system must support either xz or gzip."
+    exit 1
+fi
+
+rustc_beta_filename="rustc-beta-$host_triple.tar.$compression_type"
+rust_std_beta_filename="rust-std-beta-$host_triple.tar.$compression_type"
+cargo_beta_filename="cargo-beta-$host_triple.tar.$compression_type"
+
+download "$base_download_url/$rustc_beta_filename" "$download_dir/$rustc_beta_filename"
