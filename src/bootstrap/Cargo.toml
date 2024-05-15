@@ -14,6 +14,16 @@ path = "src/lib.rs"
 doctest = false
 
 [[bin]]
+name = "init"
+path = "src/bin/init.rs"
+test = false
+
+[[bin]]
+name = "configure"
+path = "src/bin/configure.rs"
+test = false
+
+[[bin]]
 name = "bootstrap"
 path = "src/bin/main.rs"
 test = false

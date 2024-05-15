@@ -1121,6 +1121,7 @@ def parse_stage0_file(path):
                 result[key.strip()] = value.strip()
     return result
 
+# TODO: migrate this logic to rust side
 def bootstrap(args):
     """Configure, fetch, build and run the initial bootstrap"""
     rust_root = os.path.abspath(os.path.join(__file__, '../../..'))

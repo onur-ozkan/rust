@@ -1,0 +1,99 @@
+#!/bin/sh
+
+# This script should only prepare the stage0 sysroot, then run the init
+# program from ./src/bootstrap. No other logic should be included.
+
+set -eu
+
+# syntax check
+sh -n "$0"
+
+realpath() {
+    local path="$1"
+    if [ -L "$path" ]; then
+        readlink -f "$path"
+    elif [ -d "$path" ]; then
+        (cd -P "$path" && pwd)
+    else
+        echo "$(realpath "$(dirname "$path")")/$(basename "$path")"
+    fi
+}
+
+# Parse values from ./src/stage0 file by key
+get_value_by_key() {
+    local key="$1"
+    local file="$rust_root/src/stage0"
+
+    local value=$(awk -F= '{a[$1]=$2} END {print(a["'$key'"])}' $file)
+
+    if [ -z "$value" ]; then
+        echo "ERROR: Key '$key' not found in '$file'."
+        exit 1
+    fi
+
+    echo "$value"
+}
+
+rust_root=$(dirname "$(realpath "$0")")
+build_dir="./build2"
+host_triple=$($rust_root/src/etc/resolve_target_triple.sh)
+dist_server=$(get_value_by_key "dist_server")
+compiler_date=$(get_value_by_key "compiler_date")
+base_download_url="$dist_server/dist/$compiler_date"
+download_dir="$build_dir/cache/$compiler_date"
+sysroots_root_dir="$build_dir/$host_triple"
+stage0_sysroot_dir="$sysroots_root_dir/stage0"
+
+download() {
+    url=$1
+    output_path=$2
+
+    curl \
+        --silent \
+        -L `#Follow redirect.` \
+        -y 30 -Y 10 `#Timeout if speed is < 10 bytes/sec for > 30 seconds.` \
+        --connect-timeout 30 `#Timeout if cannot connect within 30 seconds.` \
+        -o $output_path \
+        --retry 3 -SRf \
+        $url
+}
+
+prepare_component() {
+    component_name=$1
+    download_url="$base_download_url/$component_name"
+    output_path="$download_dir/$component_name"
+
+    # TODO: cover beta bumps
+    if [ ! -f $output_path ]; then
+        echo "Downloading '$download_url' --> '$output_path'"
+        download $download_url $output_path
+        echo "Extracting '$output_path' --> '$stage0_sysroot_dir'"
+        tar xf $output_path -C $stage0_sysroot_dir --strip-components 2
+    fi
+}
+
+if command -v xz > /dev/null 2>&1; then
+    compression_type="xz"
+elif command -v gunzip > /dev/null 2>&1; then
+    compression_type="gz"
+else
+    echo "ERROR: Host system must support either xz or gzip."
+    exit 1
+fi
+
+mkdir -p $download_dir
+mkdir -p $sysroots_root_dir
+mkdir -p $stage0_sysroot_dir
+
+prepare_component "rustc-beta-$host_triple.tar.$compression_type"
+prepare_component "rust-std-beta-$host_triple.tar.$compression_type"
+prepare_component "cargo-beta-$host_triple.tar.$compression_type"
+
+stage0_cargo_bin="$stage0_sysroot_dir/bin/cargo"
+bootstrap_cargo_toml="$rust_root/src/bootstrap/Cargo.toml"
+
+CARGO_TARGET_DIR="$build_dir/bootstrap" \
+    $stage0_cargo_bin run \
+    --manifest-path ./src/bootstrap/Cargo.toml \
+    --bin init
+
