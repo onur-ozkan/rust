@@ -18,6 +18,7 @@ use std::sync::OnceLock;
 use crate::core::build_steps::compile::CODEGEN_BACKEND_PREFIX;
 use crate::core::build_steps::llvm;
 use crate::core::config::flags::{Color, Flags, Warnings};
+use crate::core::download::is_download_ci_available;
 use crate::utils::cache::{Interned, INTERNER};
 use crate::utils::channel::{self, GitInfo};
 use crate::utils::helpers::{exe, output, t};
@@ -1517,9 +1518,10 @@ impl Config {
             config.mandir = mandir.map(PathBuf::from);
         }
 
+        config.llvm_assertions = toml.llvm.as_ref().map_or(false, |llvm| llvm.assertions.unwrap_or(false));
+
         // Store off these values as options because if they're not provided
         // we'll infer default values for them later
-        let mut llvm_assertions = None;
         let mut llvm_tests = None;
         let mut llvm_plugins = None;
         let mut debug = None;
@@ -1598,7 +1600,7 @@ impl Config {
             is_user_configured_rust_channel = channel.is_some();
             set(&mut config.channel, channel);
 
-            config.download_rustc_commit = config.download_ci_rustc_commit(download_rustc);
+            config.download_rustc_commit = config.download_ci_rustc_commit(download_rustc, config.llvm_assertions);
             // This list is incomplete, please help by expanding it!
             if config.download_rustc_commit.is_some() {
                 // We need the channel used by the downloaded compiler to match the one we set for rustdoc;
@@ -1729,7 +1731,7 @@ impl Config {
                 optimize: optimize_toml,
                 thin_lto,
                 release_debuginfo,
-                assertions,
+                assertions: _,
                 tests,
                 plugins,
                 ccache,
@@ -1761,7 +1763,6 @@ impl Config {
                 Some(StringOrBool::Bool(false)) | None => {}
             }
             set(&mut config.ninja_in_file, ninja);
-            llvm_assertions = assertions;
             llvm_tests = tests;
             llvm_plugins = plugins;
             set(&mut config.llvm_optimize, optimize_toml);
@@ -1788,8 +1789,7 @@ impl Config {
             config.llvm_enable_warnings = enable_warnings.unwrap_or(false);
             config.llvm_build_config = build_config.clone().unwrap_or(Default::default());
 
-            let asserts = llvm_assertions.unwrap_or(false);
-            config.llvm_from_ci = config.parse_download_ci_llvm(download_ci_llvm, asserts);
+            config.llvm_from_ci = config.parse_download_ci_llvm(download_ci_llvm, config.llvm_assertions);
 
             if config.llvm_from_ci {
                 // None of the LLVM options, except assertions, are supported
@@ -1948,7 +1948,6 @@ impl Config {
         // Now that we've reached the end of our configuration, infer the
         // default values for all options that we haven't otherwise stored yet.
 
-        config.llvm_assertions = llvm_assertions.unwrap_or(false);
         config.llvm_tests = llvm_tests.unwrap_or(false);
         config.llvm_plugins = llvm_plugins.unwrap_or(false);
         config.rust_optimize = optimize.unwrap_or(RustOptimize::Bool(true));
@@ -2409,12 +2408,12 @@ impl Config {
     }
 
     /// Returns the commit to download, or `None` if we shouldn't download CI artifacts.
-    fn download_ci_rustc_commit(&self, download_rustc: Option<StringOrBool>) -> Option<String> {
+    fn download_ci_rustc_commit(&self, download_rustc: Option<StringOrBool>, llvm_assertions: bool) -> Option<String> {
         // If `download-rustc` is not set, default to rebuilding.
         let if_unchanged = match download_rustc {
             None | Some(StringOrBool::Bool(false)) => return None,
             Some(StringOrBool::Bool(true)) => false,
-            Some(StringOrBool::String(s)) if s == "if-unchanged" => true,
+            Some(StringOrBool::String(s)) if s == "if-unchanged" => is_download_ci_available(&self.build.triple, llvm_assertions),
             Some(StringOrBool::String(other)) => {
                 panic!("unrecognized option for download-rustc: {other}")
             }
