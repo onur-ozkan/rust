@@ -209,6 +209,8 @@ pub struct Config {
     #[cfg(test)]
     pub download_rustc_commit: Option<String>,
 
+    pub should_copy_std_from_ci_rustc: bool,
+
     pub deny_warnings: bool,
     pub backtrace_on_ice: bool,
 
@@ -1554,6 +1556,7 @@ impl Config {
 
             if config.download_rustc_commit.is_some() {
                 check_incompatible_options_for_ci_rustc(&rust);
+                config.should_copy_std_from_ci_rustc = should_copy_std_from_ci_rustc;
             }
 
             let Rust {
@@ -2595,8 +2598,85 @@ impl Config {
     }
 }
 
-// Checks the CI rustc incompatible options by destructuring the `Rust` instance
-// and makes sure that no rust options from config.toml are missed.
+/// TODO
+fn should_copy_std_from_ci_rustc(rust: &Rust) -> bool {
+    let Rust {
+        // TODO
+        debug,
+        codegen_units_std,
+        debug_assertions,
+        debug_assertions_std,
+        overflow_checks,
+        overflow_checks_std,
+        debuginfo_level,
+        debuginfo_level_std,
+        control_flow_guard,
+        ehcont_guard,
+        new_symbol_mangling,
+        validate_mir_opts,
+        frame_pointers,
+
+        // TODO
+        optimize: _,
+        debug_logging: _,
+        debuginfo_level_rustc: _,
+        llvm_tools: _,
+        llvm_bitcode_linker: _,
+        lto: _,
+        stack_protector: _,
+        strip: _,
+        lld_mode: _,
+        jemalloc: _,
+        rpath: _,
+        channel: _,
+        description: _,
+        incremental: _,
+        default_linker: _,
+        codegen_units: _,
+        debuginfo_level_tools: _,
+        debuginfo_level_tests: _,
+        split_debuginfo: _,
+        backtrace: _,
+        parallel_compiler: _,
+        musl_root: _,
+        verbose_tests: _,
+        optimize_tests: _,
+        codegen_tests: _,
+        omit_git_hash: _,
+        dist_src: _,
+        save_toolstates: _,
+        codegen_backends: _,
+        lld: _,
+        deny_warnings: _,
+        backtrace_on_ice: _,
+        verify_llvm_ir: _,
+        thin_lto_import_instr_limit: _,
+        remap_debuginfo: _,
+        test_compare_mode: _,
+        llvm_libunwind: _,
+        profile_generate: _,
+        profile_use: _,
+        download_rustc: _,
+    } = rust;
+
+    debug.is_none()
+        && codegen_units_std.is_none()
+        && debug_assertions.is_none()
+        && debug_assertions_std.is_none()
+        && overflow_checks.is_none()
+        && overflow_checks_std.is_none()
+        && debuginfo_level.is_none()
+        && debuginfo_level_std.is_some()
+        && validate_mir_opts.is_none()
+        && frame_pointers.is_none()
+        && control_flow_guard.is_none()
+        && ehcont_guard.is_none()
+        && new_symbol_mangling.is_none()
+        && new_symbol_mangling.is_none()
+}
+
+/// Checks the CI rustc incompatible options by destructuring the `Rust` instance
+/// and makes sure that no rust options from config.toml are missed.
 fn check_incompatible_options_for_ci_rustc(rust: &Rust) {
     macro_rules! err {
         ($name:expr) => {
