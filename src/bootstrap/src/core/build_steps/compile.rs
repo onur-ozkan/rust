@@ -98,6 +98,18 @@ impl Std {
         }
     }
 
+    /// TODO
+    fn use_std_from_ci_rustc(&self, builder: &Builder<'_>) -> bool {
+        self.target == builder.build.build
+            && builder.config.download_rustc_commit().is_some()
+            // NOTE: the beta compiler may generate different artifacts than the downloaded compiler, so
+            // its artifacts can't be reused.
+            && self.compiler.stage != 0
+            // This check is specific to testing std itself; see `test::Std` for more details.
+            && !self.force_recompile
+            && !(builder.config.has_custom_std_options && self.compiler.stage > 1)
+    }
+
     fn copy_extra_objects(
         &self,
         builder: &Builder<'_>,
@@ -153,13 +165,7 @@ impl Step for Std {
 
         // When using `download-rustc`, we already have artifacts for the host available. Don't
         // recompile them.
-        if builder.download_rustc() && target == builder.build.build
-            // NOTE: the beta compiler may generate different artifacts than the downloaded compiler, so
-            // its artifacts can't be reused.
-            && compiler.stage != 0
-            // This check is specific to testing std itself; see `test::Std` for more details.
-            && !self.force_recompile
-        {
+        if self.use_std_from_ci_rustc(builder) {
             let sysroot = builder.ensure(Sysroot { compiler, force_recompile: false });
             cp_rustc_component_to_ci_sysroot(
                 builder,
