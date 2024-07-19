@@ -565,23 +565,12 @@ pub fn std_cargo(builder: &Builder<'_>, target: TargetSelection, stage: u32, car
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct StdLink {
     pub compiler: Compiler,
-    pub target_compiler: Compiler,
-    pub target: TargetSelection,
-    /// Not actually used; only present to make sure the cache invalidation is correct.
-    crates: Vec<String>,
-    /// See [`Std::force_recompile`].
-    force_recompile: bool,
+    pub std: Std,
 }
 
 impl StdLink {
     fn from_std(std: Std, host_compiler: Compiler) -> Self {
-        Self {
-            compiler: host_compiler,
-            target_compiler: std.compiler,
-            target: std.target,
-            crates: std.crates,
-            force_recompile: std.force_recompile,
-        }
+        Self { compiler: host_compiler, std }
     }
 }
 
@@ -602,16 +591,18 @@ impl Step for StdLink {
     /// output directory.
     fn run(self, builder: &Builder<'_>) {
         let compiler = self.compiler;
-        let target_compiler = self.target_compiler;
-        let target = self.target;
+        let target_compiler = self.std.compiler;
+        let target = self.std.target;
 
         // NOTE: intentionally does *not* check `target == builder.build` to avoid having to add the same check in `test::Crate`.
-        let (libdir, hostdir) = if self.force_recompile && builder.download_rustc() {
+        let (libdir, hostdir) = if self.std.force_recompile
+            && self.std.use_std_from_ci_rustc(builder)
+        {
             // NOTE: copies part of `sysroot_libdir` to avoid having to add a new `force_recompile` argument there too
-            let lib = builder.sysroot_libdir_relative(self.compiler);
+            let lib = builder.sysroot_libdir_relative(compiler);
             let sysroot = builder.ensure(crate::core::build_steps::compile::Sysroot {
-                compiler: self.compiler,
-                force_recompile: self.force_recompile,
+                compiler,
+                force_recompile: self.std.force_recompile,
             });
             let libdir = sysroot.join(lib).join("rustlib").join(target.triple).join("lib");
             let hostdir = sysroot.join(lib).join("rustlib").join(compiler.host.triple).join("lib");
