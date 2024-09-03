@@ -1696,11 +1696,19 @@ impl Step for Sysroot {
         // When using CI rustc, we copy rustc-src component from its sysroot,
         // otherwise we handle it in a similar way what we do for rust-src above.
         if builder.download_rustc() {
-            cp_rustc_component_to_ci_sysroot(
-                builder,
-                &sysroot,
-                builder.config.ci_rustc_dev_contents(),
-            );
+            // compiletest tool gets confused when there are multiple rustlib artifacts with different hashes.
+            // Copying rustlib artifacts from ci-rustc can cause std and rustc to give the same artifact.
+            // Since both std and rustc depend on libc, the artifact for libc can appear twice with
+            // `liblibc-${hash}.{rlib,rmeta}` pattern.
+            //
+            // So, do not copy rustlib artifacts if running tests.
+            if builder.kind != Kind::Test {
+                cp_rustc_component_to_ci_sysroot(
+                    builder,
+                    &sysroot,
+                    builder.config.ci_rustc_dev_contents(),
+                );
+            }
         } else {
             let sysroot_lib_rustlib_rustcsrc = sysroot.join("lib/rustlib/rustc-src");
             t!(fs::create_dir_all(&sysroot_lib_rustlib_rustcsrc));
