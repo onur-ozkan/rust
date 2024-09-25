@@ -1,4 +1,4 @@
-use std::any::{Any, type_name};
+use std::any::{type_name, Any};
 use std::cell::{Cell, RefCell};
 use std::collections::BTreeSet;
 use std::ffi::{OsStr, OsString};
@@ -12,7 +12,6 @@ use std::{env, fs};
 
 use clap::ValueEnum;
 
-pub use crate::Compiler;
 use crate::core::build_steps::tool::{self, SourceType};
 use crate::core::build_steps::{
     check, clean, clippy, compile, dist, doc, gcc, install, llvm, run, setup, test, vendor,
@@ -20,14 +19,18 @@ use crate::core::build_steps::{
 use crate::core::config::flags::{Color, Subcommand};
 use crate::core::config::{DryRun, SplitDebuginfo, TargetSelection};
 use crate::utils::cache::Cache;
-use crate::utils::exec::{BootstrapCommand, command};
+use crate::utils::channel::GitInfo;
+use crate::utils::exec::{command, BootstrapCommand};
 use crate::utils::helpers::{
-    self, LldThreads, add_dylib_path, add_link_lib_path, check_cfg_arg, exe, libdir, linker_args,
-    linker_flags, t,
+    self, add_dylib_path, add_link_lib_path, check_cfg_arg, exe, libdir, linker_args, linker_flags,
+    t, LldThreads,
 };
+pub use crate::Compiler;
 use crate::{
-    Build, CLang, Crate, DocTests, EXTRA_CHECK_CFGS, GitRepo, Mode, prepare_behaviour_dump_dir,
+    prepare_behaviour_dump_dir, Build, CLang, Crate, DocTests, GitRepo, Mode, EXTRA_CHECK_CFGS,
 };
+
+use super::build_steps::doc::DocumentationFormat;
 
 #[cfg(test)]
 mod tests;
@@ -314,30 +317,33 @@ const PATH_REMAP: &[(&str, &[&str])] = &[
     // actual path is `proc-macro-srv-cli`
     ("rust-analyzer-proc-macro-srv", &["src/tools/rust-analyzer/crates/proc-macro-srv-cli"]),
     // Make `x test tests` function the same as `x t tests/*`
-    ("tests", &[
-        // tidy-alphabetical-start
-        "tests/assembly",
-        "tests/codegen",
-        "tests/codegen-units",
-        "tests/coverage",
-        "tests/coverage-run-rustdoc",
-        "tests/crashes",
-        "tests/debuginfo",
-        "tests/incremental",
-        "tests/mir-opt",
-        "tests/pretty",
-        "tests/run-make",
-        "tests/run-pass-valgrind",
-        "tests/rustdoc",
-        "tests/rustdoc-gui",
-        "tests/rustdoc-js",
-        "tests/rustdoc-js-std",
-        "tests/rustdoc-json",
-        "tests/rustdoc-ui",
-        "tests/ui",
-        "tests/ui-fulldeps",
-        // tidy-alphabetical-end
-    ]),
+    (
+        "tests",
+        &[
+            // tidy-alphabetical-start
+            "tests/assembly",
+            "tests/codegen",
+            "tests/codegen-units",
+            "tests/coverage",
+            "tests/coverage-run-rustdoc",
+            "tests/crashes",
+            "tests/debuginfo",
+            "tests/incremental",
+            "tests/mir-opt",
+            "tests/pretty",
+            "tests/run-make",
+            "tests/run-pass-valgrind",
+            "tests/rustdoc",
+            "tests/rustdoc-gui",
+            "tests/rustdoc-js",
+            "tests/rustdoc-js-std",
+            "tests/rustdoc-json",
+            "tests/rustdoc-ui",
+            "tests/ui",
+            "tests/ui-fulldeps",
+            // tidy-alphabetical-end
+        ],
+    ),
 ];
 
 fn remap_paths(paths: &mut Vec<PathBuf>) {
@@ -2324,7 +2330,11 @@ impl<'a> Builder<'a> {
         }
 
         // Only execute if it's supposed to run as default
-        if desc.default && should_run.is_really_default() { self.ensure(step) } else { None }
+        if desc.default && should_run.is_really_default() {
+            self.ensure(step)
+        } else {
+            None
+        }
     }
 
     /// Checks if any of the "should_run" paths is in the `Builder` paths.
@@ -2467,6 +2477,72 @@ impl Cargo {
             }
         }
 
+        match cmd_kind {
+            Kind::Build => todo!(),
+            Kind::Check => todo!(),
+            Kind::Clippy => todo!(),
+            Kind::Fix => todo!(),
+            Kind::Format => todo!(),
+            Kind::Test => todo!(),
+            Kind::Miri => todo!(),
+            Kind::MiriSetup => todo!(),
+            Kind::MiriTest => todo!(),
+            Kind::Bench => todo!(),
+            Kind::Doc => {
+                cargo.rustdocflag("--document-private-items");
+                // Since we always pass --document-private-items, there's no need to warn about linking to private items.
+                cargo.rustdocflag("-Arustdoc::private-intra-doc-links");
+                cargo.rustdocflag("--enable-index-page");
+                cargo.rustdocflag("-Znormalize-docs");
+                cargo.rustdocflag("--show-type-layout");
+
+                // FIXME: `--generate-link-to-definition` tries to resolve cfged out code
+                // see https://github.com/rust-lang/rust/pull/122066#issuecomment-1983049222
+                // cargo.rustdocflag("--generate-link-to-definition");
+
+                // FIXME: `-Zrustdoc-map` does not yet correctly work for transitive dependencies,
+                // once this is no longer an issue the special case for `ena` can be removed.
+                cargo.rustdocflag("--extern-html-root-url");
+                cargo.rustdocflag("ena=https://docs.rs/ena/latest/");
+
+                cargo.rustdocflag("--resource-suffix").rustdocflag(&builder.version);
+
+                if builder.config.library_docs_private_items {
+                    cargo
+                        .rustdocflag("--document-private-items")
+                        .rustdocflag("--document-hidden-items");
+                }
+
+                let index_page = builder
+                    .src
+                    .join("src/doc/index.md")
+                    .into_os_string()
+                    .into_string()
+                    .expect("non-utf8 paths are unsupported");
+                // TODO:!!!
+                let mut extra_args = match self.format {
+                    DocumentationFormat::Html => {
+                        vec![
+                            "--markdown-css",
+                            "rust.css",
+                            "--markdown-no-toc",
+                            "--index-page",
+                            &index_page,
+                        ]
+                    }
+                    DocumentationFormat::Json => vec!["--output-format", "json"],
+                };
+            }
+            Kind::Clean => todo!(),
+            Kind::Dist => todo!(),
+            Kind::Install => todo!(),
+            Kind::Run => todo!(),
+            Kind::Setup => todo!(),
+            Kind::Suggest => todo!(),
+            Kind::Vendor => todo!(),
+            Kind::Perf => todo!(),
+        }
+
         cargo
     }
 
@@ -2486,12 +2562,12 @@ impl Cargo {
         builder.cargo(compiler, mode, source_type, target, cmd_kind)
     }
 
-    pub fn rustdocflag(&mut self, arg: &str) -> &mut Cargo {
+    fn rustdocflag(&mut self, arg: &str) -> &mut Cargo {
         self.rustdocflags.arg(arg);
         self
     }
 
-    pub fn rustflag(&mut self, arg: &str) -> &mut Cargo {
+    fn rustflag(&mut self, arg: &str) -> &mut Cargo {
         self.rustflags.arg(arg);
         self
     }
@@ -2673,6 +2749,93 @@ impl Cargo {
 
         self
     }
+}
+
+#[allow(clippy::too_many_arguments)] // FIXME: reduce the number of args and remove this.
+pub fn prepare_tool_cargo(
+    builder: &Builder<'_>,
+    compiler: Compiler,
+    mode: Mode,
+    target: TargetSelection,
+    cmd_kind: Kind,
+    path: &str,
+    source_type: SourceType,
+    extra_features: &[String],
+) -> Cargo {
+    let mut cargo = Cargo::new(builder, compiler, mode, source_type, target, cmd_kind);
+
+    let dir = builder.src.join(path);
+    cargo.arg("--manifest-path").arg(dir.join("Cargo.toml"));
+
+    let mut features = extra_features.to_vec();
+    if builder.build.config.cargo_native_static {
+        if path.ends_with("cargo")
+            || path.ends_with("rls")
+            || path.ends_with("clippy")
+            || path.ends_with("miri")
+            || path.ends_with("rustfmt")
+        {
+            cargo.env("LIBZ_SYS_STATIC", "1");
+        }
+        if path.ends_with("cargo") {
+            features.push("all-static".to_string());
+        }
+    }
+
+    // clippy tests need to know about the stage sysroot. Set them consistently while building to
+    // avoid rebuilding when running tests.
+    cargo.env("SYSROOT", builder.sysroot(compiler));
+
+    // if tools are using lzma we want to force the build script to build its
+    // own copy
+    cargo.env("LZMA_API_STATIC", "1");
+
+    // CFG_RELEASE is needed by rustfmt (and possibly other tools) which
+    // import rustc-ap-rustc_attr which requires this to be set for the
+    // `#[cfg(version(...))]` attribute.
+    cargo.env("CFG_RELEASE", builder.rust_release());
+    cargo.env("CFG_RELEASE_CHANNEL", &builder.config.channel);
+    cargo.env("CFG_VERSION", builder.rust_version());
+    cargo.env("CFG_RELEASE_NUM", &builder.version);
+    cargo.env("DOC_RUST_LANG_ORG_CHANNEL", builder.doc_rust_lang_org_channel());
+    if let Some(ref ver_date) = builder.rust_info().commit_date() {
+        cargo.env("CFG_VER_DATE", ver_date);
+    }
+    if let Some(ref ver_hash) = builder.rust_info().sha() {
+        cargo.env("CFG_VER_HASH", ver_hash);
+    }
+
+    let info = GitInfo::new(builder.config.omit_git_hash, &dir);
+    if let Some(sha) = info.sha() {
+        cargo.env("CFG_COMMIT_HASH", sha);
+    }
+    if let Some(sha_short) = info.sha_short() {
+        cargo.env("CFG_SHORT_COMMIT_HASH", sha_short);
+    }
+    if let Some(date) = info.commit_date() {
+        cargo.env("CFG_COMMIT_DATE", date);
+    }
+    if !features.is_empty() {
+        cargo.arg("--features").arg(features.join(", "));
+    }
+
+    // Enable internal lints for clippy and rustdoc
+    // NOTE: this doesn't enable lints for any other tools unless they explicitly add `#![warn(rustc::internal)]`
+    // See https://github.com/rust-lang/rust/pull/80573#issuecomment-754010776
+    //
+    // NOTE: We unconditionally set this here to avoid recompiling tools between `x check $tool`
+    // and `x test $tool` executions.
+    // See https://github.com/rust-lang/rust/issues/116538
+    cargo.rustflag("-Zunstable-options");
+
+    // `-Zon-broken-pipe=kill` breaks cargo tests
+    if !path.ends_with("cargo") {
+        // If the output is piped to e.g. `head -n1` we want the process to be killed,
+        // rather than having an error bubble up and cause a panic.
+        cargo.rustflag("-Zon-broken-pipe=kill");
+    }
+
+    cargo
 }
 
 impl From<Cargo> for BootstrapCommand {

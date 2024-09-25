@@ -15,7 +15,7 @@ use crate::core::build_steps::tool::{self, SourceType, Tool};
 use crate::core::build_steps::toolstate::ToolState;
 use crate::core::build_steps::{compile, dist, llvm};
 use crate::core::builder::{
-    self, Alias, Builder, Compiler, Kind, RunConfig, ShouldRun, Step, crate_description,
+    self, crate_description, prepare_tool_cargo, Alias, Builder, Compiler, Kind, RunConfig, ShouldRun, Step
 };
 use crate::core::config::TargetSelection;
 use crate::core::config::flags::{Subcommand, get_completion};
@@ -62,7 +62,7 @@ impl Step for CrateBootstrap {
             path = "src/tools/tidy";
         }
 
-        let cargo = tool::prepare_tool_cargo(
+        let cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolBootstrap,
@@ -113,7 +113,7 @@ You can skip linkcheck with --skip src/tools/linkchecker"
         let bootstrap_host = builder.config.build;
         let compiler = builder.compiler(0, bootstrap_host);
 
-        let cargo = tool::prepare_tool_cargo(
+        let cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolBootstrap,
@@ -278,7 +278,7 @@ impl Step for Cargo {
         let compiler = builder.compiler(self.stage, self.host);
 
         builder.ensure(tool::Cargo { compiler, target: self.host });
-        let cargo = tool::prepare_tool_cargo(
+        let cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolRustc,
@@ -349,7 +349,7 @@ impl Step for RustAnalyzer {
         // until the whole RA test suite runs on `i686`, we only run
         // `proc-macro-srv` tests
         let crate_path = "src/tools/rust-analyzer/crates/proc-macro-srv";
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolRustc,
@@ -401,7 +401,7 @@ impl Step for Rustfmt {
 
         builder.ensure(tool::Rustfmt { compiler, target: self.host, extra_features: Vec::new() });
 
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolRustc,
@@ -531,7 +531,7 @@ impl Step for Miri {
 
         // Run `cargo test`.
         // This is with the Miri crate, so it uses the host compiler.
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             host_compiler,
             Mode::ToolRustc,
@@ -621,7 +621,7 @@ impl Step for CargoMiri {
         // This is just a smoke test (Miri's own CI invokes this in a bunch of different ways and ensures
         // that we get the desired output), but that is sufficient to make sure that the libtest harness
         // itself executes properly under Miri, and that all the logic in `cargo-miri` does not explode.
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolStd, // it's unclear what to use here, we're not building anything just doing a smoke test!
@@ -679,7 +679,7 @@ impl Step for CompiletestTest {
         // We need `ToolStd` for the locally-built sysroot because
         // compiletest uses unstable features of the `test` crate.
         builder.ensure(compile::Std::new(compiler, host));
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             // compiletest uses libtest internals; make it use the in-tree std to make sure it never breaks
@@ -731,7 +731,7 @@ impl Step for Clippy {
         let compiler = builder.compiler(stage, host);
 
         builder.ensure(tool::Clippy { compiler, target: self.host, extra_features: Vec::new() });
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolRustc,
@@ -1276,7 +1276,7 @@ impl Step for RunMakeSupport {
     fn run(self, builder: &Builder<'_>) -> PathBuf {
         builder.ensure(compile::Std::new(self.compiler, self.target));
 
-        let cargo = tool::prepare_tool_cargo(
+        let cargo = prepare_tool_cargo(
             builder,
             self.compiler,
             Mode::ToolStd,
@@ -1320,7 +1320,7 @@ impl Step for CrateRunMakeSupport {
         let host = self.host;
         let compiler = builder.compiler(0, host);
 
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolBootstrap,
@@ -1366,7 +1366,7 @@ impl Step for CrateBuildHelper {
         let host = self.host;
         let compiler = builder.compiler(0, host);
 
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolBootstrap,
@@ -2750,7 +2750,7 @@ impl Step for CrateRustdoc {
         builder.ensure(compile::Std::new(compiler, target));
         builder.ensure(compile::Rustc::new(compiler, target));
 
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolRustc,
@@ -2842,7 +2842,7 @@ impl Step for CrateRustdocJsonTypes {
         let compiler = builder.compiler_for(builder.top_stage, target, target);
         builder.ensure(compile::Rustc::new(compiler, target));
 
-        let cargo = tool::prepare_tool_cargo(
+        let cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolRustc,
@@ -3076,7 +3076,7 @@ impl Step for TierCheck {
     /// Tests the Platform Support page in the rustc book.
     fn run(self, builder: &Builder<'_>) {
         builder.ensure(compile::Std::new(self.compiler, self.compiler.host));
-        let mut cargo = tool::prepare_tool_cargo(
+        let mut cargo = prepare_tool_cargo(
             builder,
             self.compiler,
             Mode::ToolStd,
@@ -3148,7 +3148,7 @@ impl Step for RustInstaller {
     fn run(self, builder: &Builder<'_>) {
         let bootstrap_host = builder.config.build;
         let compiler = builder.compiler(0, bootstrap_host);
-        let cargo = tool::prepare_tool_cargo(
+        let cargo = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolBootstrap,
@@ -3465,7 +3465,9 @@ impl Step for CodegenGCC {
 
             // Avoid incremental cache issues when changing rustc
             cargo.env("CARGO_BUILD_INCREMENTAL", "false");
-            cargo.rustflag("-Cpanic=abort");
+
+            // TODO: !!!!
+            // cargo.rustflag("-Cpanic=abort");
 
             cargo
         };
@@ -3539,7 +3541,7 @@ impl Step for TestFloatParse {
         }
 
         // Run any unit tests in the crate
-        let cargo_test = tool::prepare_tool_cargo(
+        let cargo_test = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolStd,
@@ -3562,7 +3564,7 @@ impl Step for TestFloatParse {
         );
 
         // Run the actual parse tests.
-        let mut cargo_run = tool::prepare_tool_cargo(
+        let mut cargo_run = prepare_tool_cargo(
             builder,
             compiler,
             Mode::ToolStd,

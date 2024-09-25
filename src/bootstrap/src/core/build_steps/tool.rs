@@ -5,13 +5,11 @@ use build_helper::git::get_closest_merge_commit;
 
 use crate::core::build_steps::compile;
 use crate::core::build_steps::toolstate::ToolState;
-use crate::core::builder;
-use crate::core::builder::{Builder, Cargo as CargoCommand, RunConfig, ShouldRun, Step};
+use crate::core::builder::{prepare_tool_cargo, Builder, RunConfig, ShouldRun, Step};
 use crate::core::config::TargetSelection;
-use crate::utils::channel::GitInfo;
-use crate::utils::exec::{BootstrapCommand, command};
+use crate::utils::exec::{command, BootstrapCommand};
 use crate::utils::helpers::{add_dylib_path, exe, git, t};
-use crate::{Compiler, Kind, Mode, gha};
+use crate::{gha, Compiler, Kind, Mode};
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub enum SourceType {
@@ -130,93 +128,6 @@ impl Step for ToolBuild {
             copy_link_tool_bin(builder, self.compiler, self.target, self.mode, tool)
         }
     }
-}
-
-#[allow(clippy::too_many_arguments)] // FIXME: reduce the number of args and remove this.
-pub fn prepare_tool_cargo(
-    builder: &Builder<'_>,
-    compiler: Compiler,
-    mode: Mode,
-    target: TargetSelection,
-    cmd_kind: Kind,
-    path: &str,
-    source_type: SourceType,
-    extra_features: &[String],
-) -> CargoCommand {
-    let mut cargo = builder::Cargo::new(builder, compiler, mode, source_type, target, cmd_kind);
-
-    let dir = builder.src.join(path);
-    cargo.arg("--manifest-path").arg(dir.join("Cargo.toml"));
-
-    let mut features = extra_features.to_vec();
-    if builder.build.config.cargo_native_static {
-        if path.ends_with("cargo")
-            || path.ends_with("rls")
-            || path.ends_with("clippy")
-            || path.ends_with("miri")
-            || path.ends_with("rustfmt")
-        {
-            cargo.env("LIBZ_SYS_STATIC", "1");
-        }
-        if path.ends_with("cargo") {
-            features.push("all-static".to_string());
-        }
-    }
-
-    // clippy tests need to know about the stage sysroot. Set them consistently while building to
-    // avoid rebuilding when running tests.
-    cargo.env("SYSROOT", builder.sysroot(compiler));
-
-    // if tools are using lzma we want to force the build script to build its
-    // own copy
-    cargo.env("LZMA_API_STATIC", "1");
-
-    // CFG_RELEASE is needed by rustfmt (and possibly other tools) which
-    // import rustc-ap-rustc_attr which requires this to be set for the
-    // `#[cfg(version(...))]` attribute.
-    cargo.env("CFG_RELEASE", builder.rust_release());
-    cargo.env("CFG_RELEASE_CHANNEL", &builder.config.channel);
-    cargo.env("CFG_VERSION", builder.rust_version());
-    cargo.env("CFG_RELEASE_NUM", &builder.version);
-    cargo.env("DOC_RUST_LANG_ORG_CHANNEL", builder.doc_rust_lang_org_channel());
-    if let Some(ref ver_date) = builder.rust_info().commit_date() {
-        cargo.env("CFG_VER_DATE", ver_date);
-    }
-    if let Some(ref ver_hash) = builder.rust_info().sha() {
-        cargo.env("CFG_VER_HASH", ver_hash);
-    }
-
-    let info = GitInfo::new(builder.config.omit_git_hash, &dir);
-    if let Some(sha) = info.sha() {
-        cargo.env("CFG_COMMIT_HASH", sha);
-    }
-    if let Some(sha_short) = info.sha_short() {
-        cargo.env("CFG_SHORT_COMMIT_HASH", sha_short);
-    }
-    if let Some(date) = info.commit_date() {
-        cargo.env("CFG_COMMIT_DATE", date);
-    }
-    if !features.is_empty() {
-        cargo.arg("--features").arg(features.join(", "));
-    }
-
-    // Enable internal lints for clippy and rustdoc
-    // NOTE: this doesn't enable lints for any other tools unless they explicitly add `#![warn(rustc::internal)]`
-    // See https://github.com/rust-lang/rust/pull/80573#issuecomment-754010776
-    //
-    // NOTE: We unconditionally set this here to avoid recompiling tools between `x check $tool`
-    // and `x test $tool` executions.
-    // See https://github.com/rust-lang/rust/issues/116538
-    cargo.rustflag("-Zunstable-options");
-
-    // `-Zon-broken-pipe=kill` breaks cargo tests
-    if !path.ends_with("cargo") {
-        // If the output is piped to e.g. `head -n1` we want the process to be killed,
-        // rather than having an error bubble up and cause a panic.
-        cargo.rustflag("-Zon-broken-pipe=kill");
-    }
-
-    cargo
 }
 
 /// Links a built tool binary with the given `name` from the build directory to the

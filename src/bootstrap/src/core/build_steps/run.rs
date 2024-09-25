@@ -5,14 +5,14 @@
 
 use std::path::PathBuf;
 
-use crate::Mode;
 use crate::core::build_steps::dist::distdir;
 use crate::core::build_steps::test;
-use crate::core::build_steps::tool::{self, SourceType, Tool};
-use crate::core::builder::{Builder, Kind, RunConfig, ShouldRun, Step};
-use crate::core::config::TargetSelection;
+use crate::core::build_steps::tool::{SourceType, Tool};
+use crate::core::builder::{prepare_tool_cargo, Builder, Kind, RunConfig, ShouldRun, Step};
 use crate::core::config::flags::get_completion;
+use crate::core::config::TargetSelection;
 use crate::utils::exec::command;
+use crate::Mode;
 
 #[derive(Debug, PartialOrd, Ord, Clone, Hash, PartialEq, Eq)]
 pub struct BuildManifest;
@@ -137,7 +137,7 @@ impl Step for Miri {
         // # Run miri.
         // Running it via `cargo run` as that figures out the right dylib path.
         // add_rustc_lib_path does not add the path that contains librustc_driver-<...>.so.
-        let mut miri = tool::prepare_tool_cargo(
+        let mut miri = prepare_tool_cargo(
             builder,
             host_compiler,
             Mode::ToolRustc,

@@ -11,14 +11,15 @@ use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::{env, fs, mem};
 
-use crate::Mode;
 use crate::core::build_steps::compile;
-use crate::core::build_steps::tool::{self, SourceType, Tool, prepare_tool_cargo};
+use crate::core::build_steps::tool::{self, SourceType, Tool};
 use crate::core::builder::{
-    self, Alias, Builder, Compiler, Kind, RunConfig, ShouldRun, Step, crate_description,
+    self, crate_description, prepare_tool_cargo, Alias, Builder, Compiler, Kind, RunConfig,
+    ShouldRun, Step,
 };
 use crate::core::config::{Config, TargetSelection};
 use crate::utils::helpers::{symlink_dir, t, up_to_date};
+use crate::Mode;
 
 macro_rules! submodule_helper {
     ($path:expr, submodule) => {
@@ -717,15 +718,10 @@ fn doc_std(
         .arg("--no-deps")
         .arg("--target-dir")
         .arg(&*target_dir.to_string_lossy())
-        .arg("-Zskip-rustdoc-fingerprint")
-        .rustdocflag("--resource-suffix")
-        .rustdocflag(&builder.version);
+        .arg("-Zskip-rustdoc-fingerprint");
     for arg in extra_args {
+        // TODO: !!!!!!
         cargo.rustdocflag(arg);
-    }
-
-    if builder.config.library_docs_private_items {
-        cargo.rustdocflag("--document-private-items").rustdocflag("--document-hidden-items");
     }
 
     for krate in requested_crates {
@@ -819,16 +815,6 @@ impl Step for Rustc {
             Kind::Doc,
         );
 
-        cargo.rustdocflag("--document-private-items");
-        // Since we always pass --document-private-items, there's no need to warn about linking to private items.
-        cargo.rustdocflag("-Arustdoc::private-intra-doc-links");
-        cargo.rustdocflag("--enable-index-page");
-        cargo.rustdocflag("-Znormalize-docs");
-        cargo.rustdocflag("--show-type-layout");
-        // FIXME: `--generate-link-to-definition` tries to resolve cfged out code
-        // see https://github.com/rust-lang/rust/pull/122066#issuecomment-1983049222
-        // cargo.rustdocflag("--generate-link-to-definition");
-
         compile::rustc_cargo(builder, &mut cargo, target, &compiler, &self.crates);
         cargo.arg("-Zskip-rustdoc-fingerprint");
 
@@ -836,11 +822,6 @@ impl Step for Rustc {
         // Do link to dependencies on `docs.rs` however using `rustdoc-map`.
         cargo.arg("--no-deps");
         cargo.arg("-Zrustdoc-map");
-
-        // FIXME: `-Zrustdoc-map` does not yet correctly work for transitive dependencies,
-        // once this is no longer an issue the special case for `ena` can be removed.
-        cargo.rustdocflag("--extern-html-root-url");
-        cargo.rustdocflag("ena=https://docs.rs/ena/latest/");
 
         let mut to_open = None;
 
@@ -979,15 +960,6 @@ macro_rules! tool_doc {
                 $(for krate in $crates {
                     cargo.arg("-p").arg(krate);
                 })?
-
-                cargo.rustdocflag("--document-private-items");
-                // Since we always pass --document-private-items, there's no need to warn about linking to private items.
-                cargo.rustdocflag("-Arustdoc::private-intra-doc-links");
-                cargo.rustdocflag("--enable-index-page");
-                cargo.rustdocflag("--show-type-layout");
-                // FIXME: `--generate-link-to-definition` tries to resolve cfged out code
-                // see https://github.com/rust-lang/rust/pull/122066#issuecomment-1983049222
-                // cargo.rustdocflag("--generate-link-to-definition");
 
                 let out_dir = builder.stage_out(compiler, Mode::ToolRustc).join(target).join("doc");
                 $(for krate in $crates {
