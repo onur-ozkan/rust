@@ -45,6 +45,11 @@ impl Step for Std {
     }
 
     fn make_run(run: RunConfig<'_>) {
+        if run.builder.top_stage == 0 {
+            eprintln!("--stage 0 is not supported for library tree.");
+            build_helper::exit!(1);
+        }
+
         let crates = std_crates_for_run_make(&run);
         run.builder.ensure(Std { target: run.target, crates, override_build_kind: None });
     }
