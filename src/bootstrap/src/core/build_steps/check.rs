@@ -347,7 +347,7 @@ impl Step for RustAnalyzer {
                 .config
                 .tools
                 .as_ref()
-                .map_or(true, |tools| tools.iter().any(|tool| tool == "rust-analyzer")),
+                .is_none_or(|tools| tools.iter().any(|tool| tool == "rust-analyzer")),
         )
     }
 
