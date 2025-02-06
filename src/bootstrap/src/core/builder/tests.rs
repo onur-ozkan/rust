@@ -359,11 +359,23 @@ mod defaults {
         assert_eq!(first(cache.all::<tool::ErrorIndex>()), &[tool::ErrorIndex {
             compiler: Compiler::new(0, a)
         }]);
+        assert!(first(cache.all::<tool::Rustdoc>()).is_empty());
+    }
+
+    #[test]
+    fn doc_stage_1() {
+        let mut config = configure("doc", &[TEST_TRIPLE_1], &[TEST_TRIPLE_1]);
+        config.compiler_docs = true;
+        config.stage = 1;
+        config.cmd = Subcommand::Doc { open: false, json: false };
+        let mut cache = run_build(&[], config);
+        let a = TargetSelection::from_user(TEST_TRIPLE_1);
+
         // docs should be built with the beta compiler, not with the stage0 artifacts.
         // recall that rustdoc is off-by-one: `stage` is the compiler rustdoc is _linked_ to,
         // not the one it was built by.
         assert_eq!(first(cache.all::<tool::Rustdoc>()), &[tool::Rustdoc {
-            compiler: Compiler::new(0, a)
+            compiler: Compiler::new(0, a).downgraded_from(1)
         },]);
     }
 }
@@ -396,7 +408,7 @@ mod dist {
         assert_eq!(first(cache.all::<dist::Src>()), &[dist::Src]);
         // Make sure rustdoc is only built once.
         assert_eq!(first(cache.all::<tool::Rustdoc>()), &[tool::Rustdoc {
-            compiler: Compiler::new(1, a).with_stage(1)
+            compiler: Compiler::new(1, a).downgraded_from(2)
         },]);
     }
 
@@ -764,8 +776,8 @@ mod dist {
         // (currently) needed to run "cargo test" on the linkchecker, and
         // should be relatively "free".
         assert_eq!(first(builder.cache.all::<tool::Rustdoc>()), &[
-            tool::Rustdoc { compiler: Compiler::new(0, a) },
-            tool::Rustdoc { compiler: Compiler::new(1, a) },
+            tool::Rustdoc { compiler: Compiler::new(0, a).downgraded_from(1) },
+            tool::Rustdoc { compiler: Compiler::new(1, a).downgraded_from(2) },
         ]);
     }
 }
