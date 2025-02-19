@@ -2334,7 +2334,7 @@ impl Config {
                 flags.stage.or(build_stage).unwrap_or(if download_rustc { 2 } else { 1 })
             }
             Subcommand::Test { .. } | Subcommand::Miri { .. } => {
-                flags.stage.or(test_stage).unwrap_or(if download_rustc { 2 } else { 1 })
+                flags.stage.or(test_stage).unwrap_or(2)
             }
             Subcommand::Bench { .. } => flags.stage.or(bench_stage).unwrap_or(2),
             Subcommand::Dist { .. } => flags.stage.or(dist_stage).unwrap_or(2),
