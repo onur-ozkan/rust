@@ -50,9 +50,9 @@ jobs:
         run: |
           # List of DockerHub images to mirror to ghcr.io
           images=(
-            # Mirrored because used by the mingw-check-tidy, which doesn't cache Docker images
+            # Mirrored because used by the mingw-tidy-and-clippy, which doesn't cache Docker images
             "ubuntu:22.04"
-            # Mirrored because used by all linux CI jobs, including mingw-check-tidy
+            # Mirrored because used by all linux CI jobs, including mingw-tidy-and-clippy
             "moby/buildkit:buildx-stable-1"
           )
 

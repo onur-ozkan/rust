@@ -73,7 +73,7 @@ envs:
 pr:
   - name: mingw-check
     <<: *job-linux-4c
-  - name: mingw-check-tidy
+  - name: mingw-tidy-and-clippy
     continue_on_error: true
     <<: *job-linux-4c
 
