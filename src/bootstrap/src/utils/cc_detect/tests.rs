@@ -248,6 +248,48 @@ fn test_find_target_with_config() {
 }
 
 #[test]
+fn deneme() {
+    let mut build = Build::new(Config { ..Config::parse(Flags::parse(&["check".to_owned()])) });
+
+    unsafe { env::set_var("AR_i586_pc_nto_qnx700", "custom-ar") };
+    let target = TargetSelection::from_user("i586-pc-nto-qnx700");
+    find_target(&build, target.clone());
+    unsafe { env::remove_var("AR_i586_pc_nto_qnx700") };
+
+    unsafe { env::set_var("AR", "custom-ar2") };
+    let target = TargetSelection::from_user("x86_64-unknown-linux-gnu");
+    find_target(&build, target.clone());
+    unsafe { env::remove_var("AR") };
+
+    let target = TargetSelection::from_user("x86_64-unknown-linux-gnu");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("x86_64-unknown-linux-musl");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("riscv64gc-unknown-openbsd");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("i686-wrs-vxworks");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("i586-pc-nto-qnx700");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("aarch64-unknown-nto-qnx700");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("x86_64-pc-nto-qnx710");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("wasm32-wasip1");
+    find_target(&build, target.clone());
+
+    let target = TargetSelection::from_user("riscv64-linux-android");
+    find_target(&build, target.clone());
+}
+
+#[test]
 fn test_find_target_without_config() {
     let mut build = Build::new(Config { ..Config::parse(Flags::parse(&["check".to_owned()])) });
     let target = TargetSelection::from_user("x86_64-unknown-linux-gnu");

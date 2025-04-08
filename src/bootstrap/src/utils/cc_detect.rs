@@ -32,7 +32,7 @@ use crate::{Build, CLang, GitRepo};
 /// Finds archiver tool for the given target if possible.
 /// FIXME(onur-ozkan): This logic should be replaced by calling into the `cc` crate.
 fn cc2ar(cc: &Path, target: TargetSelection, default_ar: PathBuf) -> Option<PathBuf> {
-    if let Some(ar) = env::var_os(format!("AR_{}", target.triple.replace('-', "_"))) {
+    let ar = if let Some(ar) = env::var_os(format!("AR_{}", target.triple.replace('-', "_"))) {
         Some(PathBuf::from(ar))
     } else if let Some(ar) = env::var_os("AR") {
         Some(PathBuf::from(ar))
@@ -55,8 +55,12 @@ fn cc2ar(cc: &Path, target: TargetSelection, default_ar: PathBuf) -> Option<Path
     } else if target.contains("android") || target.contains("-wasi") {
         Some(cc.parent().unwrap().join(PathBuf::from("llvm-ar")))
     } else {
-        Some(default_ar)
-    }
+        Some(default_ar.clone())
+    };
+
+    assert_eq!(ar, Some(PathBuf::from(default_ar.file_name().unwrap())));
+
+    ar
 }
 
 /// Creates and configures a new [`cc::Build`] instance for the given target.
